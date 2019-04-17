@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- https://github.com/spring-projects/spring-boot/blob/v1.4.2.RELEASE/spring-boot/src/main/resources/org/springframework/boot/logging/logback/defaults.xml -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml" />
+
+    <property name="APP_NAME" value="bitchat" />
+    <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs" />
+    <property name="LOG_FILE" value="${LOG_PATH}/bitchat.log" />
+
+    <appender name="APPLICATION"
+        class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_FILE}</file>
+        <encoder>
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxHistory>7</maxHistory>
+            <maxFileSize>50MB</maxFileSize>
+            <totalSizeCap>20GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
+            <Pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %C{20}.%method%logger{35} - %msg%n</Pattern>
+        </layout>
+    </appender>
+
+    <logger name="io.netty">
+        <level value="INFO" />
+    </logger>
+    <logger name="io.bitchat">
+        <level value="INFO" />
+    </logger>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="APPLICATION" />
+    </root>
+</configuration>
