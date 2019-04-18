@@ -15,7 +15,7 @@ import io.bitchat.core.message.MessageWriter;
 import io.bitchat.core.message.P2pMessage;
 import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.server.SessionIdKeeper;
-import io.bitchat.protocol.packet.MsgCarrierPacket;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.P2pMsgPushPacket;
 import io.bitchat.protocol.packet.P2pMsgRequestPacket;
 import io.netty.channel.Channel;
@@ -29,7 +29,7 @@ import java.util.List;
  */
 @Slf4j
 @Bean
-public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPacket, MsgCarrierPacket<String>> {
+public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPacket, CarrierPacket<String>> {
 
     @Autowired
     private ConnectionManager connectionManager;
@@ -48,8 +48,8 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
     }
 
     @Override
-    public MsgCarrierPacket<String> handle(ChannelHandlerContext ctx, P2pMsgRequestPacket packet) {
-        MsgCarrierPacket<String> response;
+    public CarrierPacket<String> handle(ChannelHandlerContext ctx, P2pMsgRequestPacket packet) {
+        CarrierPacket<String> response;
         Channel fromChannel = ctx.channel();
         Connection connection = connectionManager.get(fromChannel);
         Long userId = connection.getUserId();
@@ -73,7 +73,7 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
                 toChannel.writeAndFlush(pushPacket);
             }
         }
-        response = MsgCarrierPacket.<String>builder()
+        response = CarrierPacket.<String>builder()
                 .code(ResultCode.SUCCESS)
                 .success(success)
                 .msg(msg)

@@ -2,9 +2,8 @@ package io.bitchat.client.handler;
 
 import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.protocol.packet.MsgCarrierPacket;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.P2pMsgPushPacket;
-import io.bitchat.protocol.packet.P2pMsgRequestPacket;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -12,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
  * @author houyi
  */
 @Slf4j
-public class P2pMsgPushPacketHandler implements PacketHandler<P2pMsgPushPacket, MsgCarrierPacket<String>> {
+public class P2pMsgPushPacketHandler implements PacketHandler<P2pMsgPushPacket, CarrierPacket<String>> {
 
     @Override
     public int symbol() {
@@ -20,7 +19,7 @@ public class P2pMsgPushPacketHandler implements PacketHandler<P2pMsgPushPacket, 
     }
 
     @Override
-    public MsgCarrierPacket<String> handle(ChannelHandlerContext ctx, P2pMsgPushPacket packet) {
+    public CarrierPacket<String> handle(ChannelHandlerContext ctx, P2pMsgPushPacket packet) {
         Long partnerId = packet.getPartnerId();
         String partnerName = packet.getPartnerName();
         String msg = packet.getMsg();

@@ -16,7 +16,7 @@ public class Carrier<T> {
 
     private boolean success;
 
-    private String errorMsg;
+    private String msg;
 
     private T data;
 

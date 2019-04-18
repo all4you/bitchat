@@ -6,37 +6,36 @@ import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.user.UserService;
+import io.bitchat.core.user.User;
+import io.bitchat.protocol.packet.ListOnlineUserRequestPacket;
 import io.bitchat.protocol.packet.CarrierPacket;
-import io.bitchat.protocol.packet.RegisterRequestPacket;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.List;
 
 /**
  * @author houyi
  */
 @Slf4j
 @Bean
-public class RegisterRequestPacketHandler implements PacketHandler<RegisterRequestPacket, CarrierPacket<String>> {
-
-    @Autowired
-    private UserService userService;
+public class ListOnlineUserRequestPacketHandler implements PacketHandler<ListOnlineUserRequestPacket, CarrierPacket<List<User>>> {
 
     @Autowired
     private ConnectionManager connectionManager;
 
     @Override
     public int symbol() {
-        return PacketSymbols.REGISTER_REQUEST_PACKET;
+        return PacketSymbols.LIST_ONLINE_USER_REQUEST_PACKET;
     }
 
     @Override
-    public CarrierPacket<String> handle(ChannelHandlerContext ctx, RegisterRequestPacket packet) {
-
-        CarrierPacket<String> response = CarrierPacket.<String>builder()
+    public CarrierPacket<List<User>> handle(ChannelHandlerContext ctx, ListOnlineUserRequestPacket packet) {
+        CarrierPacket<List<User>> response = CarrierPacket.<List<User>>builder()
                 .code(ResultCode.SUCCESS)
-                .success(false)
-                .msg("Need to be handled")
+                .success(true)
+                .msg("success")
+                .data(connectionManager.onlineUser())
                 .build();
         response.setId(packet.getId());
         return response;

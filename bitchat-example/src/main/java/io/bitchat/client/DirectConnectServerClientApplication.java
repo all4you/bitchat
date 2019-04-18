@@ -1,16 +1,15 @@
 package io.bitchat.client;
 
 import cn.hutool.core.util.NumberUtil;
-import io.bitchat.client.func.DefaultLoginFunc;
-import io.bitchat.client.func.DefaultMsgFunc;
-import io.bitchat.client.func.LoginFunc;
-import io.bitchat.client.func.MsgFunc;
-import io.bitchat.core.Listener;
+import io.bitchat.client.func.*;
 import io.bitchat.core.Carrier;
+import io.bitchat.core.Listener;
 import io.bitchat.core.client.Client;
 import io.bitchat.core.lang.enums.MessageType;
 import io.bitchat.core.server.ServerAttr;
+import io.bitchat.core.user.User;
 
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -22,8 +21,8 @@ public class DirectConnectServerClientApplication {
         Client client = SimpleClientFactory.getInstance().newClient(ServerAttr.getLocalServer(8864));
         LoginFunc loginFunc = new DefaultLoginFunc(client);
         MsgFunc msgFunc = new DefaultMsgFunc(client);
-        usage();
-        prompt();
+        UserFunc userFunc = new DefaultUserFunc(client);
+        showUsage();
         while (true) {
             Scanner scanner = new Scanner(System.in);
             String msg = scanner.nextLine();
@@ -31,86 +30,149 @@ public class DirectConnectServerClientApplication {
                 System.out.println("bye bye!");
                 System.exit(1);
             }
-            handle(msg, loginFunc, msgFunc);
-        }
-    }
-
-
-    private static void handle(String msg, LoginFunc loginFunc, MsgFunc msgFunc) {
-        String[] cmd = msg.split(" ");
-        if (cmd.length == 3) {
-            switch (cmd[0]) {
+            String[] cmd = msg.split(" ");
+            if (cmd.length == 0) {
+                showUsage();
+                continue;
+            }
+            String cli = cmd[0];
+            switch (cli) {
                 case Cli.LOGIN: {
-                    loginFunc.login(cmd[1], cmd[2], new Listener<Carrier<String>>() {
-                        @Override
-                        public void onEvent(Carrier<String> event) {
-                            if (event.isSuccess()) {
-                                System.out.println("Login success");
-                            } else {
-                                System.out.println("Login failed cause: " + event.getErrorMsg());
-                            }
-                            prompt();
-                        }
-                    });
+                    login(msg, loginFunc);
+                }
+                break;
+                case Cli.LIST_USER: {
+                    listOnlineUser(msg, userFunc);
                 }
                 break;
                 case Cli.P2P_CHAT: {
-                    if (!NumberUtil.isLong(cmd[1])) {
-                        usage();
-                        prompt();
-                        return;
-                    }
-                    msgFunc.sendP2pMsg(Long.parseLong(cmd[1]), MessageType.TEXT, cmd[2], new Listener<Carrier<String>>() {
-                        @Override
-                        public void onEvent(Carrier<String> event) {
-                            if (event.isSuccess()) {
-                                System.out.println("Send p2p message success");
-                            } else {
-                                System.out.println("Send p2p message failed cause: " + event.getErrorMsg());
-                            }
-                            prompt();
-                        }
-                    });
+                    p2pChat(msg, msgFunc);
                 }
                 break;
                 case Cli.GROUP_CHAT: {
-                    if (!NumberUtil.isLong(cmd[1])) {
-                        usage();
-                        prompt();
-                        return;
-                    }
-                    msgFunc.sendGroupMsg(Long.parseLong(cmd[1]), MessageType.TEXT, cmd[2], new Listener<Carrier<String>>() {
-                        @Override
-                        public void onEvent(Carrier<String> event) {
-                            if (event.isSuccess()) {
-                                System.out.println("Send group message success");
-                            } else {
-                                System.out.println("Send group message failed cause: " + event.getErrorMsg());
-                            }
-                            prompt();
-                        }
-                    });
+                    groupChat(msg, msgFunc);
                 }
                 break;
-                default:
-                    break;
+                default: {
+                    showUsage();
+                }
+                break;
             }
-        } else {
-            usage();
-            prompt();
         }
     }
 
+    private static void login(String msg, LoginFunc loginFunc) {
+        String[] cmd = msg.split(" ");
+        int cmdLen = 3;
+        if (cmd.length == cmdLen) {
+            String userName = cmd[1];
+            String password = cmd[2];
+            loginFunc.login(userName, password, new Listener<Carrier<String>>() {
+                @Override
+                public void onEvent(Carrier<String> event) {
+                    if (event.isSuccess()) {
+                        System.out.println("Login success");
+                    } else {
+                        System.out.println("Login failed cause: " + event.getMsg());
+                    }
+                    prompt();
+                }
+            });
+        } else {
+            showUsage();
+        }
+    }
 
-    private static void prompt() {
-        System.out.println(Cli.PROMPT);
+    private static void listOnlineUser(String msg, UserFunc userFunc) {
+        String[] cmd = msg.split(" ");
+        int cmdLen = 1;
+        if (cmd.length == cmdLen) {
+            userFunc.onlineUser(new Listener<Carrier<List<User>>>() {
+                @Override
+                public void onEvent(Carrier<List<User>> event) {
+                    if (event.isSuccess()) {
+                        List<User> userList = event.getData();
+                        for (User user : userList) {
+                            System.out.println(user.getUserName() + "(" + user.getUserId() + ")");
+                        }
+                    } else {
+                        System.out.println("List online user failed cause: " + event.getMsg());
+                    }
+                    prompt();
+                }
+            });
+        } else {
+            showUsage();
+        }
+    }
+
+    private static void p2pChat(String msg, MsgFunc msgFunc) {
+        String[] cmd = msg.split(" ");
+        int cmdLen = 3;
+        if (cmd.length == cmdLen) {
+            String partnerId = cmd[1];
+            String message = cmd[2];
+            if (!NumberUtil.isLong(partnerId)) {
+                showUsage();
+                return;
+            }
+            msgFunc.sendP2pMsg(Long.parseLong(partnerId), MessageType.TEXT, message, new Listener<Carrier<String>>() {
+                @Override
+                public void onEvent(Carrier<String> event) {
+                    if (event.isSuccess()) {
+                        System.out.println("Send p2p message success");
+                    } else {
+                        System.out.println("Send p2p message failed cause: " + event.getMsg());
+                    }
+                    prompt();
+                }
+            });
+        } else {
+            showUsage();
+        }
+    }
+
+    private static void groupChat(String msg, MsgFunc msgFunc) {
+        String[] cmd = msg.split(" ");
+        int cmdLen = 3;
+        if (cmd.length == cmdLen) {
+            String groupId = cmd[1];
+            String message = cmd[2];
+            if (!NumberUtil.isLong(groupId)) {
+                showUsage();
+                return;
+            }
+            msgFunc.sendGroupMsg(Long.parseLong(groupId), MessageType.TEXT, message, new Listener<Carrier<String>>() {
+                @Override
+                public void onEvent(Carrier<String> event) {
+                    if (event.isSuccess()) {
+                        System.out.println("Send group message success");
+                    } else {
+                        System.out.println("Send group message failed cause: " + event.getMsg());
+                    }
+                    prompt();
+                }
+            });
+        } else {
+            showUsage();
+        }
+    }
+
+    private static void showUsage() {
+        usage();
+        prompt();
     }
 
     private static void usage() {
         System.out.println("Usage: <cmd> [options]");
         System.out.println("\t<-lo>\t[userName ]\t[password]\t\t(login)");
+        System.out.println("\t<-lu>\t\t(list online user)");
         System.out.println("\t<-pc>\t[partnerId]\t[message ]\t\t(p2p chat)");
 //        System.out.println("\t<-gc>\t[groupId  ]\t[message ]\t\t(group chat)");
+    }
+
+    private static void prompt() {
+        System.out.println(Cli.PROMPT);
     }
 
 

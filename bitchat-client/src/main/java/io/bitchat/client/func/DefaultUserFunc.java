@@ -7,55 +7,45 @@ import io.bitchat.core.client.Client;
 import io.bitchat.core.lang.id.IdFactory;
 import io.bitchat.core.lang.id.StandaloneMemoryIdFactory;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.protocol.packet.LoginRequestPacket;
+import io.bitchat.core.user.User;
+import io.bitchat.protocol.packet.ListOnlineUserRequestPacket;
 import io.bitchat.protocol.packet.CarrierPacket;
-import lombok.extern.slf4j.Slf4j;
 
+import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 /**
  * @author houyi
  */
-@Slf4j
-public class DefaultLoginFunc implements LoginFunc {
-
-    private volatile boolean login = false;
+public class DefaultUserFunc implements UserFunc {
 
     private IdFactory idFactory = StandaloneMemoryIdFactory.getInstance();
 
     private Client client;
 
-    public DefaultLoginFunc(Client client) {
+    public DefaultUserFunc(Client client) {
         Assert.notNull(client, "client can not be null");
         this.client = client;
     }
 
+
     @SuppressWarnings("unchecked")
     @Override
-    public void login(String userName, String password, Listener<Carrier<String>> listener) {
-        if (login) {
-            log.debug("Already logged in");
-            Carrier<String> carrier = Carrier.<String>builder().success(false).msg("Already logged in").build();
-            listener.onEvent(carrier);
-            return;
-        }
-        LoginRequestPacket request = LoginRequestPacket.builder()
-                .userName(userName)
-                .password(password)
+    public void onlineUser(Listener<Carrier<List<User>>> listener) {
+        ListOnlineUserRequestPacket request = ListOnlineUserRequestPacket.builder()
                 .build();
         request.setId(idFactory.nextId());
         CompletableFuture<Packet> future = client.sendRequest(request);
         future.whenComplete(new BiConsumer<Packet, Throwable>() {
             @Override
             public void accept(Packet packet, Throwable throwable) {
-                Carrier<String> carrier;
+                Carrier<List<User>> carrier;
                 if (throwable != null) {
-                    carrier = Carrier.<String>builder().success(false).msg(throwable.getMessage()).build();
+                    carrier = Carrier.<List<User>>builder().success(false).msg(throwable.getMessage()).build();
                 } else {
-                    CarrierPacket<String> response = (CarrierPacket) packet;
-                    carrier = Carrier.<String>builder().success(response.isSuccess()).msg(response.getMsg()).build();
-                    login = response.isSuccess();
+                    CarrierPacket<List<User>> response = (CarrierPacket) packet;
+                    carrier = Carrier.<List<User>>builder().success(response.isSuccess()).msg(response.getMsg()).data(response.getData()).build();
                 }
                 listener.onEvent(carrier);
             }

@@ -9,7 +9,7 @@ import io.bitchat.core.lang.id.IdFactory;
 import io.bitchat.core.lang.id.StandaloneMemoryIdFactory;
 import io.bitchat.core.message.Message;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.protocol.packet.MsgCarrierPacket;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.P2pMsgRequestPacket;
 import lombok.extern.slf4j.Slf4j;
 
@@ -47,10 +47,10 @@ public class DefaultMsgFunc implements MsgFunc {
             public void accept(Packet packet, Throwable throwable) {
                 Carrier<String> carrier;
                 if (throwable != null) {
-                    carrier = Carrier.<String>builder().success(false).errorMsg(throwable.getMessage()).build();
+                    carrier = Carrier.<String>builder().success(false).msg(throwable.getMessage()).build();
                 } else {
-                    MsgCarrierPacket<String> response = (MsgCarrierPacket) packet;
-                    carrier = Carrier.<String>builder().success(response.isSuccess()).errorMsg(response.getMsg()).build();
+                    CarrierPacket<String> response = (CarrierPacket) packet;
+                    carrier = Carrier.<String>builder().success(response.isSuccess()).msg(response.getMsg()).build();
                 }
                 listener.onEvent(carrier);
             }

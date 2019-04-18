@@ -9,7 +9,7 @@ import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.user.User;
 import io.bitchat.core.user.UserService;
 import io.bitchat.protocol.packet.LoginRequestPacket;
-import io.bitchat.protocol.packet.MsgCarrierPacket;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Bean
-public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPacket, MsgCarrierPacket<String>> {
+public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPacket, CarrierPacket<String>> {
 
     @Autowired
     private UserService userService;
@@ -33,14 +33,14 @@ public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPack
     }
 
     @Override
-    public MsgCarrierPacket<String> handle(ChannelHandlerContext ctx, LoginRequestPacket packet) {
+    public CarrierPacket<String> handle(ChannelHandlerContext ctx, LoginRequestPacket packet) {
         User user = login(packet.getUserName(), packet.getPassword());
         boolean success = user != null;
         String msg = "Success";
         if(!success) {
             msg = "Login fail, please check your account and password";
         }
-        MsgCarrierPacket<String> response = MsgCarrierPacket.<String>builder()
+        CarrierPacket<String> response = CarrierPacket.<String>builder()
                 .code(ResultCode.SUCCESS)
                 .success(success)
                 .msg(msg)

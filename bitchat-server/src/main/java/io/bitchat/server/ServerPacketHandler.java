@@ -11,7 +11,7 @@ import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.protocol.PacketExecutor;
 import io.bitchat.protocol.packet.LoginRequestPacket;
-import io.bitchat.protocol.packet.MsgCarrierPacket;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.concurrent.*;
@@ -43,7 +43,7 @@ public class ServerPacketHandler extends SimpleChannelInboundHandler<Packet> {
         // if the packet is not a login request
         // and the channel is not logged in
         if (!(request instanceof LoginRequestPacket) && !ConnectionUtil.hasLogin(ctx.channel())) {
-            MsgCarrierPacket<String> response = MsgCarrierPacket.<String>builder()
+            CarrierPacket<String> response = CarrierPacket.<String>builder()
                     .code(ResultCode.SUCCESS)
                     .success(false)
                     .msg("Not Logged in yet!")

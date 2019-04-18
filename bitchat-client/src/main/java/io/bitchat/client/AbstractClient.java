@@ -12,7 +12,7 @@ import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.router.LoadBalancer;
 import io.bitchat.core.server.ServerAttr;
 import io.bitchat.protocol.DefaultPacketRecognizer;
-import io.bitchat.protocol.packet.MsgCarrierPacket;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.DefaultSerializerChooser;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -92,7 +92,7 @@ public abstract class AbstractClient implements Client {
         CompletableFuture<Packet> promise = new CompletableFuture<>();
         if (!connected) {
             log.debug("Not connected yet!");
-            MsgCarrierPacket<String> response = MsgCarrierPacket.<String>builder().success(false).msg("Not connected yet!").build();
+            CarrierPacket<String> response = CarrierPacket.<String>builder().success(false).msg("Not connected yet!").build();
             promise.complete(response);
             return promise;
         }

@@ -5,11 +5,6 @@ import io.bitchat.core.protocol.packet.AbstractPacket;
 import lombok.*;
 
 /**
- * <p>
- * This Packet only carries some code or message
- * No need to handle it and don't response back either
- * </p>
- *
  * @author houyi
  */
 @EqualsAndHashCode(callSuper = true)
@@ -17,19 +12,11 @@ import lombok.*;
 @Builder
 @ToString(callSuper = true)
 @NoArgsConstructor
-@AllArgsConstructor
-public class MsgCarrierPacket<T> extends AbstractPacket {
-
-    private int code;
-
-    private boolean success;
-
-    private T msg;
+public class ListOnlineUserRequestPacket extends AbstractPacket {
 
     @Override
     public int symbol() {
-        return PacketSymbols.MSG_CARRIER_PACKET;
+        return PacketSymbols.LIST_ONLINE_USER_REQUEST_PACKET;
     }
 
 }
-
