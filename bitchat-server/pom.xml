@@ -47,6 +47,9 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
                 <version>2.4.1</version>
+                <configuration>
+                    <createDependencyReducedPom>false</createDependencyReducedPom>
+                </configuration>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -55,15 +58,18 @@
                         </goals>
                         <configuration>
                             <transformers>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
+                                <transformer
+                                        implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                                     <mainClass>io.bitchat.server.ServerBootstrap</mainClass>
                                 </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.handlers</resource>
-                                </transformer>
-                                <transformer implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">
-                                    <resource>META-INF/spring.schemas</resource>
-                                </transformer>
+                                <!--<transformer-->
+                                        <!--implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+                                    <!--<resource>META-INF/spring.handlers</resource>-->
+                                <!--</transformer>-->
+                                <!--<transformer-->
+                                        <!--implementation="org.apache.maven.plugins.shade.resource.AppendingTransformer">-->
+                                    <!--<resource>META-INF/spring.schemas</resource>-->
+                                <!--</transformer>-->
                             </transformers>
                         </configuration>
                     </execution>
