@@ -8,7 +8,7 @@ import io.bitchat.core.executor.Executor;
 import io.bitchat.core.lang.constants.AsyncHandle;
 import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.core.protocol.packet.PacketRecognizer;
+import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.protocol.PacketExecutor;
 import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.bitchat.protocol.packet.MsgCarrierPacket;

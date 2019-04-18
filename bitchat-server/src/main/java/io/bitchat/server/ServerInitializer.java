@@ -1,10 +1,10 @@
 package io.bitchat.server;
 
 import io.bitchat.core.protocol.packet.PacketCodec;
-import io.bitchat.core.protocol.packet.PacketRecognizer;
-import io.bitchat.core.protocol.serialize.SerializerChooser;
+import io.bitchat.core.protocol.PacketRecognizer;
+import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.protocol.DefaultPacketRecognizer;
-import io.bitchat.protocol.serialize.DefaultSerializerChooser;
+import io.bitchat.protocol.DefaultSerializerChooser;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

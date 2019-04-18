@@ -1,9 +1,10 @@
-package io.bitchat.protocol.serialize;
+package io.bitchat.protocol;
 
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.lang.enums.SerializeAlgorithm;
 import io.bitchat.core.protocol.serialize.Serializer;
-import io.bitchat.core.protocol.serialize.SerializerChooser;
+import io.bitchat.core.protocol.SerializerChooser;
+import io.bitchat.protocol.serialize.*;
 
 /**
  * <p>

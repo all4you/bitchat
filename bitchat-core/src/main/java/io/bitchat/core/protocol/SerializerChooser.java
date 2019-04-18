@@ -1,4 +1,6 @@
-package io.bitchat.core.protocol.serialize;
+package io.bitchat.core.protocol;
+
+import io.bitchat.core.protocol.serialize.Serializer;
 
 /**
  * <p>

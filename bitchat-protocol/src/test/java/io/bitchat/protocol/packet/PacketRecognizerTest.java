@@ -1,7 +1,7 @@
 package io.bitchat.protocol.packet;
 
 import io.bitchat.core.lang.init.Initializer;
-import io.bitchat.core.protocol.packet.PacketRecognizer;
+import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.protocol.DefaultPacketRecognizer;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;

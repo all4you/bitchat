@@ -1,4 +1,7 @@
-package io.bitchat.core.protocol.packet;
+package io.bitchat.core.protocol;
+
+import io.bitchat.core.protocol.packet.Packet;
+import io.bitchat.core.protocol.packet.PacketHandler;
 
 /**
  * <p>

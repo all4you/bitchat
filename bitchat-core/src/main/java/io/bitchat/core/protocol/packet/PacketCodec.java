@@ -2,8 +2,9 @@ package io.bitchat.core.protocol.packet;
 
 import cn.hutool.core.lang.Assert;
 import io.bitchat.core.lang.constants.CommonConstant;
+import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.serialize.Serializer;
-import io.bitchat.core.protocol.serialize.SerializerChooser;
+import io.bitchat.core.protocol.SerializerChooser;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.ByteToMessageCodec;
