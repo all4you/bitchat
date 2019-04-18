@@ -1,6 +1,10 @@
 package io.bitchat.client;
 
 import cn.hutool.core.util.NumberUtil;
+import io.bitchat.client.func.DefaultLoginFunc;
+import io.bitchat.client.func.DefaultMsgFunc;
+import io.bitchat.client.func.LoginFunc;
+import io.bitchat.client.func.MsgFunc;
 import io.bitchat.core.Listener;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.client.Client;
@@ -16,7 +20,8 @@ public class DirectConnectServerClientApplication {
 
     public static void main(String[] args) {
         Client client = SimpleClientFactory.getInstance().newClient(ServerAttr.getLocalServer(8864));
-        client.connect();
+        LoginFunc loginFunc = new DefaultLoginFunc(client);
+        MsgFunc msgFunc = new DefaultMsgFunc(client);
         usage();
         prompt();
         while (true) {
@@ -26,17 +31,17 @@ public class DirectConnectServerClientApplication {
                 System.out.println("bye bye!");
                 System.exit(1);
             }
-            handle(msg, client);
+            handle(msg, loginFunc, msgFunc);
         }
     }
 
 
-    private static void handle(String msg, Client client) {
+    private static void handle(String msg, LoginFunc loginFunc, MsgFunc msgFunc) {
         String[] cmd = msg.split(" ");
         if (cmd.length == 3) {
             switch (cmd[0]) {
                 case Cli.LOGIN: {
-                    client.login(cmd[1], cmd[2], new Listener<Carrier<String>>() {
+                    loginFunc.login(cmd[1], cmd[2], new Listener<Carrier<String>>() {
                         @Override
                         public void onEvent(Carrier<String> event) {
                             if (event.isSuccess()) {
@@ -55,7 +60,7 @@ public class DirectConnectServerClientApplication {
                         prompt();
                         return;
                     }
-                    client.sendP2pMsg(Long.parseLong(cmd[1]), MessageType.TEXT, cmd[2], new Listener<Carrier<String>>() {
+                    msgFunc.sendP2pMsg(Long.parseLong(cmd[1]), MessageType.TEXT, cmd[2], new Listener<Carrier<String>>() {
                         @Override
                         public void onEvent(Carrier<String> event) {
                             if (event.isSuccess()) {
@@ -74,7 +79,7 @@ public class DirectConnectServerClientApplication {
                         prompt();
                         return;
                     }
-                    client.sendGroupMsg(Long.parseLong(cmd[1]), MessageType.TEXT, cmd[2], new Listener<Carrier<String>>() {
+                    msgFunc.sendGroupMsg(Long.parseLong(cmd[1]), MessageType.TEXT, cmd[2], new Listener<Carrier<String>>() {
                         @Override
                         public void onEvent(Carrier<String> event) {
                             if (event.isSuccess()) {

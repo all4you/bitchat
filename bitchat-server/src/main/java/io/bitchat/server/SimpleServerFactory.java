@@ -23,14 +23,14 @@ public class SimpleServerFactory implements ServerFactory {
 
     @Override
     public Server newServer(Integer serverPort) {
-        currentServer = new StandaloneServer(serverPort);
+        currentServer = Singleton.get(StandaloneServer.class, serverPort);
         ServerAttrHolder.put(currentServer.attribute());
         return currentServer;
     }
 
     @Override
     public Server newServer(RouterServerAttr routerServerAttr, Integer serverPort) {
-        currentServer = new ClusterServer(routerServerAttr, serverPort);
+        currentServer = Singleton.get(ClusterServer.class, routerServerAttr, serverPort);
         ServerAttrHolder.put(currentServer.attribute());
         return currentServer;
     }

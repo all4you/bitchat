@@ -23,11 +23,12 @@ public class SimpleClientFactory implements ClientFactory {
 
     @Override
     public Client newClient(ServerAttr serverAttr) {
-        return new DirectConnectServerClient(serverAttr);
+        return Singleton.get(DirectConnectServerClient.class, serverAttr);
     }
 
     @Override
     public Client newClient(LoadBalancer loadBalancer) {
-        return new ConnectServerByRouterClient(loadBalancer);
+        return Singleton.get(ConnectServerByRouterClient.class, loadBalancer);
     }
+
 }

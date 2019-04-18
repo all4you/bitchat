@@ -4,8 +4,6 @@ import cn.hutool.core.util.IdUtil;
 import io.bitchat.core.lang.config.BaseConfig;
 import io.bitchat.core.lang.config.ConfigFactory;
 import io.bitchat.core.lang.init.Initializer;
-import io.bitchat.core.protocol.packet.PacketRecognizer;
-import io.bitchat.core.protocol.serialize.SerializerChooser;
 import io.bitchat.core.server.Server;
 import io.bitchat.core.server.ServerAttr;
 import io.netty.bootstrap.ServerBootstrap;
@@ -45,31 +43,10 @@ public abstract class AbstractServer implements Server {
      */
     private AtomicBoolean started = new AtomicBoolean(false);
 
-    /**
-     * the serializer chooser
-     */
-    private SerializerChooser chooser;
-
-    /**
-     * the packet recognizer
-     */
-    private PacketRecognizer recognizer;
-
     public AbstractServer(Integer serverPort) {
         int port = serverPort == null ? ConfigFactory.getConfig(BaseConfig.class).serverPort() : serverPort;
         this.serverAttr = ServerAttr.getLocalServer(port);
     }
-
-    public AbstractServer chooser(SerializerChooser chooser) {
-        this.chooser = chooser;
-        return this;
-    }
-
-    public AbstractServer recognizer(PacketRecognizer recognizer) {
-        this.recognizer = recognizer;
-        return this;
-    }
-
 
     @Override
     public ServerAttr attribute() {
@@ -110,7 +87,7 @@ public abstract class AbstractServer implements Server {
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
                 .handler(new LoggingHandler(LogLevel.INFO))
-                .childHandler(new ServerInitializer(chooser, recognizer));
+                .childHandler(new ServerInitializer(null, null));
 
         ChannelFuture future = bootstrap.bind(port);
         future.addListener(new GenericFutureListener<Future<? super Void>>() {
