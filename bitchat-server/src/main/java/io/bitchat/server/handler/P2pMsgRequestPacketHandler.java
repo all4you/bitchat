@@ -7,7 +7,6 @@ import io.bitchat.core.bean.Bean;
 import io.bitchat.core.connection.Connection;
 import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.lang.enums.MessageCategory;
 import io.bitchat.core.lang.id.IdFactory;
 import io.bitchat.core.lang.id.SnowflakeIdFactory;
@@ -46,7 +45,6 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
 
     @Override
     public CarrierPacket<String> handle(ChannelHandlerContext ctx, P2pMsgRequestPacket packet) {
-        CarrierPacket<String> response;
         Channel fromChannel = ctx.channel();
         Connection connection = connectionManager.get(fromChannel);
         Long userId = connection.getUserId();
@@ -70,11 +68,7 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
                 toChannel.writeAndFlush(pushPacket);
             }
         }
-        response = CarrierPacket.<String>builder()
-                .code(ResultCode.SUCCESS)
-                .success(success)
-                .msg(msg)
-                .build();
+        CarrierPacket<String> response = CarrierPacket.getStringCarrierPacket(success, msg, null);
         response.setId(packet.getId());
         // save history msg
         saveHistoryMsg(userId, packet, msgId);

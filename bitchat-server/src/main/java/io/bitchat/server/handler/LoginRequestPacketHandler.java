@@ -4,7 +4,6 @@ import io.bitchat.core.bean.Autowired;
 import io.bitchat.core.bean.Bean;
 import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.protocol.packet.PacketSymbol;
 import io.bitchat.core.user.User;
@@ -37,11 +36,7 @@ public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPack
         if (!success) {
             msg = "Login fail, please check your account and password";
         }
-        CarrierPacket<String> response = CarrierPacket.<String>builder()
-                .code(ResultCode.SUCCESS)
-                .success(success)
-                .msg(msg)
-                .build();
+        CarrierPacket<String> response = CarrierPacket.getStringCarrierPacket(success, msg, null);
         response.setId(packet.getId());
         storeConnection(ctx, user);
         return response;

@@ -33,5 +33,9 @@ public class CarrierPacket<T> extends AbstractPacket {
         return PacketSymbols.CARRIER_PACKET;
     }
 
+    public static CarrierPacket<String> getStringCarrierPacket(boolean success, String msg, String data) {
+        return CarrierPacket.<String>builder().success(success).msg(msg).data(data).build();
+    }
+
 }
 

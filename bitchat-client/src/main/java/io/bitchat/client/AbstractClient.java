@@ -4,16 +4,16 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import io.bitchat.core.client.Client;
 import io.bitchat.core.lang.init.Initializer;
+import io.bitchat.core.protocol.PacketRecognizer;
+import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.protocol.packet.PacketCodec;
 import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.router.LoadBalancer;
 import io.bitchat.core.server.ServerAttr;
 import io.bitchat.protocol.DefaultPacketRecognizer;
-import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.DefaultSerializerChooser;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -92,8 +92,7 @@ public abstract class AbstractClient implements Client {
         CompletableFuture<Packet> promise = new CompletableFuture<>();
         if (!connected) {
             log.debug("Not connected yet!");
-            CarrierPacket<String> response = CarrierPacket.<String>builder().success(false).msg("Not connected yet!").build();
-            promise.complete(response);
+            promise.complete(CarrierPacket.getStringCarrierPacket(false, "Not connected yet!", null));
             return promise;
         }
         Long id = request.getId();

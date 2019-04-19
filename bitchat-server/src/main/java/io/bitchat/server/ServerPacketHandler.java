@@ -6,12 +6,11 @@ import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.connection.ConnectionUtil;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.core.lang.constants.AsyncHandle;
-import io.bitchat.core.lang.constants.ResultCode;
-import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.protocol.PacketRecognizer;
+import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.protocol.PacketExecutor;
-import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.bitchat.protocol.packet.CarrierPacket;
+import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.concurrent.*;
@@ -43,11 +42,7 @@ public class ServerPacketHandler extends SimpleChannelInboundHandler<Packet> {
         // if the packet is not a login request
         // and the channel is not logged in
         if (!(request instanceof LoginRequestPacket) && !ConnectionUtil.hasLogin(ctx.channel())) {
-            CarrierPacket<String> response = CarrierPacket.<String>builder()
-                    .code(ResultCode.SUCCESS)
-                    .success(false)
-                    .msg("Not Logged in yet!")
-                    .build();
+            CarrierPacket<String> response = CarrierPacket.getStringCarrierPacket(false, "Not logged in yet!", null);
             response.setId(request.getId());
             writeResponse(ctx, response);
             return;

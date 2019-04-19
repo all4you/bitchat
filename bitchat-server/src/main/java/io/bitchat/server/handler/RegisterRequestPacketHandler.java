@@ -4,7 +4,6 @@ import io.bitchat.core.bean.Autowired;
 import io.bitchat.core.bean.Bean;
 import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.protocol.packet.PacketSymbol;
 import io.bitchat.core.user.UserService;
@@ -29,12 +28,7 @@ public class RegisterRequestPacketHandler implements PacketHandler<RegisterReque
 
     @Override
     public CarrierPacket<String> handle(ChannelHandlerContext ctx, RegisterRequestPacket packet) {
-
-        CarrierPacket<String> response = CarrierPacket.<String>builder()
-                .code(ResultCode.SUCCESS)
-                .success(false)
-                .msg("Need to be handled")
-                .build();
+        CarrierPacket<String> response = CarrierPacket.getStringCarrierPacket(false, "Need to be handled", null);
         response.setId(packet.getId());
         return response;
     }
