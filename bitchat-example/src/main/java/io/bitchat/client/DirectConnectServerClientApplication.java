@@ -92,6 +92,8 @@ public class DirectConnectServerClientApplication {
                 public void onEvent(Carrier<List<User>> event) {
                     if (event.isSuccess()) {
                         List<User> userList = event.getData();
+                        System.out.println("userName(userId)");
+                        System.out.println("----------------");
                         for (User user : userList) {
                             System.out.println(user.getUserName() + "(" + user.getUserId() + ")");
                         }
@@ -166,7 +168,7 @@ public class DirectConnectServerClientApplication {
     private static void usage() {
         System.out.println("Usage: <cmd> [options]");
         System.out.println("\t<-lo>\t[userName ]\t[password]\t\t(login)");
-        System.out.println("\t<-lu>\t\t(list online user)");
+        System.out.println("\t<-lu>\t\t\t\t\t\t\t\t(list online user)");
         System.out.println("\t<-pc>\t[partnerId]\t[message ]\t\t(p2p chat)");
 //        System.out.println("\t<-gc>\t[groupId  ]\t[message ]\t\t(group chat)");
     }
