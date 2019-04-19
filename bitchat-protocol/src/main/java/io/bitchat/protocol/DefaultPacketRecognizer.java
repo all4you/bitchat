@@ -7,9 +7,10 @@ import io.bitchat.core.lang.config.BaseConfig;
 import io.bitchat.core.lang.config.ConfigFactory;
 import io.bitchat.core.lang.init.InitAble;
 import io.bitchat.core.lang.init.InitOrder;
+import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.PacketRecognizer;
+import io.bitchat.core.protocol.packet.PacketSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;
@@ -95,7 +96,7 @@ public class DefaultPacketRecognizer implements PacketRecognizer, InitAble {
 
     private void initPacketHandler() {
         BaseConfig baseConfig = ConfigFactory.getConfig(BaseConfig.class);
-        Set<Class<?>> classSet = ClassScaner.scanPackageBySuper(baseConfig.basePackage(), PacketHandler.class);
+        Set<Class<?>> classSet = ClassScaner.scanPackageByAnnotation(baseConfig.basePackage(), PacketSymbol.class);
         if (CollectionUtil.isEmpty(classSet)) {
             log.warn("[DefaultPacketRecognizer] No PacketHandler found");
             return;
@@ -104,25 +105,27 @@ public class DefaultPacketRecognizer implements PacketRecognizer, InitAble {
             if (clazz.isInterface() || Modifier.isAbstract(clazz.getModifiers()) || !PacketHandler.class.isAssignableFrom(clazz)) {
                 continue;
             }
+            PacketSymbol packetSymbol = clazz.getAnnotation(PacketSymbol.class);
+            if (packetSymbol == null) {
+                continue;
+            }
             try {
-                Constructor<?> constructor = clazz.getDeclaredConstructor();
-                constructor.setAccessible(true);
-                PacketHandler packetHandler = (PacketHandler) constructor.newInstance();
-                cachePacketHandler(packetHandler);
+                cachePacketHandler(packetSymbol, clazz);
             } catch (Exception e) {
                 log.warn("[DefaultPacketRecognizer] cachePacketHandler failed", e);
             }
         }
     }
 
-    private void cachePacketHandler(PacketHandler packetHandler) {
-        int symbol = packetHandler.symbol();
-        log.info("[DefaultPacketRecognizer] Found symbol=[{}], PacketHandler=[{}]", symbol, packetHandler.getClass().getCanonicalName());
+    @SuppressWarnings("unchecked")
+    private void cachePacketHandler(PacketSymbol packetSymbol, Class clazz) {
+        int symbol = packetSymbol.value();
+        log.info("[DefaultPacketRecognizer] Found symbol=[{}], PacketHandler=[{}]", symbol, clazz.getCanonicalName());
         if (packetHandlerHolder.containsKey(symbol)) {
-            log.warn("[DefaultPacketRecognizer] [Warning] symbol=[{}], PacketHandler=[{}] already exists, please check the PacketHandler", symbol, packetHandler.getClass().getCanonicalName());
+            log.warn("[DefaultPacketRecognizer] [Warning] symbol=[{}], PacketHandler=[{}] already exists, please check the PacketHandler", symbol, clazz.getCanonicalName());
             return;
         }
-        packetHandlerHolder.putIfAbsent(symbol, packetHandler.getClass());
+        packetHandlerHolder.putIfAbsent(symbol, (Class<? extends PacketHandler>) clazz);
     }
 
 

@@ -14,6 +14,7 @@ import io.bitchat.core.lang.id.SnowflakeIdFactory;
 import io.bitchat.core.message.MessageWriter;
 import io.bitchat.core.message.P2pMessage;
 import io.bitchat.core.protocol.packet.PacketHandler;
+import io.bitchat.core.protocol.packet.PacketSymbol;
 import io.bitchat.core.server.SessionIdKeeper;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.P2pMsgPushPacket;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @Slf4j
 @Bean
+@PacketSymbol(PacketSymbols.P2P_MSG_REQUEST_PACKET)
 public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPacket, CarrierPacket<String>> {
 
     @Autowired
@@ -41,11 +43,6 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
     private SessionIdKeeper sessionIdKeeper;
 
     private IdFactory idFactory = SnowflakeIdFactory.getInstance();
-
-    @Override
-    public int symbol() {
-        return PacketSymbols.P2P_MSG_REQUEST_PACKET;
-    }
 
     @Override
     public CarrierPacket<String> handle(ChannelHandlerContext ctx, P2pMsgRequestPacket packet) {

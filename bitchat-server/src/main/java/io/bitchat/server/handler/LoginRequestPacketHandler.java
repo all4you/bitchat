@@ -6,10 +6,11 @@ import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;
+import io.bitchat.core.protocol.packet.PacketSymbol;
 import io.bitchat.core.user.User;
 import io.bitchat.core.user.UserService;
-import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.bitchat.protocol.packet.CarrierPacket;
+import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Bean
+@PacketSymbol(PacketSymbols.LOGIN_REQUEST_PACKET)
 public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPacket, CarrierPacket<String>> {
 
     @Autowired
@@ -28,16 +30,11 @@ public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPack
     private ConnectionManager connectionManager;
 
     @Override
-    public int symbol() {
-        return PacketSymbols.LOGIN_REQUEST_PACKET;
-    }
-
-    @Override
     public CarrierPacket<String> handle(ChannelHandlerContext ctx, LoginRequestPacket packet) {
         User user = login(packet.getUserName(), packet.getPassword());
         boolean success = user != null;
         String msg = "Success";
-        if(!success) {
+        if (!success) {
             msg = "Login fail, please check your account and password";
         }
         CarrierPacket<String> response = CarrierPacket.<String>builder()

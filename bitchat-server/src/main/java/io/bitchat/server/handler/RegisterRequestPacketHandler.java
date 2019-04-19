@@ -6,6 +6,7 @@ import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;
+import io.bitchat.core.protocol.packet.PacketSymbol;
 import io.bitchat.core.user.UserService;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.RegisterRequestPacket;
@@ -17,6 +18,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 @Bean
+@PacketSymbol(PacketSymbols.REGISTER_REQUEST_PACKET)
 public class RegisterRequestPacketHandler implements PacketHandler<RegisterRequestPacket, CarrierPacket<String>> {
 
     @Autowired
@@ -24,11 +26,6 @@ public class RegisterRequestPacketHandler implements PacketHandler<RegisterReque
 
     @Autowired
     private ConnectionManager connectionManager;
-
-    @Override
-    public int symbol() {
-        return PacketSymbols.REGISTER_REQUEST_PACKET;
-    }
 
     @Override
     public CarrierPacket<String> handle(ChannelHandlerContext ctx, RegisterRequestPacket packet) {
