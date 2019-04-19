@@ -2,8 +2,8 @@ package io.bitchat.protocol.serialize;
 
 import io.bitchat.core.lang.enums.SerializeAlgorithm;
 import io.bitchat.core.message.GroupMessage;
-import io.bitchat.core.protocol.serialize.Serializer;
 import io.bitchat.core.protocol.SerializerChooser;
+import io.bitchat.core.protocol.serialize.Serializer;
 import io.bitchat.protocol.DefaultSerializerChooser;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
@@ -50,10 +50,9 @@ public class SerializeTest {
         while (i++ < loop) {
             bytes = serializer.serialize(object);
             newObj = serializer.deserialize(bytes, object.getClass());
-//            log.info("newObj={},bytes={}", newObj, bytes);
         }
         long end = System.currentTimeMillis();
-        log.info("cost={}[ms], serializer={}, newObj={}, bytes={}", (end - start), serializer, newObj, bytes);
+        log.info("cost={}[ms], serializer={}, bytes size={}, newObj={}", (end - start), serializer, bytes == null ? 0 : bytes.length, newObj);
     }
 
 
