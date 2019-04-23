@@ -133,7 +133,7 @@ public abstract class AbstractClient implements Client {
         protected void initChannel(SocketChannel channel) throws Exception {
             ChannelPipeline pipeline = channel.pipeline();
             pipeline.addLast(new PacketCodec(chooser, recognizer));
-            pipeline.addLast(new ClientPacketHandler(recognizer));
+            pipeline.addLast(new ClientPacketDispatcher(recognizer));
         }
     }
 

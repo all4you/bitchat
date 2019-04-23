@@ -15,11 +15,11 @@ import java.util.concurrent.CompletableFuture;
  * @author houyi
  */
 @Slf4j
-public class ClientPacketHandler extends SimpleChannelInboundHandler<Packet> {
+public class ClientPacketDispatcher extends SimpleChannelInboundHandler<Packet> {
 
     private PacketRecognizer recognizer;
 
-    public ClientPacketHandler(PacketRecognizer recognizer) {
+    public ClientPacketDispatcher(PacketRecognizer recognizer) {
         Assert.notNull(recognizer, "recognizer can not be null");
         this.recognizer = recognizer;
     }
@@ -38,7 +38,7 @@ public class ClientPacketHandler extends SimpleChannelInboundHandler<Packet> {
     @SuppressWarnings("unchecked")
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet response) {
-        log.debug("ClientPacketHandler has received {}", response);
+        log.debug("ClientPacketDispatcher has received {}", response);
         int symbol = response.getSymbol();
         Class<? extends PacketHandler> handlerClass = recognizer.packetHandler(symbol);
         if (handlerClass != null) {
