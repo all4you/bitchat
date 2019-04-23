@@ -8,7 +8,7 @@ import io.bitchat.core.executor.Executor;
 import io.bitchat.core.lang.constants.AsyncHandle;
 import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.protocol.PacketExecutor;
+import io.bitchat.core.executor.PacketExecutor;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.netty.channel.ChannelHandlerContext;

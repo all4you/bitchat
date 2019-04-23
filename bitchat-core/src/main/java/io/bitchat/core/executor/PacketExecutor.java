@@ -1,10 +1,10 @@
-package io.bitchat.protocol;
+package io.bitchat.core.executor;
 
+import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
-import io.bitchat.core.executor.AbstractExecutor;
+import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.PacketRecognizer;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -17,7 +17,8 @@ public class PacketExecutor extends AbstractExecutor<Packet> {
     private PacketRecognizer recognizer;
 
     private PacketExecutor(PacketRecognizer recognizer) {
-        this.recognizer = recognizer == null ? DefaultPacketRecognizer.getInstance() : recognizer;
+        Assert.notNull(recognizer, "recognizer can not be null");
+        this.recognizer = recognizer;
     }
 
     public static PacketExecutor getInstance(PacketRecognizer recognizer) {
