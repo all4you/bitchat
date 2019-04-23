@@ -24,13 +24,13 @@ import lombok.extern.slf4j.Slf4j;
  * @author houyi
  */
 @Slf4j
-public class ServerPacketHandler extends SimpleChannelInboundHandler<Packet> {
+public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> {
 
     private Executor<Packet> executor;
 
     private ConnectionManager connectionManager;
 
-    public ServerPacketHandler(PacketRecognizer recognizer) {
+    public ServerPacketDispatcher(PacketRecognizer recognizer) {
         Assert.notNull(recognizer, "recognizer can not be null");
         this.executor = PacketExecutor.getInstance(recognizer);
         this.connectionManager = DefaultBeanContext.getInstance().getBean("memoryConnectionKeeper", ConnectionManager.class);

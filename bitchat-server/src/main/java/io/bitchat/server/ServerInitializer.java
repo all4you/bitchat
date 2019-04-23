@@ -33,7 +33,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
         pipeline.addLast(new PacketCodec(chooser, recognizer));
-        pipeline.addLast(new ServerPacketHandler(recognizer));
+        pipeline.addLast(new ServerPacketDispatcher(recognizer));
     }
 
 }
