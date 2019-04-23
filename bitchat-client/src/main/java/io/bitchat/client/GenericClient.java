@@ -30,7 +30,7 @@ import java.util.concurrent.CompletableFuture;
  * @author houyi
  */
 @Slf4j
-public abstract class AbstractClient implements Client {
+public class GenericClient implements Client {
 
     private ServerAttr serverAttr;
 
@@ -38,13 +38,13 @@ public abstract class AbstractClient implements Client {
 
     private Channel channel = null;
 
-    public AbstractClient(ServerAttr serverAttr) {
+    public GenericClient(ServerAttr serverAttr) {
         this.serverAttr = serverAttr;
         Initializer.init();
         connectServer();
     }
 
-    public AbstractClient(LoadBalancer loadBalancer) {
+    public GenericClient(LoadBalancer loadBalancer) {
         this.serverAttr = loadBalancer.nextServer();
         Initializer.init();
         connectServer();
@@ -72,9 +72,9 @@ public abstract class AbstractClient implements Client {
                 if (f.isSuccess()) {
                     channel = future.channel();
                     connected = true;
-                    log.debug("[{}] has connected to {}", AbstractClient.class.getSimpleName(), serverAttr);
+                    log.debug("[{}] has connected to {}", GenericClient.class.getSimpleName(), serverAttr);
                 } else {
-                    log.error("[{}] connected to {} failed, cause={}", AbstractClient.class.getSimpleName(), serverAttr, f.cause().getMessage());
+                    log.error("[{}] connected to {} failed, cause={}", GenericClient.class.getSimpleName(), serverAttr, f.cause().getMessage());
                 }
             }
         });
