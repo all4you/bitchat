@@ -8,7 +8,6 @@ import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.protocol.packet.PacketCodec;
-import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.router.LoadBalancer;
 import io.bitchat.core.server.ServerAttr;
 import io.bitchat.protocol.DefaultPacketRecognizer;
@@ -112,25 +111,6 @@ public abstract class AbstractClient implements Client {
         return promise;
     }
 
-    /**
-     * there are two ways the client will receive the response
-     * 1: the result packet which the client request
-     * this kind of response will be handled by client itself
-     * 2: the message packet which the server pushed initiative
-     * this kind of response will be handled by {@link PacketHandler}
-     *
-     * @param response the response
-     */
-    public void receiveResponse(Packet response) {
-        log.debug("AbstractClient has received {}", response);
-        CompletableFuture<Packet> pending = PendingRequests.remove(response.getId());
-        if (pending != null) {
-            // the response will be handled by client
-            // after the client future has been notified
-            // to be completed
-            pending.complete(response);
-        }
-    }
 
     private class ClientInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -153,7 +133,7 @@ public abstract class AbstractClient implements Client {
         protected void initChannel(SocketChannel channel) throws Exception {
             ChannelPipeline pipeline = channel.pipeline();
             pipeline.addLast(new PacketCodec(chooser, recognizer));
-            pipeline.addLast(new ClientPacketHandler(recognizer, AbstractClient.this));
+            pipeline.addLast(new ClientPacketHandler(recognizer));
         }
     }
 
