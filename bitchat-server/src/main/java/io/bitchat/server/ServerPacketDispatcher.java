@@ -1,6 +1,7 @@
 package io.bitchat.server;
 
 import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.bean.DefaultBeanContext;
 import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.connection.ConnectionUtil;
@@ -11,6 +12,7 @@ import io.bitchat.core.protocol.packet.Packet;
 import io.bitchat.core.executor.PacketExecutor;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.LoginRequestPacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.util.concurrent.*;
@@ -24,16 +26,21 @@ import lombok.extern.slf4j.Slf4j;
  * @author houyi
  */
 @Slf4j
+@ChannelHandler.Sharable
 public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> {
 
     private Executor<Packet> executor;
 
     private ConnectionManager connectionManager;
 
-    public ServerPacketDispatcher(PacketRecognizer recognizer) {
+    private ServerPacketDispatcher(PacketRecognizer recognizer) {
         Assert.notNull(recognizer, "recognizer can not be null");
         this.executor = PacketExecutor.getInstance(recognizer);
         this.connectionManager = DefaultBeanContext.getInstance().getBean("memoryConnectionKeeper", ConnectionManager.class);
+    }
+
+    public static ServerPacketDispatcher getInstance(PacketRecognizer recognize) {
+        return Singleton.get(ServerPacketDispatcher.class, recognize);
     }
 
     @Override
