@@ -3,7 +3,7 @@ package io.bitchat.server;
 import cn.hutool.core.util.IdUtil;
 import io.bitchat.core.lang.config.BaseConfig;
 import io.bitchat.core.lang.config.ConfigFactory;
-import io.bitchat.core.lang.init.Initializer;
+import io.bitchat.core.init.Initializer;
 import io.bitchat.core.server.Server;
 import io.bitchat.core.server.ServerAttr;
 import io.netty.bootstrap.ServerBootstrap;

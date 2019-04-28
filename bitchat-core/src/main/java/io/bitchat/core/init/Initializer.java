@@ -1,4 +1,4 @@
-package io.bitchat.core.lang.init;
+package io.bitchat.core.init;
 
 
 import cn.hutool.core.collection.CollectionUtil;

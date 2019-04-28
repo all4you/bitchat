@@ -3,7 +3,7 @@ package io.bitchat.client;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import io.bitchat.core.client.Client;
-import io.bitchat.core.lang.init.Initializer;
+import io.bitchat.core.init.Initializer;
 import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.protocol.packet.Packet;

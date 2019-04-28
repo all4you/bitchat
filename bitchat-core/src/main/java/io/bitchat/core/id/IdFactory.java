@@ -1,4 +1,4 @@
-package io.bitchat.core.lang.id;
+package io.bitchat.core.id;
 
 /**
  * @author houyi
