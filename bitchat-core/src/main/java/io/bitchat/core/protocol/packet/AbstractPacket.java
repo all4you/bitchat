@@ -1,5 +1,6 @@
 package io.bitchat.core.protocol.packet;
 
+import io.bitchat.core.lang.constants.AsyncHandle;
 import io.bitchat.core.lang.enums.SerializeAlgorithm;
 
 /**
@@ -10,6 +11,11 @@ public abstract class AbstractPacket extends Packet {
     @Override
     public byte algorithm() {
         return SerializeAlgorithm.PROTO_STUFF.getType();
+    }
+
+    @Override
+    public byte async() {
+        return AsyncHandle.ASYNC;
     }
 
 }

@@ -58,7 +58,7 @@ public abstract class Packet implements Serializable {
      * whether handler the packet
      * in async way
      */
-    private byte async = AsyncHandle.ASYNC;
+    private byte async = async();
 
     /**
      * the packet symbol
@@ -82,6 +82,17 @@ public abstract class Packet implements Serializable {
      * @return the serialize algorithm
      */
     public abstract byte algorithm();
+
+    /**
+     * <p>
+     * whether handle the packet
+     * in async way
+     * </p>
+     *
+     * @return the byte value of whether
+     * handle packet in async way
+     */
+    public abstract byte async();
 
     /**
      * <p>
