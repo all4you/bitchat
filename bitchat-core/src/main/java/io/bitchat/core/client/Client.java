@@ -15,6 +15,11 @@ import java.util.concurrent.CompletableFuture;
 public interface Client extends Node {
 
     /**
+     * connect server
+     */
+    void connect();
+
+    /**
      * send request to server
      *
      * @param request the request packet

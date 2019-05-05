@@ -4,14 +4,9 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
 import io.bitchat.core.client.Client;
 import io.bitchat.core.init.Initializer;
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.core.protocol.packet.PacketCodec;
 import io.bitchat.core.router.LoadBalancer;
 import io.bitchat.core.server.ServerAttr;
-import io.bitchat.protocol.DefaultPacketRecognizer;
-import io.bitchat.protocol.DefaultSerializerChooser;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
@@ -41,17 +36,18 @@ public class GenericClient implements Client {
     public GenericClient(ServerAttr serverAttr) {
         this.serverAttr = serverAttr;
         Initializer.init();
-        connectServer();
+        connect();
     }
 
     public GenericClient(LoadBalancer loadBalancer) {
         Assert.notNull(loadBalancer, "loadBalancer can not be null");
         this.serverAttr = loadBalancer.nextServer();
         Initializer.init();
-        connectServer();
+        connect();
     }
 
-    private void connectServer() {
+    @Override
+    public void connect() {
         Assert.notNull(serverAttr, "serverAttr can not be null");
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap bootstrap = new Bootstrap();
@@ -62,7 +58,7 @@ public class GenericClient implements Client {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(new ClientInitializer(null, null));
+                        pipeline.addLast(new ClientInitializer(GenericClient.this, null, null));
                     }
                 });
 
@@ -70,12 +66,15 @@ public class GenericClient implements Client {
         future.addListener(new GenericFutureListener<Future<? super Void>>() {
             @Override
             public void operationComplete(Future<? super Void> f) throws Exception {
+                channel = future.channel();
                 if (f.isSuccess()) {
-                    channel = future.channel();
                     connected = true;
-                    log.debug("[{}] has connected to {}", GenericClient.class.getSimpleName(), serverAttr);
+                    log.info("[{}] has connected to {} successfully", GenericClient.class.getSimpleName(), serverAttr);
                 } else {
-                    log.error("[{}] connected to {} failed, cause={}", GenericClient.class.getSimpleName(), serverAttr, f.cause().getMessage());
+                    log.warn("[{}] connect to {} failed, cause={}", GenericClient.class.getSimpleName(), serverAttr, f.cause().getMessage());
+                    // fire the channelInactive and make sure
+                    // the {@link HealthyChecker} will reconnect
+                    channel.pipeline().fireChannelInactive();
                 }
             }
         });
@@ -112,30 +111,5 @@ public class GenericClient implements Client {
         return promise;
     }
 
-
-    private class ClientInitializer extends ChannelInitializer<SocketChannel> {
-
-        /**
-         * the serializer chooser
-         */
-        private SerializerChooser chooser;
-
-        /**
-         * the packet recognizer
-         */
-        private PacketRecognizer recognizer;
-
-        ClientInitializer(SerializerChooser chooser, PacketRecognizer recognizer) {
-            this.chooser = chooser == null ? DefaultSerializerChooser.getInstance() : chooser;
-            this.recognizer = recognizer == null ? DefaultPacketRecognizer.getInstance() : recognizer;
-        }
-
-        @Override
-        protected void initChannel(SocketChannel channel) throws Exception {
-            ChannelPipeline pipeline = channel.pipeline();
-            pipeline.addLast(new PacketCodec(chooser, recognizer));
-            pipeline.addLast(new ClientPacketDispatcher(recognizer));
-        }
-    }
 
 }
