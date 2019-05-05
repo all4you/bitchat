@@ -6,12 +6,12 @@ import io.bitchat.core.bean.DefaultBeanContext;
 import io.bitchat.core.connection.ConnectionManager;
 import io.bitchat.core.connection.ConnectionUtil;
 import io.bitchat.core.executor.Executor;
+import io.bitchat.core.executor.PacketExecutor;
 import io.bitchat.core.lang.constants.AsyncHandle;
+import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.core.executor.PacketExecutor;
 import io.bitchat.protocol.packet.CarrierPacket;
-import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -46,9 +46,14 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet request) {
         // TODO how ServerSpeaker communicate with each other
-        // if the packet is not a login request
-        // and the channel is not logged in
-        if (!(request instanceof LoginRequestPacket) && !ConnectionUtil.hasLogin(ctx.channel())) {
+        // if the packet is not a [login|ping] request
+        // then we should check the login state of the channel
+        boolean shouldCheckLogin = false;
+        int symbol = request.getSymbol();
+        if (!(symbol == PacketSymbols.LOGIN_REQUEST_PACKET || symbol == PacketSymbols.PING_PACKET)) {
+            shouldCheckLogin = true;
+        }
+        if (shouldCheckLogin && !ConnectionUtil.hasLogin(ctx.channel())) {
             CarrierPacket<String> response = CarrierPacket.getStringCarrierPacket(false, "Not logged in yet!", null);
             response.setId(request.getId());
             writeResponse(ctx, response);

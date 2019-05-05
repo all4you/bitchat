@@ -1,5 +1,6 @@
 package io.bitchat.server;
 
+import io.bitchat.core.IdleStateChecker;
 import io.bitchat.core.protocol.packet.PacketCodec;
 import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.protocol.SerializerChooser;
@@ -32,6 +33,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
+        pipeline.addLast(new IdleStateChecker(15));
         pipeline.addLast(new PacketCodec(chooser, recognizer));
         pipeline.addLast(ServerPacketDispatcher.getInstance(recognizer));
     }
