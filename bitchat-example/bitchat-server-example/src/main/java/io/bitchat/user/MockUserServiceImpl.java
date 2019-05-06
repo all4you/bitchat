@@ -35,5 +35,4 @@ public class MockUserServiceImpl implements UserService {
         return user;
     }
 
-
 }
