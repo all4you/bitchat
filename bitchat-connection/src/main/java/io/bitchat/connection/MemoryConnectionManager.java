@@ -3,7 +3,7 @@ package io.bitchat.connection;
 import cn.hutool.core.collection.CollectionUtil;
 import io.bitchat.core.bean.Bean;
 import io.bitchat.core.server.ServerAttrHolder;
-import io.bitchat.core.user.User;
+import io.bitchat.user.User;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 

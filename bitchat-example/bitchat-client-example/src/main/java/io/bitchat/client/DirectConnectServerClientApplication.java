@@ -6,7 +6,7 @@ import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
 import io.bitchat.core.client.Client;
 import io.bitchat.core.server.ServerAttr;
-import io.bitchat.core.user.User;
+import io.bitchat.user.User;
 import io.bitchat.message.MessageType;
 
 import java.util.List;

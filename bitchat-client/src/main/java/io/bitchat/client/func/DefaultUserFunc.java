@@ -7,7 +7,7 @@ import io.bitchat.core.client.Client;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.StandaloneMemoryIdFactory;
 import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.core.user.User;
+import io.bitchat.user.User;
 import io.bitchat.protocol.packet.ListOnlineUserRequestPacket;
 import io.bitchat.protocol.packet.CarrierPacket;
 

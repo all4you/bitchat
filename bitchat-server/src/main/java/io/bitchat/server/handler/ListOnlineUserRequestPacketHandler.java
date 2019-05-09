@@ -7,7 +7,7 @@ import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.protocol.packet.PacketSymbol;
-import io.bitchat.core.user.User;
+import io.bitchat.user.User;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.ListOnlineUserRequestPacket;
 import io.netty.channel.ChannelHandlerContext;

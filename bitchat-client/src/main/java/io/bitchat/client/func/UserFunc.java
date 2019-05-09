@@ -2,7 +2,7 @@ package io.bitchat.client.func;
 
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
-import io.bitchat.core.user.User;
+import io.bitchat.user.User;
 
 import java.util.List;
 

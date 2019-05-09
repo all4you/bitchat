@@ -1,6 +1,6 @@
 package io.bitchat.connection;
 
-import io.bitchat.core.user.User;
+import io.bitchat.user.User;
 import io.netty.channel.Channel;
 
 import java.util.List;

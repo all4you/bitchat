@@ -1,8 +1,6 @@
 package io.bitchat.user;
 
 import io.bitchat.core.bean.Bean;
-import io.bitchat.core.user.User;
-import io.bitchat.core.user.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;

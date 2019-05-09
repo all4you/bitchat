@@ -1,4 +1,4 @@
-package io.bitchat.core.user;
+package io.bitchat.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

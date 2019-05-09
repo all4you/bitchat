@@ -6,7 +6,7 @@ import io.bitchat.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.protocol.packet.PacketSymbol;
-import io.bitchat.core.user.UserService;
+import io.bitchat.user.UserService;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.RegisterRequestPacket;
 import io.netty.channel.ChannelHandlerContext;
