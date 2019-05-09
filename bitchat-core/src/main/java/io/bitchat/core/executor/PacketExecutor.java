@@ -31,13 +31,12 @@ public class PacketExecutor extends AbstractExecutor<Packet> {
         ChannelHandlerContext ctx = (ChannelHandlerContext) request[0];
         Packet packet = (Packet) request[1];
         int symbol = packet.getSymbol();
-        Class<? extends PacketHandler> handlerClass = recognizer.packetHandler(symbol);
+        PacketHandler handler = recognizer.packetHandler(symbol);
         // if no handler is found
-        if (handlerClass == null) {
+        if (handler == null) {
             log.warn("No handler found with packet={}", packet);
             return null;
         }
-        PacketHandler handler = Singleton.get(handlerClass);
         return handler.handle(ctx, packet);
     }
 

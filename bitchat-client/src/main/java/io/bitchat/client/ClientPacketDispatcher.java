@@ -40,9 +40,8 @@ public class ClientPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
     public void channelRead0(ChannelHandlerContext ctx, Packet response) {
         log.debug("ClientPacketDispatcher has received {}", response);
         int symbol = response.getSymbol();
-        Class<? extends PacketHandler> handlerClass = recognizer.packetHandler(symbol);
-        if (handlerClass != null) {
-            PacketHandler handler = Singleton.get(handlerClass);
+        PacketHandler handler = recognizer.packetHandler(symbol);
+        if (handler != null) {
             handler.handle(ctx, response);
         } else {
             CompletableFuture<Packet> pending = PendingRequests.remove(response.getId());

@@ -32,7 +32,7 @@ public class DefaultPacketRecognizer implements PacketRecognizer, InitAble {
 
     private static Map<Integer, Class<? extends Packet>> packetHolder = new ConcurrentHashMap<>();
 
-    private static Map<Integer, Class<? extends PacketHandler>> packetHandlerHolder = new ConcurrentHashMap<>();
+    private static Map<Integer, PacketHandler> packetHandlerHolder = new ConcurrentHashMap<>();
 
     private DefaultPacketRecognizer() {
 
@@ -58,7 +58,7 @@ public class DefaultPacketRecognizer implements PacketRecognizer, InitAble {
     }
 
     @Override
-    public Class<? extends PacketHandler> packetHandler(int symbol) {
+    public PacketHandler packetHandler(int symbol) {
         return packetHandlerHolder.get(symbol);
     }
 
@@ -125,7 +125,8 @@ public class DefaultPacketRecognizer implements PacketRecognizer, InitAble {
             log.warn("[DefaultPacketRecognizer] [Warning] symbol=[{}], PacketHandler=[{}] already exists, please check the PacketHandler", symbol, clazz.getCanonicalName());
             return;
         }
-        packetHandlerHolder.putIfAbsent(symbol, (Class<? extends PacketHandler>) clazz);
+        PacketHandler packetHandler = Singleton.get((Class<? extends PacketHandler>) clazz);
+        packetHandlerHolder.putIfAbsent(symbol, packetHandler);
     }
 
 

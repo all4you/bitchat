@@ -28,6 +28,6 @@ public interface PacketRecognizer {
      * @param symbol the packet symbol
      * @return the detailed Packet Handler
      */
-    Class<? extends PacketHandler> packetHandler(int symbol);
+    PacketHandler packetHandler(int symbol);
 
 }
