@@ -2,9 +2,6 @@ package io.bitchat.connection;
 
 import cn.hutool.core.collection.CollectionUtil;
 import io.bitchat.core.bean.Bean;
-import io.bitchat.core.connection.Connection;
-import io.bitchat.core.connection.ConnectionManager;
-import io.bitchat.core.connection.ConnectionUtil;
 import io.bitchat.core.server.ServerAttrHolder;
 import io.bitchat.core.user.User;
 import io.netty.channel.Channel;

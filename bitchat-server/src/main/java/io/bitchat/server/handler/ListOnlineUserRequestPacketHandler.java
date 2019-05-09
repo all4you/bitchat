@@ -2,7 +2,7 @@ package io.bitchat.server.handler;
 
 import io.bitchat.core.bean.Autowired;
 import io.bitchat.core.bean.Bean;
-import io.bitchat.core.connection.ConnectionManager;
+import io.bitchat.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
 import io.bitchat.core.lang.constants.ResultCode;
 import io.bitchat.core.protocol.packet.PacketHandler;

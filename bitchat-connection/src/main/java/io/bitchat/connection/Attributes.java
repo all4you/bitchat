@@ -1,4 +1,4 @@
-package io.bitchat.core.connection;
+package io.bitchat.connection;
 
 import io.netty.util.AttributeKey;
 

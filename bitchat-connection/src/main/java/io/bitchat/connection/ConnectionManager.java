@@ -1,10 +1,9 @@
-package io.bitchat.core.connection;
+package io.bitchat.connection;
 
 import io.bitchat.core.user.User;
 import io.netty.channel.Channel;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @author houyi
