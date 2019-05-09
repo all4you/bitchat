@@ -5,9 +5,9 @@ import io.bitchat.client.func.*;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
 import io.bitchat.core.client.Client;
-import io.bitchat.core.lang.enums.MessageType;
 import io.bitchat.core.server.ServerAttr;
 import io.bitchat.core.user.User;
+import io.bitchat.message.MessageType;
 
 import java.util.List;
 import java.util.Scanner;

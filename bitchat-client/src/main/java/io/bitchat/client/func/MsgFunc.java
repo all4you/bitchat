@@ -2,8 +2,8 @@ package io.bitchat.client.func;
 
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
-import io.bitchat.core.lang.enums.MessageType;
-import io.bitchat.core.message.Message;
+import io.bitchat.message.Message;
+import io.bitchat.message.MessageType;
 
 import java.util.List;
 

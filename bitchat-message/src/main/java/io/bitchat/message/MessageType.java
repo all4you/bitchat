@@ -1,4 +1,4 @@
-package io.bitchat.core.lang.enums;
+package io.bitchat.message;
 
 import lombok.Getter;
 

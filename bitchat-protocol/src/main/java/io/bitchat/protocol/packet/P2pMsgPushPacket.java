@@ -1,7 +1,6 @@
 package io.bitchat.protocol.packet;
 
 import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.lang.enums.MessageType;
 import io.bitchat.core.protocol.packet.AbstractPacket;
 import lombok.*;
 
@@ -20,7 +19,7 @@ public class P2pMsgPushPacket extends AbstractPacket {
 
     private String partnerName;
 
-    private MessageType type;
+    private Byte messageType;
 
     private String msg;
 

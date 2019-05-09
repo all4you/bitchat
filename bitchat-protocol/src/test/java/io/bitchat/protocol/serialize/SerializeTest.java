@@ -1,13 +1,16 @@
 package io.bitchat.protocol.serialize;
 
 import io.bitchat.core.lang.enums.SerializeAlgorithm;
-import io.bitchat.core.message.GroupMessage;
 import io.bitchat.core.protocol.SerializerChooser;
 import io.bitchat.core.protocol.serialize.Serializer;
 import io.bitchat.protocol.DefaultSerializerChooser;
+import lombok.Builder;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.io.Serializable;
 
 
 /**
@@ -25,7 +28,7 @@ public class SerializeTest {
 
     @Test
     public void testSingleSerialize() {
-        GroupMessage object = GroupMessage.builder().groupId(1L).userId(2L).build();
+        SerializableGroup object = SerializableGroup.builder().groupId(1L).userId(2L).build();
         log.info("object={}", object);
         Serializer serializer = chooser.choose(SerializeAlgorithm.HESSIAN.getType());
         doSerialize(serializer, object);
@@ -33,7 +36,7 @@ public class SerializeTest {
 
     @Test
     public void testAllSerialize() {
-        GroupMessage object = GroupMessage.builder().groupId(1L).userId(2L).build();
+        SerializableGroup object = SerializableGroup.builder().groupId(1L).userId(2L).build();
         log.info("object={}", object);
         for (SerializeAlgorithm algorithm : SerializeAlgorithm.values()) {
             Serializer serializer = chooser.choose(algorithm.getType());
@@ -41,9 +44,9 @@ public class SerializeTest {
         }
     }
 
-    private void doSerialize(Serializer serializer, GroupMessage object) {
+    private void doSerialize(Serializer serializer, SerializableGroup object) {
         long start = System.currentTimeMillis();
-        GroupMessage newObj = null;
+        SerializableGroup newObj = null;
         byte[] bytes = null;
         int loop = 10000;
         int i = 0;
@@ -55,5 +58,11 @@ public class SerializeTest {
         log.info("cost={}[ms], serializer={}, bytes size={}, newObj={}", (end - start), serializer, bytes == null ? 0 : bytes.length, newObj);
     }
 
+    @Data
+    @Builder
+    public static class SerializableGroup implements Serializable {
+        private Long groupId;
+        private Long userId;
+    }
 
 }

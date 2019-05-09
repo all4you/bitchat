@@ -1,4 +1,4 @@
-package io.bitchat.core.message;
+package io.bitchat.message;
 
 import java.util.List;
 

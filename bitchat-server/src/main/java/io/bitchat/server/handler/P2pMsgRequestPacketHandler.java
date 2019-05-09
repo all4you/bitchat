@@ -7,11 +7,12 @@ import io.bitchat.core.bean.Bean;
 import io.bitchat.connection.Connection;
 import io.bitchat.connection.ConnectionManager;
 import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.lang.enums.MessageCategory;
+import io.bitchat.message.MessageCategory;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.SnowflakeIdFactory;
-import io.bitchat.core.message.MessageWriter;
-import io.bitchat.core.message.P2pMessage;
+import io.bitchat.message.MessageType;
+import io.bitchat.message.MessageWriter;
+import io.bitchat.message.P2pMessage;
 import io.bitchat.core.protocol.packet.PacketHandler;
 import io.bitchat.core.protocol.packet.PacketSymbol;
 import io.bitchat.core.server.SessionIdKeeper;
@@ -91,7 +92,7 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
         p2pMessage.setMsgId(msgId);
         p2pMessage.setSessionId(sessionIdKeeper.p2pSessionId(userId, partnerId));
         p2pMessage.setCategory(MessageCategory.P2P.getType());
-        p2pMessage.setType(packet.getType());
+        p2pMessage.setType(MessageType.getEnum(packet.getMessageType()));
         p2pMessage.setCreateTime(DateUtil.current(false));
         p2pMessage.setMsg(packet.getMsg());
         p2pMessage.setUserId(userId);
@@ -104,7 +105,7 @@ public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPa
         P2pMsgPushPacket pushPacket = new P2pMsgPushPacket();
         pushPacket.setPartnerId(userId);
         pushPacket.setPartnerName(userName);
-        pushPacket.setType(packet.getType());
+        pushPacket.setMessageType(packet.getMessageType());
         pushPacket.setMsg(packet.getMsg());
         return pushPacket;
     }

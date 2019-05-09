@@ -4,11 +4,11 @@ import cn.hutool.core.lang.Assert;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
 import io.bitchat.core.client.Client;
-import io.bitchat.core.lang.enums.MessageType;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.StandaloneMemoryIdFactory;
-import io.bitchat.core.message.Message;
 import io.bitchat.core.protocol.packet.Packet;
+import io.bitchat.message.Message;
+import io.bitchat.message.MessageType;
 import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.P2pMsgRequestPacket;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +37,7 @@ public class DefaultMsgFunc implements MsgFunc {
     public void sendP2pMsg(Long partnerId, MessageType type, String msg, Listener<Carrier<String>> listener) {
         P2pMsgRequestPacket request = P2pMsgRequestPacket.builder()
                 .partnerId(partnerId)
-                .type(type)
+                .messageType(type.getType())
                 .msg(msg)
                 .build();
         request.setId(idFactory.nextId());

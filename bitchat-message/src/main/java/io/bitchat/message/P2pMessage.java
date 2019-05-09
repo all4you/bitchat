@@ -1,4 +1,4 @@
-package io.bitchat.core.message;
+package io.bitchat.message;
 
 import lombok.*;
 
@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * <p>
- * A group message
+ * A person to person message
  * </p>
  *
  * @author houyi
@@ -17,7 +17,7 @@ import java.io.Serializable;
 @ToString(callSuper = true)
 @NoArgsConstructor
 @AllArgsConstructor
-public class GroupMessage extends Message implements Serializable {
+public class P2pMessage extends Message implements Serializable {
 
     /**
      * message send from user id
@@ -25,8 +25,8 @@ public class GroupMessage extends Message implements Serializable {
     private Long userId;
 
     /**
-     * message send to group id
+     * message send to user id
      */
-    private Long groupId;
+    private Long partnerId;
 
 }

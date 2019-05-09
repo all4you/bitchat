@@ -1,8 +1,6 @@
 package io.bitchat.message;
 
 import io.bitchat.core.bean.Bean;
-import io.bitchat.core.message.Message;
-import io.bitchat.core.message.MessageWriter;
 import lombok.extern.slf4j.Slf4j;
 
 /**

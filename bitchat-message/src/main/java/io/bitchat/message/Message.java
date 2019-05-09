@@ -1,6 +1,5 @@
-package io.bitchat.core.message;
+package io.bitchat.message;
 
-import io.bitchat.core.lang.enums.MessageType;
 import lombok.Data;
 
 import java.io.Serializable;
