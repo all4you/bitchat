@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  */
 @Slf4j
 @Bean(name = "memoryConnectionKeeper")
-public class StandaloneMemoryConnectionManager implements ConnectionManager {
+public class MemoryConnectionManager implements ConnectionManager {
 
     private List<Connection> connections = new CopyOnWriteArrayList<>();
 
