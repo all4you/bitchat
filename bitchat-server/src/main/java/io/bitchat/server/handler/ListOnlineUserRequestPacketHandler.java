@@ -3,13 +3,13 @@ package io.bitchat.server.handler;
 import io.bitchat.core.bean.Autowired;
 import io.bitchat.core.bean.Bean;
 import io.bitchat.connection.ConnectionManager;
-import io.bitchat.core.lang.constants.PacketSymbols;
+import io.bitchat.protocol.packet.PacketSymbols;
 import io.bitchat.core.lang.constants.ResultCode;
-import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.packet.PacketSymbol;
+import io.bitchat.protocol.packet.PacketHandler;
+import io.bitchat.protocol.packet.PacketSymbol;
+import io.bitchat.transport.CarrierPacket;
+import io.bitchat.transport.ListOnlineUserRequestPacket;
 import io.bitchat.user.User;
-import io.bitchat.protocol.packet.CarrierPacket;
-import io.bitchat.protocol.packet.ListOnlineUserRequestPacket;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

@@ -4,8 +4,7 @@ import cn.hutool.core.util.NumberUtil;
 import io.bitchat.client.func.*;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
-import io.bitchat.core.client.Client;
-import io.bitchat.core.server.ServerAttr;
+import io.bitchat.core.ServerAttr;
 import io.bitchat.user.User;
 import io.bitchat.message.MessageType;
 

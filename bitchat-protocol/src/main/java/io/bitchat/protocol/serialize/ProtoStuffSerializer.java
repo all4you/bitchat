@@ -1,7 +1,6 @@
 package io.bitchat.protocol.serialize;
 
 import cn.hutool.core.lang.Singleton;
-import io.bitchat.core.protocol.serialize.Serializer;
 import io.protostuff.LinkedBuffer;
 import io.protostuff.ProtostuffIOUtil;
 import io.protostuff.Schema;

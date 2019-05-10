@@ -1,9 +1,9 @@
 package io.bitchat.server;
 
 import io.bitchat.core.IdleStateChecker;
-import io.bitchat.core.protocol.packet.PacketCodec;
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.protocol.SerializerChooser;
+import io.bitchat.protocol.packet.PacketCodec;
+import io.bitchat.protocol.PacketRecognizer;
+import io.bitchat.protocol.SerializerChooser;
 import io.bitchat.protocol.DefaultPacketRecognizer;
 import io.bitchat.protocol.DefaultSerializerChooser;
 import io.netty.channel.ChannelInitializer;

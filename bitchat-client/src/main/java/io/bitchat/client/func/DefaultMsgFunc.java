@@ -1,16 +1,16 @@
 package io.bitchat.client.func;
 
 import cn.hutool.core.lang.Assert;
+import io.bitchat.client.Client;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
-import io.bitchat.core.client.Client;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.StandaloneMemoryIdFactory;
-import io.bitchat.core.protocol.packet.Packet;
+import io.bitchat.protocol.packet.Packet;
 import io.bitchat.message.Message;
 import io.bitchat.message.MessageType;
-import io.bitchat.protocol.packet.CarrierPacket;
-import io.bitchat.protocol.packet.P2pMsgRequestPacket;
+import io.bitchat.transport.CarrierPacket;
+import io.bitchat.transport.P2pMsgRequestPacket;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;

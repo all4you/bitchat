@@ -3,7 +3,6 @@ package io.bitchat.protocol.serialize;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
 import cn.hutool.core.util.ObjectUtil;
-import io.bitchat.core.protocol.serialize.Serializer;
 
 /**
  * @author houyi

@@ -1,7 +1,7 @@
 package io.bitchat.protocol.packet.handler;
 
-import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.packet.PacketSymbol;
+import io.bitchat.protocol.packet.PacketHandler;
+import io.bitchat.protocol.packet.PacketSymbol;
 import io.bitchat.protocol.packet.EchoPacket;
 import io.netty.channel.ChannelHandlerContext;
 

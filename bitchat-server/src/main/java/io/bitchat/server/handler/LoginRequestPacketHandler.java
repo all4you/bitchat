@@ -3,13 +3,15 @@ package io.bitchat.server.handler;
 import io.bitchat.core.bean.Autowired;
 import io.bitchat.core.bean.Bean;
 import io.bitchat.connection.ConnectionManager;
-import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.packet.PacketSymbol;
+import io.bitchat.protocol.packet.PacketSymbols;
+import io.bitchat.protocol.packet.PacketHandler;
+import io.bitchat.protocol.packet.PacketSymbol;
+import io.bitchat.core.ServerAttr;
+import io.bitchat.server.ServerAttrHolder;
+import io.bitchat.transport.CarrierPacket;
+import io.bitchat.transport.LoginRequestPacket;
 import io.bitchat.user.User;
 import io.bitchat.user.UserService;
-import io.bitchat.protocol.packet.CarrierPacket;
-import io.bitchat.protocol.packet.LoginRequestPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -55,7 +57,8 @@ public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPack
     private synchronized void storeConnection(ChannelHandlerContext ctx, User user) {
         Channel channel = ctx.channel();
         if (user != null && !connectionManager.contains(channel)) {
-            connectionManager.put(user, channel);
+            ServerAttr serverAttr = ServerAttrHolder.get();
+            connectionManager.put(user, channel, serverAttr.getAddress(), serverAttr.getPort());
         }
     }
 

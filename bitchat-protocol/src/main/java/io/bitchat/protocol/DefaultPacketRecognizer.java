@@ -7,10 +7,9 @@ import io.bitchat.core.lang.config.BaseConfig;
 import io.bitchat.core.lang.config.ConfigFactory;
 import io.bitchat.core.init.InitAble;
 import io.bitchat.core.init.InitOrder;
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.packet.PacketSymbol;
+import io.bitchat.protocol.packet.Packet;
+import io.bitchat.protocol.packet.PacketHandler;
+import io.bitchat.protocol.packet.PacketSymbol;
 import lombok.extern.slf4j.Slf4j;
 
 import java.lang.reflect.Constructor;

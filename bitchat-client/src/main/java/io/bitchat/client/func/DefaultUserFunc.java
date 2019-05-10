@@ -3,13 +3,13 @@ package io.bitchat.client.func;
 import cn.hutool.core.lang.Assert;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
-import io.bitchat.core.client.Client;
+import io.bitchat.client.Client;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.StandaloneMemoryIdFactory;
-import io.bitchat.core.protocol.packet.Packet;
+import io.bitchat.protocol.packet.Packet;
 import io.bitchat.user.User;
-import io.bitchat.protocol.packet.ListOnlineUserRequestPacket;
-import io.bitchat.protocol.packet.CarrierPacket;
+import io.bitchat.transport.ListOnlineUserRequestPacket;
+import io.bitchat.transport.CarrierPacket;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

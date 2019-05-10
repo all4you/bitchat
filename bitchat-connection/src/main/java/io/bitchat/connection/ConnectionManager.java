@@ -14,10 +14,12 @@ public interface ConnectionManager {
      * put a connection into
      * the ConnectionManager
      *
-     * @param user the user
-     * @param channel the channel
+     * @param user          the user
+     * @param channel       the channel
+     * @param serverAddress the serverAddress
+     * @param serverPort    the serverPort
      */
-    void put(User user, Channel channel);
+    void put(User user, Channel channel, String serverAddress, Integer serverPort);
 
     /**
      * remove the connection
@@ -54,6 +56,7 @@ public interface ConnectionManager {
 
     /**
      * get online user list
+     *
      * @return the online user list
      */
     List<User> onlineUser();

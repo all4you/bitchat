@@ -1,7 +1,5 @@
 package io.bitchat.server;
 
-import io.bitchat.core.server.Server;
-
 /**
  * @author houyi
  */

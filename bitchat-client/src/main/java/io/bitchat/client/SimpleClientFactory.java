@@ -1,10 +1,8 @@
 package io.bitchat.client;
 
 import cn.hutool.core.lang.Singleton;
-import io.bitchat.core.client.Client;
-import io.bitchat.core.client.ClientFactory;
-import io.bitchat.core.router.LoadBalancer;
-import io.bitchat.core.server.ServerAttr;
+import io.bitchat.core.LoadBalancer;
+import io.bitchat.core.ServerAttr;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -35,8 +33,8 @@ public class SimpleClientFactory implements ClientFactory {
     /**
      * <p>
      * A Client which connect to server by
-     * request the {@link io.bitchat.core.server.ServerAttr}
-     * from a ${@link io.bitchat.core.router.LoadBalancer}
+     * request the {@link io.bitchat.core.ServerAttr}
+     * from a ${@link io.bitchat.core.LoadBalancer}
      * </p>
      * @param loadBalancer the load balancer
      */

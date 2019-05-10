@@ -14,6 +14,10 @@
     <dependencies>
         <dependency>
             <groupId>io.bitchat</groupId>
+            <artifactId>bitchat-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.bitchat</groupId>
             <artifactId>bitchat-protocol</artifactId>
         </dependency>
         <dependency>
@@ -23,6 +27,10 @@
         <dependency>
             <groupId>io.bitchat</groupId>
             <artifactId>bitchat-user</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.bitchat</groupId>
+            <artifactId>bitchat-transport</artifactId>
         </dependency>
     </dependencies>
 

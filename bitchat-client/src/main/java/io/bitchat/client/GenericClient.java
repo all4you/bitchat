@@ -2,12 +2,11 @@ package io.bitchat.client;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
-import io.bitchat.core.client.Client;
 import io.bitchat.core.init.Initializer;
-import io.bitchat.core.protocol.packet.Packet;
-import io.bitchat.core.router.LoadBalancer;
-import io.bitchat.core.server.ServerAttr;
-import io.bitchat.protocol.packet.CarrierPacket;
+import io.bitchat.protocol.packet.Packet;
+import io.bitchat.core.LoadBalancer;
+import io.bitchat.core.ServerAttr;
+import io.bitchat.transport.CarrierPacket;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -80,7 +79,6 @@ public class GenericClient implements Client {
         });
     }
 
-    @Override
     public String id() {
         return IdUtil.objectId();
     }

@@ -1,7 +1,6 @@
 package io.bitchat.protocol.packet;
 
-import io.bitchat.core.lang.enums.SerializeAlgorithm;
-import io.bitchat.core.protocol.packet.AbstractPacket;
+import io.bitchat.protocol.serialize.SerializeAlgorithm;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;

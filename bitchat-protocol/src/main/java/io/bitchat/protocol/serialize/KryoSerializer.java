@@ -6,7 +6,6 @@ import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
 import com.esotericsoftware.kryo.util.Pool;
-import io.bitchat.core.protocol.serialize.Serializer;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.ByteArrayInputStream;

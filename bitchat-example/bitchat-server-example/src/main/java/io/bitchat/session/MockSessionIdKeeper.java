@@ -1,7 +1,7 @@
 package io.bitchat.session;
 
 import io.bitchat.core.bean.Bean;
-import io.bitchat.core.server.SessionIdKeeper;
+import io.bitchat.server.SessionIdKeeper;
 
 /**
  * @author houyi

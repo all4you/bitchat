@@ -2,10 +2,7 @@ package io.bitchat.server;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import io.bitchat.core.router.RouterServerAttr;
-import io.bitchat.core.server.Server;
-import io.bitchat.core.server.ServerFactory;
-import io.bitchat.core.server.ServerMode;
+import io.bitchat.router.RouterServerAttr;
 
 /**
  * @author houyi

@@ -1,10 +1,7 @@
 package io.bitchat.server;
 
 import cn.hutool.core.lang.Singleton;
-import io.bitchat.core.router.RouterServerAttr;
-import io.bitchat.core.server.Server;
-import io.bitchat.core.server.ServerAttrHolder;
-import io.bitchat.core.server.ServerFactory;
+import io.bitchat.router.RouterServerAttr;
 
 /**
  * @author houyi

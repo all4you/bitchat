@@ -19,6 +19,7 @@
         <module>bitchat-message</module>
         <module>bitchat-protocol</module>
         <module>bitchat-example</module>
+        <module>bitchat-transport</module>
     </modules>
 
     <properties>
@@ -154,6 +155,11 @@
             <dependency>
                 <groupId>io.bitchat</groupId>
                 <artifactId>bitchat-protocol</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-transport</artifactId>
                 <version>${project-version}</version>
             </dependency>
         </dependencies>

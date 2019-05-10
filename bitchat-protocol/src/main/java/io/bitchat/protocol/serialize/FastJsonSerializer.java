@@ -3,7 +3,6 @@ package io.bitchat.protocol.serialize;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
 import com.alibaba.fastjson.JSON;
-import io.bitchat.core.protocol.serialize.Serializer;
 
 /**
  * @author houyi

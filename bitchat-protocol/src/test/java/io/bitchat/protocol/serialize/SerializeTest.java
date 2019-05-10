@@ -1,8 +1,6 @@
 package io.bitchat.protocol.serialize;
 
-import io.bitchat.core.lang.enums.SerializeAlgorithm;
-import io.bitchat.core.protocol.SerializerChooser;
-import io.bitchat.core.protocol.serialize.Serializer;
+import io.bitchat.protocol.SerializerChooser;
 import io.bitchat.protocol.DefaultSerializerChooser;
 import lombok.Builder;
 import lombok.Data;

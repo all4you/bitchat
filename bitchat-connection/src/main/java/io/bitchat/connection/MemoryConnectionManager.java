@@ -2,7 +2,6 @@ package io.bitchat.connection;
 
 import cn.hutool.core.collection.CollectionUtil;
 import io.bitchat.core.bean.Bean;
-import io.bitchat.core.server.ServerAttrHolder;
 import io.bitchat.user.User;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
@@ -24,7 +23,7 @@ public class MemoryConnectionManager implements ConnectionManager {
     private List<Connection> connections = new CopyOnWriteArrayList<>();
 
     @Override
-    public void put(User user, Channel channel) {
+    public void put(User user, Channel channel, String serverAddress, Integer serverPort) {
         if (user == null || channel == null) {
             return;
         }
@@ -33,7 +32,8 @@ public class MemoryConnectionManager implements ConnectionManager {
                 .userName(user.getUserName())
                 .clientId(getClientId(channel))
                 .channel(channel)
-                .serverAttr(ServerAttrHolder.get())
+                .serverAddress(serverAddress)
+                .serverPort(serverPort)
                 .build();
         connections.add(connection);
         log.info("Add new connection={}", connection);

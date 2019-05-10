@@ -1,6 +1,5 @@
 package io.bitchat.connection;
 
-import io.bitchat.core.server.ServerAttr;
 import io.netty.channel.Channel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,8 +45,13 @@ public class Connection {
     private Channel channel;
 
     /**
-     * the server which the client connected to
+     * the server address which the client connected to
      */
-    private ServerAttr serverAttr;
+    private String serverAddress;
+
+    /**
+     * the server port which the client connected to
+     */
+    private Integer serverPort;
 
 }

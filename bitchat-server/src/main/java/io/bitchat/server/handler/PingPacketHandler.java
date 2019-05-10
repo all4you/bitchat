@@ -1,10 +1,10 @@
 package io.bitchat.server.handler;
 
-import io.bitchat.core.lang.constants.PacketSymbols;
-import io.bitchat.core.protocol.packet.PacketHandler;
-import io.bitchat.core.protocol.packet.PacketSymbol;
-import io.bitchat.protocol.packet.PingPacket;
-import io.bitchat.protocol.packet.PongPacket;
+import io.bitchat.protocol.packet.PacketSymbols;
+import io.bitchat.protocol.packet.PacketHandler;
+import io.bitchat.protocol.packet.PacketSymbol;
+import io.bitchat.transport.PingPacket;
+import io.bitchat.transport.PongPacket;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
