@@ -5,7 +5,7 @@ import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
 import io.bitchat.client.Client;
 import io.bitchat.core.id.IdFactory;
-import io.bitchat.core.id.StandaloneMemoryIdFactory;
+import io.bitchat.core.id.MemoryIdFactory;
 import io.bitchat.protocol.packet.Packet;
 import io.bitchat.transport.LoginRequestPacket;
 import io.bitchat.transport.CarrierPacket;
@@ -22,7 +22,7 @@ public class DefaultLoginFunc implements LoginFunc {
 
     private volatile boolean login = false;
 
-    private IdFactory idFactory = StandaloneMemoryIdFactory.getInstance();
+    private IdFactory idFactory = MemoryIdFactory.getInstance();
 
     private Client client;
 

@@ -7,16 +7,16 @@ import java.util.concurrent.atomic.AtomicLong;
 /**
  * @author houyi
  */
-public class StandaloneMemoryIdFactory implements IdFactory {
+public class MemoryIdFactory implements IdFactory {
 
     private static AtomicLong id = new AtomicLong(1);
 
-    private StandaloneMemoryIdFactory() {
+    private MemoryIdFactory() {
 
     }
 
     public static IdFactory getInstance() {
-        return Singleton.get(StandaloneMemoryIdFactory.class);
+        return Singleton.get(MemoryIdFactory.class);
     }
 
     @Override

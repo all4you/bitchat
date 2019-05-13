@@ -5,7 +5,7 @@ import io.bitchat.client.Client;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
 import io.bitchat.core.id.IdFactory;
-import io.bitchat.core.id.StandaloneMemoryIdFactory;
+import io.bitchat.core.id.MemoryIdFactory;
 import io.bitchat.protocol.packet.Packet;
 import io.bitchat.message.Message;
 import io.bitchat.message.MessageType;
@@ -23,7 +23,7 @@ import java.util.function.BiConsumer;
 @Slf4j
 public class DefaultMsgFunc implements MsgFunc {
 
-    private IdFactory idFactory = StandaloneMemoryIdFactory.getInstance();
+    private IdFactory idFactory = MemoryIdFactory.getInstance();
 
     private Client client;
 
