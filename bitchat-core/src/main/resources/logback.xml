@@ -28,9 +28,6 @@
         </layout>
     </appender>
 
-    <logger name="io.netty">
-        <level value="INFO" />
-    </logger>
     <logger name="io.bitchat">
         <level value="INFO" />
     </logger>

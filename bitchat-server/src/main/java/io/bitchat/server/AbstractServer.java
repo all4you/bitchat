@@ -83,7 +83,7 @@ public abstract class AbstractServer implements Server {
         bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-                .handler(new LoggingHandler(LogLevel.INFO))
+//                .handler(new LoggingHandler(LogLevel.INFO)) TODO extract to ServerConfig
                 .childHandler(new ServerInitializer(null, null));
 
         ChannelFuture future = bootstrap.bind(port);
