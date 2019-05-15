@@ -1,4 +1,4 @@
-package io.bitchat.core;
+package io.bitchat.protocol;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.timeout.IdleStateEvent;
@@ -40,7 +40,7 @@ public class IdleStateChecker extends IdleStateHandler {
 
     @Override
     protected void channelIdle(ChannelHandlerContext ctx, IdleStateEvent evt) {
-        log.warn("Hasn't read data after {} seconds, will close the channel", readerTime);
+        log.warn("[{}] Hasn't read data after {} seconds, will close the channel:{}", IdleStateChecker.class.getSimpleName(), readerTime, ctx.channel());
         ctx.channel().close();
     }
 

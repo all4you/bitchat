@@ -68,9 +68,9 @@ public class GenericClient implements Client {
                 channel = future.channel();
                 if (f.isSuccess()) {
                     connected = true;
-                    log.info("[{}] has connected to {} successfully", GenericClient.class.getSimpleName(), serverAttr);
+                    log.info("[{}] Has connected to {} successfully", GenericClient.class.getSimpleName(), serverAttr);
                 } else {
-                    log.warn("[{}] connect to {} failed, cause={}", GenericClient.class.getSimpleName(), serverAttr, f.cause().getMessage());
+                    log.warn("[{}] Connect to {} failed, cause={}", GenericClient.class.getSimpleName(), serverAttr, f.cause().getMessage());
                     // fire the channelInactive and make sure
                     // the {@link HealthyChecker} will reconnect
                     channel.pipeline().fireChannelInactive();
