@@ -6,6 +6,10 @@
     <property name="APP_NAME" value="bitchat" />
     <property name="LOG_PATH" value="${user.home}/${APP_NAME}/logs" />
     <property name="LOG_FILE" value="${LOG_PATH}/bitchat.log" />
+    <property name="FILE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%level|${PID:- }|%thread|%X{TRACE_ID}|%logger{5}|%msg%n"/>
+    <property name="CONSOLE_LOG_PATTERN"
+              value="%d{yyyy-MM-dd HH:mm:ss.SSS}|%level|${PID:- }|%thread|%X{TRACE_ID}|%logger{5}|%msg%n"/>
 
     <appender name="APPLICATION"
         class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -23,8 +27,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <!--格式化输出：%d表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度%msg：日志消息，%n是换行符 -->
-            <Pattern>%d{MM-dd HH:mm:ss.SSS} [%thread] %-5level %C{20}.%method%logger{35} - %msg%n</Pattern>
+            <Pattern>${CONSOLE_LOG_PATTERN}</Pattern>
         </layout>
     </appender>
 
@@ -33,7 +36,8 @@
     </logger>
 
     <root level="INFO">
-        <appender-ref ref="CONSOLE" />
         <appender-ref ref="APPLICATION" />
+        <appender-ref ref="CONSOLE" />
     </root>
+
 </configuration>
