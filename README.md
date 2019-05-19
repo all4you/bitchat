@@ -23,7 +23,7 @@
 
 
 
-## 快速启动
+## 快速开始
 
 **bitchat-example** 模块提供了一个服务端与客户端的实现示例，可以参照该示例进行自己的业务实现。
 
@@ -38,7 +38,8 @@
 ```java
 public class StandaloneServerApplication {
     public static void main(String[] args) {
-        Server server = SimpleServerFactory.getInstance().newServer(8864);
+        Server server = SimpleServerFactory.getInstance()
+            .newServer(8864);
         server.start();
     }
 }
@@ -79,7 +80,7 @@ public class DirectConnectServerClientApplication {
 
 
 
-**登录**
+##### 登录
 
 通过在客户端中执行以下命令 `-lo houyi 123456` 即可实现登录，目前用户中心还未实现，通过 Mock 的方式实现一个假的用户服务，所以输入任何的用户名密码都会登录成功，并且会为用户创建一个用户id。
 
@@ -89,7 +90,7 @@ public class DirectConnectServerClientApplication {
 
 
 
-**查看在线用户**
+##### 查看在线用户
 
 再启动一个客户端，并且也执行登录，登录成功后，可以执行 `-lu` 命令，获取在线用户列表，目前用户是保存在内存中，获取的结果如下所示：
 
@@ -97,7 +98,7 @@ public class DirectConnectServerClientApplication {
 
 
 
-**发送单聊信息**
+##### 发送单聊信息
 
 用 gris 这个用户向 houyi 这个用户发送单聊信息，只要执行 `-pc 1 hello,houyi` 命令即可
 
@@ -115,5 +116,20 @@ public class DirectConnectServerClientApplication {
 
 
 
+#### 客户端断线重连
+
+客户端和服务端之间维持着心跳，双方都会检查连接是否可用，客户端每隔5s会向服务端发送一个 PingPacket，而服务端接收到这个 PingPacket 之后，会回复一个 PongPacket，这样表示双方都是健康的。
+
+当因为某种原因，服务端没有收到客户端发送的消息，服务端将会把该客户端的连接断开，同样的客户端也会做这样的检查。
+
+当客户端与服务端之间的连接断开之后，将会触发客户端 HealthyChecker 的 channelInactive 方法，从而进行客户端的断线重连。
+
+![client-reconnect](articles/resources/bitchat-overview/client-reconnect.jpg)
 
 
+
+## 通讯框架
+
+**bitchat** 除了可以作为 IM 框架之外，还可以作为一个通用的通讯框架。
+
+Packet 作为通讯的载体，通过继承 AbstractPacket 即可快速实现自己的业务，搭配 PacketHandler 作为数据处理器即可实现客户端与服务端的通讯。
