@@ -22,9 +22,17 @@ public class ServerBootstrap {
                 .parse(args);
         Integer mode = param.mode;
         ServerFactory factory = SimpleServerFactory.getInstance();
-        return mode == null || mode == ServerMode.STAND_ALONE
-                ? factory.newServer(param.serverPort)
-                : factory.newServer(RouterServerAttr.builder().address(param.routerAddress).port(param.routerPort).build(), param.serverPort);
+        Server server;
+        if (mode == null || mode == ServerMode.STAND_ALONE) {
+            server = factory.newServer(param.serverPort);
+        } else {
+            RouterServerAttr routerServerAttr = RouterServerAttr.builder()
+                    .address(param.routerAddress)
+                    .port(param.routerPort)
+                    .build();
+            server = factory.newServer(routerServerAttr, param.serverPort);
+        }
+        return server;
     }
 
     private static class ServerStartupParameter {
