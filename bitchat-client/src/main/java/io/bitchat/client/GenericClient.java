@@ -35,14 +35,12 @@ public class GenericClient implements Client {
     public GenericClient(ServerAttr serverAttr) {
         this.serverAttr = serverAttr;
         Initializer.init();
-        connect();
     }
 
     public GenericClient(LoadBalancer loadBalancer) {
         Assert.notNull(loadBalancer, "loadBalancer can not be null");
         this.serverAttr = loadBalancer.nextServer();
         Initializer.init();
-        connect();
     }
 
     @Override

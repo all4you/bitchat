@@ -18,6 +18,12 @@ public class DirectConnectServerClientApplication {
 
     public static void main(String[] args) {
         Client client = SimpleClientFactory.getInstance().newClient(ServerAttr.getLocalServer(8864));
+        client.connect();
+
+        doClientBiz(client);
+    }
+
+    private static void doClientBiz(Client client) {
         LoginFunc loginFunc = new DefaultLoginFunc(client);
         MsgFunc msgFunc = new DefaultMsgFunc(client);
         UserFunc userFunc = new DefaultUserFunc(client);
