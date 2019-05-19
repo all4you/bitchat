@@ -1,6 +1,5 @@
 package io.bitchat.client;
 
-import io.bitchat.client.handler.HealthyChecker;
 import io.bitchat.protocol.IdleStateChecker;
 import io.bitchat.protocol.PacketRecognizer;
 import io.bitchat.protocol.SerializerChooser;
