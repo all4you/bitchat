@@ -313,7 +313,7 @@ public class ServerPacketDispatcher extends
 
 
 
-## 通讯框架
+## 不止是IM框架
 
 **bitchat** 除了可以作为 IM 框架之外，还可以作为一个通用的通讯框架。
 
