@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>bitchat</artifactId>
+        <groupId>io.bitchat</groupId>
+        <version>1.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>bitchat-im</artifactId>
+    <packaging>pom</packaging>
+    <modules>
+        <module>bitchat-im-client</module>
+        <module>bitchat-im-connection</module>
+        <module>bitchat-im-message</module>
+        <module>bitchat-im-server</module>
+        <module>bitchat-im-transport</module>
+        <module>bitchat-im-user</module>
+    </modules>
+
+    <properties>
+        <java.version>1.8</java.version>
+        <java.encoding>UTF-8</java.encoding>
+        <project-name>bitchat-im</project-name>
+        <project-version>1.0.0</project-version>
+    </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-client</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-connection</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-message</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-server</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-transport</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-user</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+</project>

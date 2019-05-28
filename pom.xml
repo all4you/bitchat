@@ -14,12 +14,8 @@
         <module>bitchat-server</module>
         <module>bitchat-client</module>
         <module>bitchat-router</module>
-        <module>bitchat-connection</module>
-        <module>bitchat-user</module>
-        <module>bitchat-message</module>
         <module>bitchat-protocol</module>
-        <module>bitchat-example</module>
-        <module>bitchat-transport</module>
+        <module>bitchat-im</module>
     </modules>
 
     <properties>
@@ -139,27 +135,7 @@
             </dependency>
             <dependency>
                 <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-connection</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-user</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-message</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
                 <artifactId>bitchat-protocol</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-transport</artifactId>
                 <version>${project-version}</version>
             </dependency>
         </dependencies>

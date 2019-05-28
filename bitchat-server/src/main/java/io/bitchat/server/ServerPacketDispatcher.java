@@ -2,16 +2,13 @@ package io.bitchat.server;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
+import io.bitchat.core.Carrier;
 import io.bitchat.core.bean.DefaultBeanContext;
-import io.bitchat.connection.ConnectionManager;
-import io.bitchat.connection.ConnectionUtil;
 import io.bitchat.core.executor.Executor;
-import io.bitchat.protocol.packet.PacketExecutor;
-import io.bitchat.protocol.packet.AsyncHandle;
-import io.bitchat.protocol.packet.PacketSymbols;
 import io.bitchat.protocol.PacketRecognizer;
+import io.bitchat.protocol.packet.AsyncHandle;
 import io.bitchat.protocol.packet.Packet;
-import io.bitchat.transport.CarrierPacket;
+import io.bitchat.protocol.packet.PacketExecutor;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -31,12 +28,12 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
 
     private Executor<Packet> executor;
 
-    private ConnectionManager connectionManager;
+    private ChannelListener channelListener;
 
     private ServerPacketDispatcher(PacketRecognizer recognizer) {
         Assert.notNull(recognizer, "recognizer can not be null");
         this.executor = PacketExecutor.getInstance(recognizer);
-        this.connectionManager = DefaultBeanContext.getInstance().getBean("memoryConnectionKeeper", ConnectionManager.class);
+        this.channelListener = DefaultBeanContext.getInstance().getBean(ChannelListener.class);
     }
 
     public static ServerPacketDispatcher getInstance(PacketRecognizer recognize) {
@@ -52,19 +49,13 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet request) {
         // TODO how ServerSpeaker communicate with each other
-        // if the packet is not a [login|ping] request
-        // then we should check the login state of the channel
-        boolean shouldCheckLogin = false;
-        int symbol = request.getSymbol();
-        if (!(symbol == PacketSymbols.LOGIN_REQUEST_PACKET || symbol == PacketSymbols.PING_PACKET)) {
-            shouldCheckLogin = true;
-        }
-        if (shouldCheckLogin && !ConnectionUtil.hasLogin(ctx.channel())) {
-            CarrierPacket<String> response = CarrierPacket.getStringCarrierPacket(false, "Not logged in yet!", null);
-            response.setId(request.getId());
-            writeResponse(ctx, response);
+        // pre handle
+        Carrier<Packet> carrier = InterceptorHandler.preHandle(request);
+        if (!carrier.isSuccess()) {
+            writeResponse(ctx, carrier.getData());
             return;
         }
+
         // if the packet should be handled async
         if (request.getAsync() == AsyncHandle.ASYNC) {
             EventExecutor channelExecutor = ctx.executor();
@@ -91,7 +82,9 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("The channel:{} has been inactive will remove it", ctx.channel());
-        connectionManager.remove(ctx.channel());
+        if (channelListener != null) {
+            channelListener.onEvent(ctx.channel());
+        }
     }
 
     @Override
