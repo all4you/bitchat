@@ -20,18 +20,6 @@
             <groupId>io.bitchat</groupId>
             <artifactId>bitchat-protocol</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.bitchat</groupId>
-            <artifactId>bitchat-message</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.bitchat</groupId>
-            <artifactId>bitchat-user</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.bitchat</groupId>
-            <artifactId>bitchat-transport</artifactId>
-        </dependency>
     </dependencies>
 
 </project>
