@@ -3,7 +3,7 @@ package io.bitchat.server;
 /**
  * @author houyi
  */
-public class StandaloneServerApplication {
+public class ServerApplication {
 
     public static void main(String[] args) {
         ServerBootstrap bootstrap = new ServerBootstrap();

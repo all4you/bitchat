@@ -14,7 +14,7 @@ import java.util.Scanner;
 /**
  * @author houyi
  */
-public class DirectConnectServerClientApplication {
+public class ClientApplication {
 
     public static void main(String[] args) {
         Client client = SimpleClientFactory.getInstance().newClient(ServerAttr.getLocalServer(8864));
