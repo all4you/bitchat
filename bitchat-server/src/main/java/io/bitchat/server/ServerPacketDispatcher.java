@@ -3,7 +3,6 @@ package io.bitchat.server;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.Carrier;
-import io.bitchat.core.bean.DefaultBeanContext;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.protocol.PacketRecognizer;
 import io.bitchat.protocol.packet.AsyncHandle;
@@ -30,14 +29,19 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
 
     private ChannelListener channelListener;
 
-    private ServerPacketDispatcher(PacketRecognizer recognizer) {
-        Assert.notNull(recognizer, "recognizer can not be null");
-        this.executor = PacketExecutor.getInstance(recognizer);
-        this.channelListener = DefaultBeanContext.getInstance().getBean(ChannelListener.class);
+    private ServerPacketDispatcher() {
+
     }
 
-    public static ServerPacketDispatcher getInstance(PacketRecognizer recognize) {
-        return Singleton.get(ServerPacketDispatcher.class, recognize);
+    private ServerPacketDispatcher(PacketRecognizer recognizer, ChannelListener channelListener) {
+        Assert.notNull(recognizer, "recognizer can not be null");
+        Assert.notNull(channelListener, "channelListener can not be null");
+        this.executor = PacketExecutor.getInstance(recognizer);
+        this.channelListener = channelListener;
+    }
+
+    public static ServerPacketDispatcher getInstance(PacketRecognizer recognize, ChannelListener channelListener) {
+        return Singleton.get(ServerPacketDispatcher.class, recognize, channelListener);
     }
 
     @Override
@@ -82,9 +86,7 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info("The channel:{} has been inactive will remove it", ctx.channel());
-        if (channelListener != null) {
-            channelListener.onEvent(ctx.channel());
-        }
+        channelListener.onEvent(ctx.channel());
     }
 
     @Override

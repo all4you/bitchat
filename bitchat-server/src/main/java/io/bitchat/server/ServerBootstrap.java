@@ -1,54 +1,70 @@
 package io.bitchat.server;
 
-import com.beust.jcommander.JCommander;
-import com.beust.jcommander.Parameter;
+import cn.hutool.core.lang.Assert;
+import cn.hutool.core.lang.Singleton;
+import io.bitchat.protocol.PacketRecognizer;
+import io.bitchat.protocol.SerializerChooser;
 import io.bitchat.router.RouterServerAttr;
 
 /**
+ * <p>
+ * A server bootstrap
+ * </p>
+ *
  * @author houyi
  */
 public class ServerBootstrap {
 
-    public static void main(String[] args) {
-        Server server = getServer(args);
-        server.start();
+    private ServerMode serverMode = ServerMode.STAND_ALONE;
+
+    private RouterServerAttr routerServerAttr;
+
+    private SerializerChooser chooser;
+
+    private PacketRecognizer recognizer;
+
+    private ChannelListener channelListener;
+
+    public ServerBootstrap serverMode(ServerMode serverMode) {
+        this.serverMode = serverMode == null ? ServerMode.STAND_ALONE : serverMode;
+        return this;
     }
 
-    private static Server getServer(String[] args) {
-        ServerStartupParameter param = new ServerStartupParameter();
-        JCommander.newBuilder()
-                .addObject(param)
-                .build()
-                .parse(args);
-        Integer mode = param.mode;
+    public ServerBootstrap routerServerAttr(RouterServerAttr routerServerAttr) {
+        if (ServerMode.CLUSTER == serverMode) {
+            Assert.notNull(routerServerAttr, "routerServerAttr can not be null");
+            Assert.isTrue(routerServerAttr.valid(), "routerServerAttr is invalid");
+            this.routerServerAttr = routerServerAttr;
+        }
+        return this;
+    }
+
+    public ServerBootstrap chooser(Class<? extends SerializerChooser> chooser) {
+        this.chooser = Singleton.get(chooser);
+        return this;
+    }
+
+    public ServerBootstrap recognizer(Class<? extends PacketRecognizer> recognizer) {
+        this.recognizer = Singleton.get(recognizer);
+        return this;
+    }
+
+    public ServerBootstrap channelListener(Class<? extends ChannelListener> channelListener) {
+        this.channelListener = Singleton.get(channelListener);
+        return this;
+    }
+
+    public void start(Integer serverPort) {
         ServerFactory factory = SimpleServerFactory.getInstance();
         Server server;
-        if (mode == null || mode == ServerMode.STAND_ALONE) {
-            server = factory.newServer(param.serverPort);
+        if (ServerMode.STAND_ALONE == serverMode) {
+            server = factory.newServer(serverPort, chooser, recognizer, channelListener);
         } else {
-            RouterServerAttr routerServerAttr = RouterServerAttr.builder()
-                    .address(param.routerAddress)
-                    .port(param.routerPort)
-                    .build();
-            server = factory.newServer(routerServerAttr, param.serverPort);
+            Assert.notNull(routerServerAttr, "routerServerAttr can not be null cause you are starting the server in cluster mode");
+            Assert.isTrue(routerServerAttr.valid(), "routerServerAttr is invalid");
+            server = factory.newClusterServer(serverPort, chooser, recognizer, channelListener, routerServerAttr);
         }
-        return server;
-    }
-
-    private static class ServerStartupParameter {
-
-        @Parameter(names = "-mode", description = "Server mode. 1 : standalone mode 2 : cluster mode. If null will use default mode: standalone")
-        private Integer mode;
-
-        @Parameter(names = "-serverPort", description = "Server port. If null will use default port: 8864")
-        private Integer serverPort;
-
-        @Parameter(names = "-routerAddress", description = "Router address.")
-        private String routerAddress;
-
-        @Parameter(names = "-routerPort", description = "Router port.")
-        private Integer routerPort;
-
+        server.start();
     }
 
 }

@@ -5,6 +5,10 @@ import io.bitchat.core.ServerAttr;
 import io.bitchat.core.lang.config.BaseConfig;
 import io.bitchat.core.lang.config.ConfigFactory;
 import io.bitchat.core.init.Initializer;
+import io.bitchat.protocol.DefaultPacketRecognizer;
+import io.bitchat.protocol.DefaultSerializerChooser;
+import io.bitchat.protocol.PacketRecognizer;
+import io.bitchat.protocol.SerializerChooser;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;
@@ -37,14 +41,27 @@ public abstract class AbstractServer implements Server {
     private EventLoopGroup bossGroup;
     private EventLoopGroup workerGroup;
 
+    private SerializerChooser chooser;
+
+    private PacketRecognizer recognizer;
+
+    private ChannelListener channelListener;
+
     /**
      * whether the server is started
      */
     private AtomicBoolean started = new AtomicBoolean(false);
 
     public AbstractServer(Integer serverPort) {
+        this(serverPort, null, null, null);
+    }
+
+    public AbstractServer(Integer serverPort, SerializerChooser chooser, PacketRecognizer recognizer, ChannelListener channelListener) {
         int port = serverPort == null ? ConfigFactory.getConfig(BaseConfig.class).serverPort() : serverPort;
         this.serverAttr = ServerAttr.getLocalServer(port);
+        this.chooser = chooser == null ? DefaultSerializerChooser.getInstance() : chooser;
+        this.recognizer = recognizer == null ? DefaultPacketRecognizer.getInstance() : recognizer;
+        this.channelListener = channelListener == null ? DefaultChannelListener.getInstance() : channelListener;
     }
 
     @Override
@@ -83,8 +100,7 @@ public abstract class AbstractServer implements Server {
         bootstrap.option(ChannelOption.SO_BACKLOG, 1024);
         bootstrap.group(bossGroup, workerGroup)
                 .channel(NioServerSocketChannel.class)
-//                .handler(new LoggingHandler(LogLevel.INFO)) TODO extract to ServerConfig
-                .childHandler(new ServerInitializer(null, null));
+                .childHandler(new ServerInitializer(chooser, recognizer, channelListener));
 
         ChannelFuture future = bootstrap.bind(port);
         future.addListener(new GenericFutureListener<Future<? super Void>>() {
