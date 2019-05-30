@@ -22,6 +22,6 @@ public interface ClientFactory {
      * @param loadBalancer the load balancer
      * @return a {@link Client}
      */
-    Client newClient(LoadBalancer loadBalancer);
+    Client newBalancedClient(LoadBalancer loadBalancer);
 
 }

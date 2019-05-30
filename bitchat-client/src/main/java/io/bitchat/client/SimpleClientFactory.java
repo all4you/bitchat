@@ -23,11 +23,12 @@ public class SimpleClientFactory implements ClientFactory {
      * <p>
      * A Client which connect to server directly
      * </p>
-     * @author houyi
+     *
+     * @param serverAttr the serverAttr
      */
     @Override
     public Client newClient(ServerAttr serverAttr) {
-        return Singleton.get(GenericClient.class, serverAttr);
+        return new GenericClient(serverAttr);
     }
 
     /**
@@ -36,11 +37,12 @@ public class SimpleClientFactory implements ClientFactory {
      * request the {@link io.bitchat.core.ServerAttr}
      * from a ${@link io.bitchat.core.LoadBalancer}
      * </p>
+     *
      * @param loadBalancer the load balancer
      */
     @Override
-    public Client newClient(LoadBalancer loadBalancer) {
-        return Singleton.get(GenericClient.class, loadBalancer);
+    public Client newBalancedClient(LoadBalancer loadBalancer) {
+        return new GenericClient(loadBalancer);
     }
 
 }
