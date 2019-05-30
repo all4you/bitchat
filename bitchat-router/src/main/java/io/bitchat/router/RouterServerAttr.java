@@ -1,5 +1,6 @@
 package io.bitchat.router;
 
+import cn.hutool.core.util.StrUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +19,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class RouterServerAttr {
     private String address;
-    private int port;
+    private Integer port;
+
+    public boolean valid() {
+        return StrUtil.isNotBlank(address) && port != null;
+    }
+
 }
