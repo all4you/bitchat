@@ -59,22 +59,22 @@ public class DefaultMsgFunc implements MsgFunc {
 
     @Override
     public void sendGroupMsg(Long groupId, MessageType type, String msg, Listener<Carrier<String>> listener) {
-
+        // TODO
     }
 
     @Override
     public void fetchP2pHistoryMsg(Long partnerId, Long currentMsgId, boolean fetchForward, Integer fetchSize, Listener<Carrier<List<Message>>> listener) {
-
+        // TODO
     }
 
     @Override
     public void fetchGroupHistoryMsg(Long groupId, Long currentMsgId, boolean fetchForward, Integer fetchSize, Listener<Carrier<List<Message>>> listener) {
-
+        // TODO
     }
 
     @Override
     public void fetchOfflineMsg(Listener<Carrier<List<Message>>> listener) {
-
+        // TODO
     }
 
 }
