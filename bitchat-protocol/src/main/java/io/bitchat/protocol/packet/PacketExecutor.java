@@ -2,6 +2,7 @@ package io.bitchat.protocol.packet;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
+import cn.hutool.core.text.StrFormatter;
 import io.bitchat.core.executor.AbstractExecutor;
 import io.bitchat.protocol.PacketRecognizer;
 import io.netty.channel.ChannelHandlerContext;
@@ -27,16 +28,23 @@ public class PacketExecutor extends AbstractExecutor<Packet> {
     @SuppressWarnings("unchecked")
     @Override
     public Packet doExecute(Object... request) {
+        Packet response;
         ChannelHandlerContext ctx = (ChannelHandlerContext) request[0];
         Packet packet = (Packet) request[1];
-        int symbol = packet.getSymbol();
-        PacketHandler handler = recognizer.packetHandler(symbol);
-        // if no handler is found
-        if (handler == null) {
-            log.warn("No handler found with packet={}", packet);
-            return null;
+        try {
+            int symbol = packet.getSymbol();
+            PacketHandler handler = recognizer.packetHandler(symbol);
+            // if no handler is found
+            if (handler == null) {
+                log.warn("No handler found with packet={}", packet);
+                return null;
+            }
+            response = handler.handle(ctx, packet);
+        } catch (Exception e) {
+            response = CarrierPacket.getStringCarrierPacket(false, StrFormatter.format("Server Error,cause={}", e.getMessage()), null);
+            response.setId(packet.getId());
         }
-        return handler.handle(ctx, packet);
+        return response;
     }
 
 
