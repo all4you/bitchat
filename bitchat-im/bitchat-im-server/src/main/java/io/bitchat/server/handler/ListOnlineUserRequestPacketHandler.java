@@ -23,8 +23,12 @@ import java.util.List;
 @PacketSymbol(PacketSymbols.LIST_ONLINE_USER_REQUEST_PACKET)
 public class ListOnlineUserRequestPacketHandler implements PacketHandler<ListOnlineUserRequestPacket, CarrierPacket<List<User>>> {
 
-    @Autowired
     private ConnectionManager connectionManager;
+
+    @Autowired
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public CarrierPacket<List<User>> handle(ChannelHandlerContext ctx, ListOnlineUserRequestPacket packet) {

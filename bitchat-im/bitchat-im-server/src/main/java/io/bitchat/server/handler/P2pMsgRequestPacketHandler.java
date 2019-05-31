@@ -33,14 +33,26 @@ import java.util.List;
 @PacketSymbol(PacketSymbols.P2P_MSG_REQUEST_PACKET)
 public class P2pMsgRequestPacketHandler implements PacketHandler<P2pMsgRequestPacket, CarrierPacket<String>> {
 
-    @Autowired
     private ConnectionManager connectionManager;
 
-    @Autowired
     private MessageWriter messageWriter;
 
-    @Autowired
     private SessionIdKeeper sessionIdKeeper;
+
+    @Autowired
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
+
+    @Autowired
+    public void setMessageWriter(MessageWriter messageWriter) {
+        this.messageWriter = messageWriter;
+    }
+
+    @Autowired
+    public void setSessionIdKeeper(SessionIdKeeper sessionIdKeeper) {
+        this.sessionIdKeeper = sessionIdKeeper;
+    }
 
     private IdFactory idFactory = SnowflakeIdFactory.getInstance();
 

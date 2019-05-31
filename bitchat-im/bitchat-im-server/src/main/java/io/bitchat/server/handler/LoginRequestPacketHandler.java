@@ -24,11 +24,19 @@ import lombok.extern.slf4j.Slf4j;
 @PacketSymbol(PacketSymbols.LOGIN_REQUEST_PACKET)
 public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPacket, CarrierPacket<String>> {
 
-    @Autowired
     private UserService userService;
 
-    @Autowired
     private ConnectionManager connectionManager;
+
+    @Autowired
+    public void setUserService(UserService userService) {
+        this.userService = userService;
+    }
+
+    @Autowired
+    public void setConnectionManager(ConnectionManager connectionManager) {
+        this.connectionManager = connectionManager;
+    }
 
     @Override
     public CarrierPacket<String> handle(ChannelHandlerContext ctx, LoginRequestPacket packet) {
