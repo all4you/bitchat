@@ -11,15 +11,15 @@ import java.util.List;
 public interface ConnectionManager {
 
     /**
-     * put a connection into
-     * the ConnectionManager
+     * add a connection with
+     * the channel
      *
-     * @param user          the user
      * @param channel       the channel
+     * @param user          the user
      * @param serverAddress the serverAddress
      * @param serverPort    the serverPort
      */
-    void put(User user, Channel channel, String serverAddress, Integer serverPort);
+    void add(Channel channel, User user, String serverAddress, Integer serverPort);
 
     /**
      * remove the connection

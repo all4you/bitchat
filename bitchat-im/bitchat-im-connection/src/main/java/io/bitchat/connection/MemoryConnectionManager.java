@@ -23,7 +23,7 @@ public class MemoryConnectionManager implements ConnectionManager {
     private List<Connection> connections = new CopyOnWriteArrayList<>();
 
     @Override
-    public void put(User user, Channel channel, String serverAddress, Integer serverPort) {
+    public void add(Channel channel, User user, String serverAddress, Integer serverPort) {
         if (user == null || channel == null) {
             return;
         }
@@ -36,7 +36,7 @@ public class MemoryConnectionManager implements ConnectionManager {
                 .serverPort(serverPort)
                 .build();
         connections.add(connection);
-        log.info("Add new connection={}", connection);
+        log.info("Add a new connection={}", connection);
         ConnectionUtil.markOnline(channel);
     }
 
