@@ -1,17 +1,13 @@
 package io.bitchat.server;
 
-import io.bitchat.core.Listener;
 import io.netty.channel.Channel;
 
 /**
  * @author houyi
  */
-public abstract class ChannelListener implements Listener<Channel> {
+public interface ChannelListener {
 
-    @Override
-    public void onEvent(Channel event) {
-        channelInactive(event);
-    }
+    void channelActive(Channel channel);
 
-    public abstract void channelInactive(Channel channel);
+    void channelInactive(Channel channel);
 }

@@ -66,7 +66,7 @@ public class LoginRequestPacketHandler implements PacketHandler<LoginRequestPack
         Channel channel = ctx.channel();
         if (user != null && !connectionManager.contains(channel)) {
             ServerAttr serverAttr = ServerAttrHolder.get();
-            connectionManager.put(user, channel, serverAttr.getAddress(), serverAttr.getPort());
+            connectionManager.add(channel, user, serverAttr.getAddress(), serverAttr.getPort());
         }
     }
 

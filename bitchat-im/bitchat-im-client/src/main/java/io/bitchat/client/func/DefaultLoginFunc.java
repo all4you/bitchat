@@ -1,14 +1,14 @@
 package io.bitchat.client.func;
 
 import cn.hutool.core.lang.Assert;
+import io.bitchat.client.Client;
 import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
-import io.bitchat.client.Client;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.MemoryIdFactory;
+import io.bitchat.protocol.packet.CarrierPacket;
 import io.bitchat.protocol.packet.Packet;
 import io.bitchat.transport.LoginRequestPacket;
-import io.bitchat.protocol.packet.CarrierPacket;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
@@ -19,8 +19,6 @@ import java.util.function.BiConsumer;
  */
 @Slf4j
 public class DefaultLoginFunc implements LoginFunc {
-
-    private volatile boolean login = false;
 
     private IdFactory idFactory = MemoryIdFactory.getInstance();
 
@@ -34,12 +32,6 @@ public class DefaultLoginFunc implements LoginFunc {
     @SuppressWarnings("unchecked")
     @Override
     public void login(String userName, String password, Listener<Carrier<String>> listener) {
-        if (login) {
-            log.debug("Already logged in");
-            Carrier<String> carrier = Carrier.<String>builder().success(false).msg("Already logged in").build();
-            listener.onEvent(carrier);
-            return;
-        }
         LoginRequestPacket request = LoginRequestPacket.builder()
                 .userName(userName)
                 .password(password)
@@ -55,7 +47,6 @@ public class DefaultLoginFunc implements LoginFunc {
                 } else {
                     CarrierPacket<String> response = (CarrierPacket) packet;
                     carrier = Carrier.<String>builder().success(response.isSuccess()).msg(response.getMsg()).build();
-                    login = response.isSuccess();
                 }
                 listener.onEvent(carrier);
             }

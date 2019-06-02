@@ -2,6 +2,7 @@ package io.bitchat.server;
 
 import io.bitchat.core.Carrier;
 import io.bitchat.protocol.packet.Packet;
+import io.netty.channel.Channel;
 
 /**
  * @author houyi
@@ -13,19 +14,12 @@ public abstract class Interceptor {
     /**
      * pre handle method of the interceptor
      *
-     * @param packet the packet
+     * @param channel the channel
+     * @param packet  the packet
      * @return the response
      */
-    public Carrier<Packet> preHandle(Packet packet) {
+    public Carrier<Packet> preHandle(Channel channel, Packet packet) {
         return SUCCESS;
     }
-
-    /**
-     * pre handle method of the interceptor
-     *
-     * @param packet the packet
-     */
-    @Deprecated
-    public abstract void postHandle(Packet packet);
 
 }

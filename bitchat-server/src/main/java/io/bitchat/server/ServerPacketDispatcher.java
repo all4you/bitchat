@@ -47,14 +47,14 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("Received an active channel:{}", ctx.channel());
-        super.channelActive(ctx);
+        channelListener.channelActive(ctx.channel());
     }
 
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet request) {
         // TODO how ServerSpeaker communicate with each other
         // pre handle
-        Carrier<Packet> carrier = InterceptorHandler.preHandle(request);
+        Carrier<Packet> carrier = InterceptorHandler.preHandle(ctx.channel(), request);
         if (!carrier.isSuccess()) {
             writeResponse(ctx, carrier.getData());
             return;
@@ -85,8 +85,8 @@ public class ServerPacketDispatcher extends SimpleChannelInboundHandler<Packet> 
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("The channel:{} has been inactive will remove it", ctx.channel());
-        channelListener.onEvent(ctx.channel());
+        log.info("The channel has been inactive will remove it:{}", ctx.channel());
+        channelListener.channelInactive(ctx.channel());
     }
 
     @Override
