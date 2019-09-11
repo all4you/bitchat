@@ -1,8 +1,8 @@
 package io.bitchat.client;
 
 import cn.hutool.core.lang.Assert;
-import io.bitchat.protocol.packet.PingPacket;
-import io.bitchat.protocol.packet.PongPacket;
+import io.bitchat.core.packet.PingPacket;
+import io.bitchat.core.packet.PongPacket;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;

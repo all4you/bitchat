@@ -1,6 +1,6 @@
 package io.bitchat.core;
 
-import io.bitchat.core.lang.util.GenericsUtil;
+import io.bitchat.lang.util.GenericsUtil;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

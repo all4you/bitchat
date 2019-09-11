@@ -1,7 +1,7 @@
 package io.bitchat.core.executor;
 
-import io.bitchat.core.lang.config.ConfigFactory;
-import io.bitchat.core.lang.config.ThreadPoolConfig;
+import io.bitchat.lang.config.ConfigFactory;
+import io.bitchat.lang.config.ThreadPoolConfig;
 import io.netty.util.concurrent.DefaultThreadFactory;
 import io.netty.util.concurrent.Future;
 import io.netty.util.concurrent.Promise;

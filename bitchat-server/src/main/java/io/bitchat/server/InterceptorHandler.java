@@ -2,7 +2,7 @@ package io.bitchat.server;
 
 import cn.hutool.core.collection.CollectionUtil;
 import io.bitchat.core.Carrier;
-import io.bitchat.protocol.packet.Packet;
+import io.bitchat.core.packet.Packet;
 import io.netty.channel.Channel;
 
 import java.util.List;

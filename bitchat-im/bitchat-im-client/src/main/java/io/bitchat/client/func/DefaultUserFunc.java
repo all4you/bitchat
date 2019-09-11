@@ -6,10 +6,10 @@ import io.bitchat.core.Listener;
 import io.bitchat.client.Client;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.MemoryIdFactory;
-import io.bitchat.protocol.packet.Packet;
+import io.bitchat.core.packet.Packet;
 import io.bitchat.user.User;
 import io.bitchat.transport.ListOnlineUserRequestPacket;
-import io.bitchat.protocol.packet.CarrierPacket;
+import io.bitchat.core.packet.CarrierPacket;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;

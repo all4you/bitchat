@@ -3,8 +3,8 @@ package io.bitchat.server;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScaner;
 import io.bitchat.core.init.InitOrder;
-import io.bitchat.core.lang.config.BaseConfig;
-import io.bitchat.core.lang.config.ConfigFactory;
+import io.bitchat.lang.config.BaseConfig;
+import io.bitchat.lang.config.ConfigFactory;
 
 import java.util.ArrayList;
 import java.util.Collections;

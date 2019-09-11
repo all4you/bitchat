@@ -1,6 +1,6 @@
 package io.bitchat.server;
 
-import io.bitchat.protocol.packet.*;
+import io.bitchat.core.packet.*;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

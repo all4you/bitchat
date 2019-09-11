@@ -2,9 +2,9 @@ package io.bitchat.server.handler;
 
 import io.bitchat.core.bean.Autowired;
 import io.bitchat.core.bean.Bean;
-import io.bitchat.protocol.packet.CarrierPacket;
-import io.bitchat.protocol.packet.PacketHandler;
-import io.bitchat.protocol.packet.PacketSymbol;
+import io.bitchat.core.packet.CarrierPacket;
+import io.bitchat.core.packet.PacketHandler;
+import io.bitchat.core.packet.PacketSymbol;
 import io.bitchat.transport.PacketSymbols;
 import io.bitchat.transport.RegisterRequestPacket;
 import io.bitchat.user.UserService;

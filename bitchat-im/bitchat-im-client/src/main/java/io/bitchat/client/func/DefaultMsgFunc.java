@@ -6,10 +6,10 @@ import io.bitchat.core.Carrier;
 import io.bitchat.core.Listener;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.MemoryIdFactory;
-import io.bitchat.protocol.packet.Packet;
+import io.bitchat.core.packet.Packet;
 import io.bitchat.message.Message;
 import io.bitchat.message.MessageType;
-import io.bitchat.protocol.packet.CarrierPacket;
+import io.bitchat.core.packet.CarrierPacket;
 import io.bitchat.transport.P2pMsgRequestPacket;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,7 +1,7 @@
 package io.bitchat.server;
 
 import io.bitchat.core.Carrier;
-import io.bitchat.protocol.packet.Packet;
+import io.bitchat.core.packet.Packet;
 import io.netty.channel.Channel;
 
 /**

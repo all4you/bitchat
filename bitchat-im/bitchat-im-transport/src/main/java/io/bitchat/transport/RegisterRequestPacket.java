@@ -1,6 +1,6 @@
 package io.bitchat.transport;
 
-import io.bitchat.protocol.packet.AbstractPacket;
+import io.bitchat.core.packet.AbstractPacket;
 import lombok.*;
 
 /**

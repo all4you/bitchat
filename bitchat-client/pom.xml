@@ -16,10 +16,6 @@
             <groupId>io.bitchat</groupId>
             <artifactId>bitchat-core</artifactId>
         </dependency>
-        <dependency>
-            <groupId>io.bitchat</groupId>
-            <artifactId>bitchat-protocol</artifactId>
-        </dependency>
     </dependencies>
 
 </project>

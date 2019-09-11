@@ -3,8 +3,8 @@ package io.bitchat.core.init;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScaner;
-import io.bitchat.core.lang.config.BaseConfig;
-import io.bitchat.core.lang.config.ConfigFactory;
+import io.bitchat.lang.config.BaseConfig;
+import io.bitchat.lang.config.ConfigFactory;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 

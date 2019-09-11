@@ -1,8 +1,8 @@
 package io.bitchat.server;
 
 import cn.hutool.core.lang.Assert;
-import io.bitchat.protocol.PacketRecognizer;
-import io.bitchat.protocol.SerializerChooser;
+import io.bitchat.core.packet.PacketRecognizer;
+import io.bitchat.core.serialize.SerializerChooser;
 import io.bitchat.router.RouterServerAttr;
 import lombok.extern.slf4j.Slf4j;
 

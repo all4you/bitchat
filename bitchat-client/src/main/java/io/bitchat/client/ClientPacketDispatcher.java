@@ -1,9 +1,9 @@
 package io.bitchat.client;
 
 import cn.hutool.core.lang.Assert;
-import io.bitchat.protocol.PacketRecognizer;
-import io.bitchat.protocol.packet.Packet;
-import io.bitchat.protocol.packet.PacketHandler;
+import io.bitchat.core.packet.PacketRecognizer;
+import io.bitchat.core.packet.Packet;
+import io.bitchat.core.packet.PacketHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
