@@ -1,7 +1,7 @@
 package io.bitchat.server;
 
 import cn.hutool.core.lang.Singleton;
-import io.bitchat.core.packet.PacketRecognizer;
+import io.bitchat.core.protocol.PacketRecognizer;
 import io.bitchat.core.serialize.SerializerChooser;
 import io.bitchat.router.RouterServerAttr;
 

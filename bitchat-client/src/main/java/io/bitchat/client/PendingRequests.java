@@ -1,6 +1,6 @@
 package io.bitchat.client;
 
-import io.bitchat.core.packet.Packet;
+import io.bitchat.core.protocol.Packet;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;

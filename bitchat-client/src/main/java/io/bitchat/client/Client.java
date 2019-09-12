@@ -1,6 +1,6 @@
 package io.bitchat.client;
 
-import io.bitchat.core.packet.Packet;
+import io.bitchat.core.protocol.Packet;
 
 import java.util.concurrent.CompletableFuture;
 

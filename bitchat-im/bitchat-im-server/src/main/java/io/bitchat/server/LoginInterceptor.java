@@ -2,9 +2,9 @@ package io.bitchat.server;
 
 import io.bitchat.connection.ConnectionUtil;
 import io.bitchat.core.Carrier;
-import io.bitchat.core.packet.CarrierPacket;
-import io.bitchat.core.packet.Packet;
-import io.bitchat.core.packet.ReservedSymbols;
+import io.bitchat.core.protocol.CarrierPacket;
+import io.bitchat.core.protocol.Packet;
+import io.bitchat.core.protocol.ReservedSymbols;
 import io.bitchat.transport.PacketSymbols;
 import io.netty.channel.Channel;
 

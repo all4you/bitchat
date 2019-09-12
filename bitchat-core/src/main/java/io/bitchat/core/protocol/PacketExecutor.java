@@ -1,4 +1,4 @@
-package io.bitchat.core.packet;
+package io.bitchat.core.protocol;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;

@@ -1,4 +1,4 @@
-package io.bitchat.core.packet;
+package io.bitchat.core.protocol;
 
 import lombok.Data;
 

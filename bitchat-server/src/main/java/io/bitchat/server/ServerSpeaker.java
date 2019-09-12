@@ -1,7 +1,7 @@
 package io.bitchat.server;
 
 import io.bitchat.core.ServerAttr;
-import io.bitchat.core.packet.Packet;
+import io.bitchat.core.protocol.Packet;
 
 /**
  * <p>

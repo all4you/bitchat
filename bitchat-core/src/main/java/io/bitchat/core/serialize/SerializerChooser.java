@@ -1,7 +1,5 @@
 package io.bitchat.core.serialize;
 
-import io.bitchat.core.serialize.Serializer;
-
 /**
  * <p>
  * Choose a Serializer according to the serialize algorithm
