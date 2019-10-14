@@ -23,7 +23,7 @@
         <java.encoding>UTF-8</java.encoding>
         <project-name>bitchat</project-name>
         <project-version>1.0.0</project-version>
-        <netty.version>4.1.25.Final</netty.version>
+        <netty.version>4.1.42.Final</netty.version>
         <hutool.version>4.2.1</hutool.version>
         <lombok.version>1.18.4</lombok.version>
         <slf4j-api.version>1.7.25</slf4j-api.version>
