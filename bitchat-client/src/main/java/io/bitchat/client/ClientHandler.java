@@ -21,12 +21,16 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
     }
 
     /**
-     * there are two ways the client will receive the response
-     * 1: the result packet which the client request
-     * this kind of response will be handled by client itself
+     * there are three kind of packet the client will receive
+     * 1: a request packet
+     * this kind of packet will be handled by client itself
+     * see {@link RequestHandler}
      *
-     * 2: the message packet which the server pushed initiative
-     * this kind of response will be handled by {@link RequestHandler}
+     * 2: a response packet
+     * this kind of packet will be handled or not due to biz
+     *
+     * 3: a command packet
+     * this kind of packet is a one way packet sent by server
      *
      * @param ctx      the context
      * @param packet the response
