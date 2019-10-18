@@ -22,7 +22,7 @@ public class DefaultPacket extends Packet {
 
     @Override
     public boolean handleAsync() {
-        return true;
+        return false;
     }
 
 }
