@@ -16,12 +16,12 @@ public class DefaultChannelListener implements ChannelListener {
 
     @Override
     public void channelActive(Channel channel) {
-        log.info("You should implements io.bitchat.server.ChannelListener and override the channelActive method to add the active channel:{}", channel);
+        log.info("You should implements io.bitchat.server.ChannelListener and override the channelActive method of channel:{}", channel);
     }
 
     @Override
     public void channelInactive(Channel channel) {
-        log.info("You should implements io.bitchat.server.ChannelListener and override the channelInactive method to remove the inactive channel:{}", channel);
+        log.info("You should implements io.bitchat.server.ChannelListener and override the channelInactive method of channel:{}", channel);
     }
 
 }

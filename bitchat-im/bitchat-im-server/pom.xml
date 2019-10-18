@@ -18,7 +18,7 @@
         </dependency>
         <dependency>
             <groupId>io.bitchat</groupId>
-            <artifactId>bitchat-im-user</artifactId>
+            <artifactId>bitchat-im-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.bitchat</groupId>

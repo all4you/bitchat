@@ -1,7 +1,5 @@
 package io.bitchat.server;
 
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.serialize.SerializerChooser;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -18,8 +16,8 @@ public class StandaloneServer extends AbstractServer {
         super(serverPort);
     }
 
-    public StandaloneServer(Integer serverPort, SerializerChooser chooser, PacketRecognizer recognizer, ChannelListener channelListener) {
-        super(serverPort, chooser, recognizer, channelListener);
+    public StandaloneServer(Integer serverPort, ChannelListener channelListener) {
+        super(serverPort, channelListener);
     }
 
     @Override

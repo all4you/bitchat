@@ -1,9 +1,7 @@
 package io.bitchat.server;
 
 import io.bitchat.core.IdleStateChecker;
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.serialize.SerializerChooser;
-import io.bitchat.core.protocol.PacketCodec;
+import io.bitchat.protocol.PacketCodec;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -14,23 +12,11 @@ import io.netty.channel.socket.SocketChannel;
 public class ServerInitializer extends ChannelInitializer<SocketChannel> {
 
     /**
-     * the serializer chooser
-     */
-    private SerializerChooser chooser;
-
-    /**
-     * the packet recognizer
-     */
-    private PacketRecognizer recognizer;
-
-    /**
      * the channel listener
      */
     private ChannelListener channelListener;
 
-    public ServerInitializer(SerializerChooser chooser, PacketRecognizer recognizer, ChannelListener channelListener) {
-        this.chooser = chooser;
-        this.recognizer = recognizer;
+    public ServerInitializer(ChannelListener channelListener) {
         this.channelListener = channelListener;
     }
 
@@ -38,8 +24,8 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
         pipeline.addLast(new IdleStateChecker(15));
-        pipeline.addLast(new PacketCodec(chooser, recognizer));
-        pipeline.addLast(ServerPacketDispatcher.getInstance(recognizer, channelListener));
+        pipeline.addLast(new PacketCodec());
+        pipeline.addLast(ServerHandler.getInstance(channelListener));
     }
 
 }

@@ -13,11 +13,8 @@
     <packaging>pom</packaging>
     <modules>
         <module>bitchat-im-client</module>
-        <module>bitchat-im-connection</module>
-        <module>bitchat-im-message</module>
         <module>bitchat-im-server</module>
-        <module>bitchat-im-transport</module>
-        <module>bitchat-im-user</module>
+        <module>bitchat-im-core</module>
     </modules>
 
     <properties>
@@ -31,32 +28,17 @@
         <dependencies>
             <dependency>
                 <groupId>io.bitchat</groupId>
+                <artifactId>bitchat-im-core</artifactId>
+                <version>${project-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.bitchat</groupId>
                 <artifactId>bitchat-im-client</artifactId>
                 <version>${project-version}</version>
             </dependency>
             <dependency>
                 <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-im-connection</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-im-message</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
                 <artifactId>bitchat-im-server</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-im-transport</artifactId>
-                <version>${project-version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.bitchat</groupId>
-                <artifactId>bitchat-im-user</artifactId>
                 <version>${project-version}</version>
             </dependency>
         </dependencies>

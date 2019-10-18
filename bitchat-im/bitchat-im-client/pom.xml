@@ -22,7 +22,7 @@
         </dependency>
         <dependency>
             <groupId>io.bitchat</groupId>
-            <artifactId>bitchat-im-message</artifactId>
+            <artifactId>bitchat-im-core</artifactId>
         </dependency>
         <dependency>
             <groupId>io.bitchat</groupId>

@@ -1,8 +1,6 @@
 package io.bitchat.server;
 
 import cn.hutool.core.lang.Assert;
-import io.bitchat.core.protocol.PacketRecognizer;
-import io.bitchat.core.serialize.SerializerChooser;
 import io.bitchat.router.RouterServerAttr;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,11 +17,11 @@ public class ClusterServer extends AbstractServer {
     private RouterServerAttr routerServerAttr;
 
     public ClusterServer(Integer serverPort, RouterServerAttr routerServerAttr) {
-        this(serverPort, null, null, null, routerServerAttr);
+        this(serverPort, null, routerServerAttr);
     }
 
-    public ClusterServer(Integer serverPort, SerializerChooser chooser, PacketRecognizer recognizer, ChannelListener channelListener, RouterServerAttr routerServerAttr) {
-        super(serverPort, chooser, recognizer, channelListener);
+    public ClusterServer(Integer serverPort, ChannelListener channelListener, RouterServerAttr routerServerAttr) {
+        super(serverPort, channelListener);
         Assert.notNull(routerServerAttr, "routerServerAttr can not be null");
         this.routerServerAttr = routerServerAttr;
     }

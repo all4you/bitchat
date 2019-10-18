@@ -1,8 +1,8 @@
 package io.bitchat.client;
 
 import cn.hutool.core.lang.Assert;
-import io.bitchat.core.protocol.PingPacket;
-import io.bitchat.core.protocol.PongPacket;
+import io.bitchat.protocol.Packet;
+import io.bitchat.protocol.PacketFactory;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -18,8 +18,8 @@ import java.util.concurrent.TimeUnit;
  *
  * <p>
  * It will keep a heart beat with
- * the Server by send a {@link PingPacket}
- * and the Server will return a {@link PongPacket}
+ * the Server by send a Ping
+ * and the Server will return a Pong
  * </p>
  *
  * <p>
@@ -54,8 +54,9 @@ public class HealthyChecker extends ChannelInboundHandlerAdapter {
         ctx.executor().schedule(() -> {
             Channel channel = ctx.channel();
             if (channel.isActive()) {
-                log.debug("[{}] Send a PingPacket", HealthyChecker.class.getSimpleName());
-                channel.writeAndFlush(new PingPacket());
+                Packet pingPacket = PacketFactory.newPingPacket();
+                log.debug("[{}] Send a Ping={}", HealthyChecker.class.getSimpleName(), pingPacket);
+                channel.writeAndFlush(pingPacket);
                 schedulePing(ctx);
             }
         }, pingInterval, TimeUnit.SECONDS);

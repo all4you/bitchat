@@ -1,12 +1,15 @@
 package io.bitchat.client;
 
 import cn.hutool.core.lang.Assert;
-import cn.hutool.core.util.IdUtil;
-import io.bitchat.core.init.Initializer;
-import io.bitchat.core.protocol.CarrierPacket;
-import io.bitchat.core.protocol.Packet;
 import io.bitchat.core.LoadBalancer;
+import io.bitchat.core.PendingRequests;
 import io.bitchat.core.ServerAttr;
+import io.bitchat.core.init.Initializer;
+import io.bitchat.lang.constants.ResultCode;
+import io.bitchat.protocol.Packet;
+import io.bitchat.protocol.PacketFactory;
+import io.bitchat.protocol.Payload;
+import io.bitchat.protocol.PayloadFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
@@ -55,7 +58,7 @@ public class GenericClient implements Client {
                     @Override
                     protected void initChannel(SocketChannel ch) throws Exception {
                         ChannelPipeline pipeline = ch.pipeline();
-                        pipeline.addLast(new ClientInitializer(GenericClient.this, null, null));
+                        pipeline.addLast(new ClientInitializer(GenericClient.this));
                     }
                 });
 
@@ -77,17 +80,15 @@ public class GenericClient implements Client {
         });
     }
 
-    public String id() {
-        return IdUtil.objectId();
-    }
-
     @Override
     public CompletableFuture<Packet> sendRequest(Packet request) {
         // create a promise
         CompletableFuture<Packet> promise = new CompletableFuture<>();
         if (!connected) {
-            log.debug("Not connected yet!");
-            promise.complete(CarrierPacket.getStringCarrierPacket(false, "Not connected yet!", null));
+            String msg = "Not connected yet!";
+            log.debug(msg);
+            Payload payload = PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), msg);
+            promise.complete(PacketFactory.newResponsePacket(payload, request.getId()));
             return promise;
         }
         Long id = request.getId();

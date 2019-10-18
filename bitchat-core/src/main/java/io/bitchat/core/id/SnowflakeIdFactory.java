@@ -11,19 +11,24 @@ import io.bitchat.lang.config.SnowflakeConfig;
  */
 public class SnowflakeIdFactory implements IdFactory {
 
-    private static Snowflake snowflake;
-
-    static {
-        SnowflakeConfig config = ConfigFactory.getConfig(SnowflakeConfig.class);
-        snowflake = IdUtil.createSnowflake(config.workerId(), config.dataCenterId());
-    }
+    private Snowflake snowflake;
 
     private SnowflakeIdFactory() {
+        this(null);
+    }
 
+    private SnowflakeIdFactory(Long workerId) {
+        SnowflakeConfig config = ConfigFactory.getConfig(SnowflakeConfig.class);
+        Long realWorkerId = workerId != null ? workerId : config.workerId();
+        this.snowflake = IdUtil.createSnowflake(realWorkerId, config.dataCenterId());
     }
 
     public static IdFactory getInstance() {
         return Singleton.get(SnowflakeIdFactory.class);
+    }
+
+    public static IdFactory getInstance(Long workerId) {
+        return Singleton.get(SnowflakeIdFactory.class, workerId);
     }
 
 
