@@ -53,7 +53,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Packet> {
     public void channelRead0(ChannelHandlerContext ctx, Packet packet) {
         byte type = packet.getType();
         if (type == PacketType.PACKET_TYPE_REQUEST) {
-            handleRequest(ctx, packet);
+            onRequest(ctx, packet);
         } else {
             onResponse(packet);
         }
@@ -71,7 +71,7 @@ public class ServerHandler extends SimpleChannelInboundHandler<Packet> {
         ctx.close();
     }
 
-    private void handleRequest(ChannelHandlerContext ctx, Packet packet) {
+    private void onRequest(ChannelHandlerContext ctx, Packet packet) {
         // TODO how ServerSpeaker communicate with each other
         // pre handle
         Payload payload = InterceptorHandler.preHandle(ctx.channel(), packet);

@@ -41,7 +41,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
         log.debug("ClientPacketDispatcher has received {}", packet);
         byte type = packet.getType();
         if (type == PacketType.PACKET_TYPE_REQUEST) {
-            handleRequest(ctx, packet);
+            onRequest(ctx, packet);
         } else if (type == PacketType.PACKET_TYPE_RESPONSE) {
             onResponse(packet);
         } else {
@@ -55,7 +55,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
         log.error("ctx close,cause:", cause);
     }
 
-    private void handleRequest(ChannelHandlerContext ctx, Packet packet) {
+    private void onRequest(ChannelHandlerContext ctx, Packet packet) {
         Payload payload = requestHandler.handle(ctx, packet.getRequest());
         Packet response = PacketFactory.newResponsePacket(payload, packet.getId());
         writeResponse(ctx, response);
