@@ -8,8 +8,9 @@ import java.lang.annotation.Target;
 /**
  *
  * <p>
- * specify the serviceName of
- * each ${@link RequestProcessor}
+ * specify the name of
+ * each {@link RequestProcessor}
+ * or {@link CommandProcessor}
  * </p>
  *
  *
@@ -19,6 +20,6 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Processor {
 
-    String serviceName();
+    String name();
 
 }

@@ -19,7 +19,7 @@ import java.util.Map;
  * @author houyi
  */
 @Slf4j
-@Processor(serviceName = ImServiceName.GET_ONLINE_USER)
+@Processor(name = ImServiceName.GET_ONLINE_USER)
 public class GetOnlineFriendsProcessor extends AbstractRequestProcessor {
 
     private ConnectionManager connectionManager;

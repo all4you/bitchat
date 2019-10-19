@@ -64,9 +64,9 @@ public class RequestHandler implements InitAble {
             }
             try {
                 // check whether the class has @Processor annotation
-                // use serviceName specified by @Processor first
+                // use name specified by @Processor first
                 Processor processor = clazz.getAnnotation(Processor.class);
-                String serviceName = (processor != null && StrUtil.isNotBlank(processor.serviceName())) ? processor.serviceName() : clazz.getName();
+                String serviceName = (processor != null && StrUtil.isNotBlank(processor.name())) ? processor.name() : clazz.getName();
                 cacheRequestProcessor(serviceName, clazz);
             } catch (Exception e) {
                 log.warn("[RequestHandler] cacheRequestProcessor failed", e);
@@ -77,7 +77,7 @@ public class RequestHandler implements InitAble {
     @SuppressWarnings("unchecked")
     private void cacheRequestProcessor(String serviceName, Class clazz) {
         if (processorHolder.containsKey(serviceName)) {
-            log.warn("[RequestHandler] [Warning] serviceName=[{}], RequestProcessor=[{}] already exists, please check the PacketHandler", serviceName, clazz.getCanonicalName());
+            log.warn("[RequestHandler] [Warning] serviceName=[{}], RequestProcessor=[{}] already exists, please check the RequestProcessor", serviceName, clazz.getCanonicalName());
             return;
         }
         log.info("[RequestHandler] Found serviceName=[{}], RequestProcessor=[{}]", serviceName, clazz.getCanonicalName());

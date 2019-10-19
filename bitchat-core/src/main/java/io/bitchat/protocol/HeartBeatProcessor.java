@@ -10,7 +10,7 @@ import java.util.Map;
  * @author houyi
  */
 @Slf4j
-@Processor(serviceName = ServiceName.HEART_BEAT)
+@Processor(name = ServiceName.HEART_BEAT)
 public class HeartBeatProcessor extends AbstractRequestProcessor {
 
     @Override

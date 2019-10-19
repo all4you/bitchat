@@ -23,7 +23,7 @@ import java.util.Map;
  * @author houyi
  */
 @Slf4j
-@Processor(serviceName = ImServiceName.LOGIN)
+@Processor(name = ImServiceName.LOGIN)
 public class LoginProcessor extends AbstractRequestProcessor {
 
     private UserService userService;

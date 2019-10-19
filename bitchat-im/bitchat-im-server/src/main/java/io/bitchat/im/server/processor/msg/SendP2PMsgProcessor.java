@@ -9,10 +9,10 @@ import io.bitchat.im.connection.Connection;
 import io.bitchat.im.connection.ConnectionManager;
 import io.bitchat.im.connection.DefaultConnectionManager;
 import io.bitchat.im.message.*;
-import io.bitchat.server.SessionIdKeeper;
 import io.bitchat.im.server.session.DefaultSessionIdKeeper;
 import io.bitchat.lang.constants.ResultCode;
 import io.bitchat.protocol.*;
+import io.bitchat.server.SessionIdKeeper;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +25,7 @@ import java.util.Map;
  * @author houyi
  */
 @Slf4j
-@Processor(serviceName = ImServiceName.SEND_P2P_MSG)
+@Processor(name = ImServiceName.SEND_P2P_MSG)
 public class SendP2PMsgProcessor extends AbstractRequestProcessor {
 
     private IdFactory idFactory;
@@ -109,9 +109,9 @@ public class SendP2PMsgProcessor extends AbstractRequestProcessor {
         params.put("partnerName", userName);
         params.put("messageType", request.getMessageType());
         params.put("msg", request.getMsg());
-        Request pushRequest = RequestFactory.newRequest(ImServiceName.PUSH_MSG, null, params);
+        Command pushMsgCommand = CommandFactory.newCommand(ImServiceName.PUSH_MSG, params);
         // create a new command packet
-        return PacketFactory.newCmdPacket(pushRequest);
+        return PacketFactory.newCmdPacket(pushMsgCommand);
     }
 
 }
