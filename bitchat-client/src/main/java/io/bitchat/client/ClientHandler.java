@@ -15,9 +15,11 @@ import java.util.concurrent.CompletableFuture;
 public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
 
     private RequestHandler requestHandler;
+    private CommandHandler commandHandler;
 
     public ClientHandler() {
         this.requestHandler = RequestHandler.getInstance();
+        this.commandHandler = CommandHandler.getInstance();
     }
 
     /**
@@ -25,14 +27,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
      * 1: a request packet
      * this kind of packet will be handled by client itself
      * see {@link RequestHandler}
-     *
+     * <p>
      * 2: a response packet
      * this kind of packet will be handled or not due to biz
-     *
+     * <p>
      * 3: a command packet
      * this kind of packet is a one way packet sent by server
      *
-     * @param ctx      the context
+     * @param ctx    the context
      * @param packet the response
      */
     @SuppressWarnings("unchecked")
@@ -75,7 +77,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
     }
 
     public void onCommand(ChannelHandlerContext ctx, Packet packet) {
-        requestHandler.handle(ctx, packet.getRequest());
+        commandHandler.handle(ctx, packet.getCommand());
     }
 
 }

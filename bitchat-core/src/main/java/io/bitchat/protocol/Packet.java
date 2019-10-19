@@ -17,7 +17,7 @@ import java.io.Serializable;
  * +----------+----------+----------------------------+
  * | 1 bytes  | 0xBC     |  magic number              |
  * | 1 bytes  |          |  serialize algorithm       |
- * | 1 bytes  |          |  req/res type 1:req 2:res  |
+ * | 1 bytes  |          |  the type 1:req 2:res 3:cmd|
  * | 4 bytes  |          |  content length            |
  * | ? bytes  |          |  the content               |
  * +----------+----------+----------------------------+
@@ -63,6 +63,7 @@ public abstract class Packet implements Serializable {
      * specify the type of the packet
      * 1-request
      * 2-response
+     * 3-command
      * </p>
      */
     private byte type;
@@ -76,6 +77,11 @@ public abstract class Packet implements Serializable {
      * the response
      */
     private Payload payload;
+
+    /**
+     * the command
+     */
+    private Command command;
 
     /**
      * <p>

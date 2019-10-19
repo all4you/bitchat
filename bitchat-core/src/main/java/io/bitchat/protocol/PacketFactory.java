@@ -27,11 +27,11 @@ public class PacketFactory {
         return packet;
     }
 
-    public static Packet newCmdPacket(Request request) {
+    public static Packet newCmdPacket(Command command) {
         // command packet can not provide id
         Packet packet = new DefaultPacket();
         packet.setType(PacketType.PACKET_TYPE_COMMAND);
-        packet.setRequest(request);
+        packet.setCommand(command);
         return packet;
     }
 

@@ -106,6 +106,18 @@ public class PacketCodec extends ByteToMessageCodec<Packet> {
                 return false;
             }
         }
+        Command command = packet.getCommand();
+        if (type == PacketType.PACKET_TYPE_COMMAND) {
+            if (command == null) {
+                log.error("packet command can not be null with packet={}", packet);
+                return false;
+            }
+            String commandName = command.getCommandName();
+            if (StrUtil.isBlank(commandName)) {
+                log.error("commandName can not be blank with packet={}", packet);
+                return false;
+            }
+        }
         return true;
     }
 
