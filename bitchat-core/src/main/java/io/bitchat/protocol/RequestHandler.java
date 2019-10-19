@@ -69,7 +69,7 @@ public class RequestHandler implements InitAble {
                 String serviceName = (processor != null && StrUtil.isNotBlank(processor.serviceName())) ? processor.serviceName() : clazz.getName();
                 cacheRequestProcessor(serviceName, clazz);
             } catch (Exception e) {
-                log.warn("[RequestHandler] cachePacket failed", e);
+                log.warn("[RequestHandler] cacheRequestProcessor failed", e);
             }
         }
     }
