@@ -1,8 +1,8 @@
 package io.bitchat.im.server.processor.login;
 
 import io.bitchat.im.ImServiceName;
-import io.bitchat.im.connection.ConnectionManager;
-import io.bitchat.im.connection.DefaultConnectionManager;
+import io.bitchat.im.server.connection.ConnectionManager;
+import io.bitchat.im.server.connection.DefaultConnectionManager;
 import io.bitchat.core.ServerAttr;
 import io.bitchat.lang.constants.ResultCode;
 import io.bitchat.protocol.AbstractRequestProcessor;
@@ -10,9 +10,9 @@ import io.bitchat.protocol.Payload;
 import io.bitchat.protocol.PayloadFactory;
 import io.bitchat.protocol.Processor;
 import io.bitchat.server.ServerAttrHolder;
-import io.bitchat.im.user.DefaultUserService;
+import io.bitchat.im.server.user.DefaultUserService;
 import io.bitchat.im.user.User;
-import io.bitchat.im.user.UserService;
+import io.bitchat.im.server.user.UserService;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;

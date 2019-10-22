@@ -1,4 +1,6 @@
-package io.bitchat.im.message;
+package io.bitchat.im.server.message;
+
+import io.bitchat.im.message.Message;
 
 /**
  * <p>

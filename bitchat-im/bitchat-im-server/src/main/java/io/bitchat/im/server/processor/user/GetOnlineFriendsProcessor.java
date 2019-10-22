@@ -2,8 +2,8 @@ package io.bitchat.im.server.processor.user;
 
 import cn.hutool.core.collection.CollectionUtil;
 import io.bitchat.im.ImServiceName;
-import io.bitchat.im.connection.ConnectionManager;
-import io.bitchat.im.connection.DefaultConnectionManager;
+import io.bitchat.im.server.connection.ConnectionManager;
+import io.bitchat.im.server.connection.DefaultConnectionManager;
 import io.bitchat.im.user.User;
 import io.bitchat.protocol.AbstractRequestProcessor;
 import io.bitchat.protocol.Payload;

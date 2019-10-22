@@ -1,4 +1,6 @@
-package io.bitchat.im.user;
+package io.bitchat.im.server.user;
+
+import io.bitchat.im.user.User;
 
 /**
  * @author houyi

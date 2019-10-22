@@ -1,6 +1,7 @@
-package io.bitchat.im.message;
+package io.bitchat.im.server.message;
 
 import cn.hutool.core.lang.Singleton;
+import io.bitchat.im.message.Message;
 import lombok.extern.slf4j.Slf4j;
 
 /**

@@ -1,5 +1,6 @@
-package io.bitchat.im.connection;
+package io.bitchat.im.server.connection;
 
+import io.bitchat.im.connection.Connection;
 import io.bitchat.im.user.User;
 import io.netty.channel.Channel;
 

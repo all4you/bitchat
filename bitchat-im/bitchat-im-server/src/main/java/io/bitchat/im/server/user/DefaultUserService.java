@@ -1,6 +1,7 @@
-package io.bitchat.im.user;
+package io.bitchat.im.server.user;
 
 import cn.hutool.core.lang.Singleton;
+import io.bitchat.im.user.User;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
