@@ -27,9 +27,9 @@ public class DefaultBaseFunc implements BaseFunc {
 
     @Override
     public Payload request(Packet packet) {
-        CompletableFuture<Packet> future = client.sendRequest(packet);
         Payload payload;
         try {
+            CompletableFuture<Packet> future = client.sendRequest(packet);
             payload = future.get(3, TimeUnit.SECONDS).getPayload();
         } catch (Exception e) {
             payload = PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), ResultCode.BIZ_FAIL.getMessage());

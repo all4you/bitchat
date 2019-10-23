@@ -22,6 +22,9 @@ public class DefaultSerializerChooser implements SerializerChooser {
     @Override
     public Serializer choose(byte serializeAlgorithm) {
         SerializeAlgorithm algorithm = SerializeAlgorithm.getEnum(serializeAlgorithm);
+        if (algorithm == null) {
+            return null;
+        }
         switch (algorithm) {
             case JDK: {
                 return JdkSerializer.getInstance();
