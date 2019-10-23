@@ -55,6 +55,11 @@ public class PacketCodec extends ByteToMessageCodec<Packet> {
         if (in.readableBytes() < leastPacketLen) {
             return;
         }
+        // mark reader index at here
+        // if no enough bytes arrived
+        // we should wait and reset the
+        // reader index to here
+        in.markReaderIndex();
         // do common check before decode
         byte magic = in.readByte();
         Assert.state(magic == Packet.PACKET_MAGIC, "magic number is invalid");
@@ -62,11 +67,16 @@ public class PacketCodec extends ByteToMessageCodec<Packet> {
         byte algorithm = in.readByte();
         Serializer serializer = chooser.choose(algorithm);
         Assert.notNull(serializer, "No serializer is chosen cause the algorithm of packet is invalid");
-
         byte type = in.readByte();
         int len = in.readInt();
         // until we have the entire packet received
         if (in.readableBytes() < len) {
+            // after read some bytes: magic/algorithm/type/len
+            // the left readable bytes length is less than len
+            // so we need to wait until enough bytes received
+            // but we must reset the reader index to we marked
+            // before we return
+            in.resetReaderIndex();
             return;
         }
         // read content
