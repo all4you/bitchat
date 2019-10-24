@@ -12,7 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * <p>
- * A Generic Packet Codec
+ * A Generic Packet Encoder
  * </p>
  *
  * @author houyi
