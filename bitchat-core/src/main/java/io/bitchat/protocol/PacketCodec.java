@@ -25,8 +25,8 @@ public class PacketCodec extends ByteToMessageCodec<Packet> {
 
     private SerializerChooser chooser;
 
-    public PacketCodec() {
-        this.chooser = DefaultSerializerChooser.getInstance();
+    public PacketCodec(SerializerChooser chooser) {
+        this.chooser = chooser != null ? chooser : DefaultSerializerChooser.getInstance();
     }
 
     @Override

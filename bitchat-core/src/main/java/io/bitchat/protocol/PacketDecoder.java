@@ -34,9 +34,9 @@ public class PacketDecoder extends LengthFieldBasedFrameDecoder {
 
     public static final int LENGTH_FIELD_LENGTH = 4;
 
-    public PacketDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength) {
+    public PacketDecoder(int maxFrameLength, int lengthFieldOffset, int lengthFieldLength, SerializerChooser chooser) {
         super(maxFrameLength, lengthFieldOffset, lengthFieldLength);
-        this.chooser = DefaultSerializerChooser.getInstance();
+        this.chooser = chooser != null ? chooser : DefaultSerializerChooser.getInstance();
     }
 
     @Override

@@ -22,7 +22,7 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
         pipeline.addLast(new IdleStateChecker(15));
-        pipeline.addLast(new PacketCodec());
+        pipeline.addLast(new PacketCodec(null));
         pipeline.addLast(new HealthyChecker(client, 5));
         pipeline.addLast(new ClientHandler());
     }

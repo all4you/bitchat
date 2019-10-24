@@ -22,8 +22,8 @@ public class PacketEncoder extends MessageToByteEncoder<Packet> {
 
     private SerializerChooser chooser;
 
-    public PacketEncoder() {
-        this.chooser = DefaultSerializerChooser.getInstance();
+    public PacketEncoder(SerializerChooser chooser) {
+        this.chooser = chooser != null ? chooser : DefaultSerializerChooser.getInstance();
     }
 
     @Override
