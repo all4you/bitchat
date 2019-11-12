@@ -1,56 +1,65 @@
 package io.bitchat.im.client.func;
 
+import cn.hutool.core.lang.Assert;
+import io.bitchat.core.id.IdFactory;
+import io.bitchat.core.id.SnowflakeIdFactory;
 import io.bitchat.im.BaseResult;
+import io.bitchat.im.ImServiceName;
 import io.bitchat.im.ListResult;
 import io.bitchat.im.message.Message;
 import io.bitchat.im.message.MessageType;
+import io.bitchat.protocol.*;
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author houyi
  */
-public interface MsgFunc {
+@Slf4j
+public class MsgFunc {
 
-    /**
-     * send a message to another person
-     *
-     * @param partnerId your partner user id
-     * @param type      the message type
-     * @param msg       the message detail
-     */
-    BaseResult sendP2pMsg(Long partnerId, MessageType type, String msg);
+    private IdFactory idFactory;
+    private BaseFunc baseFunc;
 
-    /**
-     * send a message to a group
-     *
-     * @param groupId the group id you send the message to
-     * @param type    the message type
-     * @param msg     the message detail
-     */
-    BaseResult sendGroupMsg(Long groupId, MessageType type, String msg);
+    public MsgFunc(BaseFunc baseFunc) {
+        Assert.notNull(baseFunc, "baseFunc can not be null");
+        this.baseFunc = baseFunc;
+        this.idFactory = SnowflakeIdFactory.getInstance(3L);
+    }
 
-    /**
-     * fetch the p2p history message
-     *
-     * @param partnerId    your partner user id
-     * @param currentMsgId current message id in the session
-     * @param fetchForward whether fetch the message forward
-     * @param fetchSize    the num of messages need to be fetched
-     */
-    ListResult<Message> fetchP2pHistoryMsg(Long partnerId, Long currentMsgId, boolean fetchForward, Integer fetchSize);
+    public BaseResult sendP2pMsg(Long partnerId, MessageType type, String msg) {
+        Map<String, Object> params = buildParams(partnerId, type, msg);
+        Request request = RequestFactory.newRequest(ImServiceName.SEND_P2P_MSG, null, params);
+        Packet packet = PacketFactory.newRequestPacket(request, idFactory.nextId());
+        Payload payload = baseFunc.request(packet);
+        return baseFunc.transferResult(payload);
+    }
 
-    /**
-     * fetch the group history message
-     *
-     * @param groupId      the group id
-     * @param currentMsgId current message id in the session
-     * @param fetchForward whether fetch the message forward
-     * @param fetchSize    the num of messages need to be fetched
-     */
-    ListResult<Message> fetchGroupHistoryMsg(Long groupId, Long currentMsgId, boolean fetchForward, Integer fetchSize);
+    public BaseResult sendGroupMsg(Long groupId, MessageType type, String msg) {
+        return new BaseResult();
+    }
 
-    /**
-     * fetch the unread message created when the specified user is offline
-     */
-    ListResult<Message> fetchOfflineMsg();
+    public ListResult<Message> fetchP2pHistoryMsg(Long partnerId, Long currentMsgId, boolean fetchForward, Integer fetchSize) {
+        return null;
+    }
+
+    public ListResult<Message> fetchGroupHistoryMsg(Long groupId, Long currentMsgId, boolean fetchForward, Integer fetchSize) {
+        return null;
+    }
+
+    public ListResult<Message> fetchOfflineMsg() {
+        return null;
+    }
+
+
+    private Map<String, Object> buildParams(Long partnerId, MessageType messageType, String msg) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("partnerId", partnerId);
+        params.put("messageType", messageType);
+        params.put("msg", msg);
+        return params;
+    }
 
 }

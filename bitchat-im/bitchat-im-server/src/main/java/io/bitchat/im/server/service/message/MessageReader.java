@@ -1,4 +1,4 @@
-package io.bitchat.im.server.message;
+package io.bitchat.im.server.service.message;
 
 import io.bitchat.im.message.Message;
 

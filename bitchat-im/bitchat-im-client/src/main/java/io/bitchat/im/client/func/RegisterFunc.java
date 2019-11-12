@@ -15,21 +15,20 @@ import java.util.Map;
  * @author houyi
  */
 @Slf4j
-public class DefaultLoginFunc implements LoginFunc {
+public class RegisterFunc {
 
     private IdFactory idFactory;
     private BaseFunc baseFunc;
 
-    public DefaultLoginFunc(BaseFunc baseFunc) {
+    public RegisterFunc(BaseFunc baseFunc) {
         Assert.notNull(baseFunc, "baseFunc can not be null");
         this.baseFunc = baseFunc;
         this.idFactory = SnowflakeIdFactory.getInstance(1L);
     }
 
-    @Override
-    public BaseResult login(String userName, String password) {
+    public BaseResult register(String userName, String password) {
         Map<String, Object> params = buildParams(userName, password);
-        Request request = RequestFactory.newRequest(ImServiceName.LOGIN, null, params);
+        Request request = RequestFactory.newRequest(ImServiceName.REGISTER, null, params);
         Packet packet = PacketFactory.newRequestPacket(request, idFactory.nextId());
         Payload payload = baseFunc.request(packet);
         return baseFunc.transferResult(payload);

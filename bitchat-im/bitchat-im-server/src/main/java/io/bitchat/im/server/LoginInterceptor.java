@@ -19,16 +19,16 @@ public class LoginInterceptor extends Interceptor {
     public Payload preHandle(Channel channel, Packet packet) {
         boolean shouldCheckLogin = false;
         String serviceName = packet.getRequest().getServiceName();
-        if (!(ImServiceName.LOGIN.equals(serviceName) || ServiceName.HEART_BEAT.equals(serviceName))) {
+        if (!(ImServiceName.REGISTER.equals(serviceName) || ImServiceName.LOGIN.equals(serviceName) || ServiceName.HEART_BEAT.equals(serviceName))) {
             shouldCheckLogin = true;
         }
         // if not logged in
         if (shouldCheckLogin && !ConnectionUtil.hasLogin(channel)) {
-            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "Not logged in yet!");
+            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "还未登录，请先登录！");
         }
         // if already logged in
-        if(ImServiceName.LOGIN.equals(serviceName) && ConnectionUtil.hasLogin(channel)) {
-            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "Already logged in!");
+        if (ImServiceName.LOGIN.equals(serviceName) && ConnectionUtil.hasLogin(channel)) {
+            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "已经登录了！");
         }
         return PayloadFactory.newSuccessPayload();
     }

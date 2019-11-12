@@ -14,8 +14,8 @@ public class ClientApplication {
                 .newClient(ServerAttr.getLocalServer(8864));
         client.connect();
 
-        ClientBiz clientBiz = new ClientBiz(client);
-        clientBiz.doBiz();
+        ClientService clientService = new ClientService(client);
+        clientService.doCli();
     }
 
 }

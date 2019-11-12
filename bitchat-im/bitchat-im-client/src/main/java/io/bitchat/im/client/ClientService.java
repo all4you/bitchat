@@ -14,18 +14,22 @@ import java.util.Scanner;
 /**
  * @author houyi
  */
-public class ClientBiz {
+public class ClientService {
 
-    private BaseFunc baseFunc;
+    private RegisterFunc registerFunc;
+    private LoginFunc loginFunc;
+    private MsgFunc msgFunc;
+    private UserFunc userFunc;
 
-    public ClientBiz(Client client) {
-        this.baseFunc = new DefaultBaseFunc(client);
+    public ClientService(Client client) {
+        BaseFunc baseFunc = new BaseFunc(client);
+        this.registerFunc = new RegisterFunc(baseFunc);
+        this.loginFunc = new LoginFunc(baseFunc);
+        this.msgFunc = new MsgFunc(baseFunc);
+        this.userFunc = new UserFunc(baseFunc);
     }
 
-    public void doBiz() {
-        LoginFunc loginFunc = new DefaultLoginFunc(baseFunc);
-        MsgFunc msgFunc = new DefaultMsgFunc(baseFunc);
-        UserFunc userFunc = new DefaultUserFunc(baseFunc);
+    public void doCli() {
         showUsage();
         while (true) {
             Scanner scanner = new Scanner(System.in);
@@ -41,20 +45,24 @@ public class ClientBiz {
             }
             String cli = cmd[0];
             switch (cli) {
+                case Cli.REGISTER: {
+                    register(msg);
+                }
+                break;
                 case Cli.LOGIN: {
-                    login(msg, loginFunc);
+                    login(msg);
                 }
                 break;
                 case Cli.LIST_USER: {
-                    listOnlineUser(msg, userFunc);
+                    listOnlineUser(msg);
                 }
                 break;
                 case Cli.P2P_CHAT: {
-                    p2pChat(msg, msgFunc);
+                    p2pChat(msg);
                 }
                 break;
                 case Cli.GROUP_CHAT: {
-                    groupChat(msg, msgFunc);
+                    groupChat(msg);
                 }
                 break;
                 default: {
@@ -65,7 +73,25 @@ public class ClientBiz {
         }
     }
 
-    private void login(String msg, LoginFunc loginFunc) {
+    public void register(String msg) {
+        String[] cmd = msg.split(" ");
+        int cmdLen = 3;
+        if (cmd.length == cmdLen) {
+            String userName = cmd[1];
+            String password = cmd[2];
+            BaseResult baseResult = registerFunc.register(userName, password);
+            if (baseResult.isSuccess()) {
+                System.out.println("Register success");
+            } else {
+                System.out.println("Register failed cause: " + baseResult.getErrorMsg());
+            }
+            prompt();
+        } else {
+            showUsage();
+        }
+    }
+
+    public void login(String msg) {
         String[] cmd = msg.split(" ");
         int cmdLen = 3;
         if (cmd.length == cmdLen) {
@@ -83,7 +109,7 @@ public class ClientBiz {
         }
     }
 
-    private void listOnlineUser(String msg, UserFunc userFunc) {
+    public void listOnlineUser(String msg) {
         String[] cmd = msg.split(" ");
         int cmdLen = 1;
         if (cmd.length == cmdLen) {
@@ -98,12 +124,13 @@ public class ClientBiz {
             } else {
                 System.out.println("List online user failed cause: " + listResult.getErrorMsg());
             }
+            prompt();
         } else {
             showUsage();
         }
     }
 
-    private void p2pChat(String msg, MsgFunc msgFunc) {
+    public void p2pChat(String msg) {
         String[] cmd = msg.split(" ");
         int cmdLen = 3;
         if (cmd.length == cmdLen) {
@@ -119,12 +146,13 @@ public class ClientBiz {
             } else {
                 System.out.println("Send p2p message failed cause: " + baseResult.getErrorMsg());
             }
+            prompt();
         } else {
             showUsage();
         }
     }
 
-    private void groupChat(String msg, MsgFunc msgFunc) {
+    public void groupChat(String msg) {
         String[] cmd = msg.split(" ");
         int cmdLen = 3;
         if (cmd.length == cmdLen) {
@@ -140,6 +168,7 @@ public class ClientBiz {
             } else {
                 System.out.println("Send group message failed cause: " + baseResult.getErrorMsg());
             }
+            prompt();
         } else {
             showUsage();
         }
@@ -152,6 +181,7 @@ public class ClientBiz {
 
     private void usage() {
         System.out.println("Usage: <cmd> [options]");
+        System.out.println("\t<-rg>\t[userName ]\t[password]\t\t(register)");
         System.out.println("\t<-lo>\t[userName ]\t[password]\t\t(login)");
         System.out.println("\t<-lu>\t\t\t\t\t\t\t\t(list online user)");
         System.out.println("\t<-pc>\t[partnerId]\t[message ]\t\t(p2p chat)");
@@ -166,6 +196,11 @@ public class ClientBiz {
     private interface Cli {
         String PROMPT = "bitchat> ";
         String BYE = "bye";
+        /**
+         * register command
+         * -rg <userName> <password>
+         */
+        String REGISTER = "-rg";
         /**
          * login command
          * -lo <userName> <password>
