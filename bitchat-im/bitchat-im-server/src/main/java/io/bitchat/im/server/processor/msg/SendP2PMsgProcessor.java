@@ -61,11 +61,11 @@ public class SendP2PMsgProcessor extends AbstractRequestProcessor {
             // save offline msg for partner
             saveOfflineMsg(userId, request, msgId);
         } else {
-            Packet pushPacket = buildPushPacket(userId, userName, request);
-            // push msg to all partner endpoints
+            Packet transferMsgPacket = buildTransferMsgPacket(userId, userName, request);
+            // transfer the msg to all partner endpoints
             for (Connection conn : partnerConnections) {
                 Channel toChannel = conn.getChannel();
-                toChannel.writeAndFlush(pushPacket);
+                toChannel.writeAndFlush(transferMsgPacket);
             }
         }
         Payload payload = success ?
@@ -103,17 +103,17 @@ public class SendP2PMsgProcessor extends AbstractRequestProcessor {
     }
 
     /**
-     * build push packet
+     * build transfer msg packet
      */
-    private Packet buildPushPacket(Long userId, String userName, SendP2PMsgRequest request) {
+    private Packet buildTransferMsgPacket(Long userId, String userName, SendP2PMsgRequest request) {
         Map<String, Object> params = new HashMap<>();
         params.put("partnerId", userId);
         params.put("partnerName", userName);
         params.put("messageType", request.getMessageType());
         params.put("msg", request.getMsg());
-        Command pushMsgCommand = CommandFactory.newCommand(ImServiceName.PUSH_MSG, params);
+        Command transferMsgCommand = CommandFactory.newCommand(ImServiceName.TRANSFER_MSG, params);
         // create a new command packet
-        return PacketFactory.newCmdPacket(pushMsgCommand);
+        return PacketFactory.newCmdPacket(transferMsgCommand);
     }
 
 }

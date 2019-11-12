@@ -12,13 +12,13 @@ import java.util.Map;
  * @author houyi
  */
 @Slf4j
-@Processor(name = ImServiceName.PUSH_MSG)
-public class PushMsgProcessor extends AbstractCommandProcessor {
+@Processor(name = ImServiceName.TRANSFER_MSG)
+public class TransferredMsgProcessor extends AbstractCommandProcessor {
 
     @Override
     public void doProcess(ChannelHandlerContext ctx, Map<String, Object> content) {
         // transfer map to bean
-        PushMsgCmd pushMsgCmd = mapToBean(content, PushMsgCmd.class);
+        TransferMsgCmd pushMsgCmd = mapToBean(content, TransferMsgCmd.class);
         Long partnerId = pushMsgCmd.getPartnerId();
         String partnerName = pushMsgCmd.getPartnerName();
         String msg = pushMsgCmd.getMsg();

@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @NoArgsConstructor
-public class PushMsgCmd {
+public class TransferMsgCmd {
 
     private Long partnerId;
 
