@@ -24,11 +24,11 @@ public class LoginInterceptor extends Interceptor {
         }
         // if not logged in
         if (shouldCheckLogin && !ConnectionUtil.hasLogin(channel)) {
-            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "还未登录，请先登录！");
+            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "Not Logged in yet!");
         }
         // if already logged in
         if (ImServiceName.LOGIN.equals(serviceName) && ConnectionUtil.hasLogin(channel)) {
-            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "已经登录了！");
+            return PayloadFactory.newErrorPayload(ResultCode.BIZ_FAIL.getCode(), "Already Logged in!");
         }
         return PayloadFactory.newSuccessPayload();
     }
