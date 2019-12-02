@@ -1,10 +1,9 @@
 # bitchat
 
-**bitchat** 是一个基于 Netty 的 IM 即时通讯框架
+**bitchat** 是一个基于 Netty 的网络框架
 
  **特性:**
 
-- [x] **IOC容器** : 通过 @Bean 注解可以管理所有对象，通过 @Autowired 注解进行对象注入
 - [x] **自定义协议**  : 一个自定义的 Packet 协议，业务的扩展非常简单
 - [x] **编解码器**  : 内置 PacketCodec 编解码器，解决拆包粘包的问题
 - [x] **业务处理器**  : 业务处理器 PacketHandler 与 Packet 分离，支持各种自定义业务处理器
@@ -25,7 +24,7 @@
 
 ## 快速开始
 
-**bitchat-example** 模块提供了一个服务端与客户端的实现示例，可以参照该示例进行自己的业务实现。
+**bitchat-im** 模块提供了一个基于 bitchat 实现的即时通讯应用，包括服务端和客户端。
 
 
 
@@ -33,14 +32,17 @@
 
 要启动服务端，需要获取一个 Server 的实例，可以通过 ServerFactory 来获取。
 
-目前只实现了单机模式下的 Server ，通过 SimpleServerFactory 只需要定义一个端口即可获取一个单机的 Server 实例，如下所示：
+目前只实现了单机模式下的 Server ，通过 ServerBootstrap 只需要定义一个端口即可获取一个单机的 Server 实例，如下所示：
 
 ```java
-public class StandaloneServerApplication {
+public class ServerApplication {
     public static void main(String[] args) {
-        Server server = SimpleServerFactory.getInstance()
-            .newServer(8864);
-        server.start();
+        // 先启动Spring容器
+        SpringApplication.run(ServerApplication.class, args);
+        // 再启动Server
+        ServerBootstrap bootstrap = new ServerBootstrap();
+        bootstrap.channelListener(SimpleChannelListener.class)
+                .start(8864);
     }
 }
 ```
@@ -56,14 +58,15 @@ public class StandaloneServerApplication {
 目前只实现了直连服务器的客户端，通过 SimpleClientFactory 只需要指定一个 ServerAttr 即可获取一个客户端，然后进行客户端与服务端的连接，如下所示：
 
 ```java
-public class DirectConnectServerClientApplication {
+public class ClientApplication {
 
     public static void main(String[] args) {
         Client client = SimpleClientFactory.getInstance()
-            .newClient(ServerAttr.getLocalServer(8864));
+                .newClient(ServerAttr.getLocalServer(8864));
         client.connect();
 
-        doClientBiz(client);
+        ClientService clientService = new ClientService(client);
+        clientService.doCli();
     }
 }
 ```
@@ -76,13 +79,20 @@ public class DirectConnectServerClientApplication {
 
 #### 体验客户端的功能
 
-目前客户端提供了三种 Func，分别是：登录，查看在线用户列表，发送单聊消息，每种 Func 有不同的命令格式。
+目前客户端提供了三种 Func，分别是：注册，登录，查看在线用户列表，发送单聊消息，每种 Func 有不同的命令格式。
 
 
+##### 注册
+
+通过在客户端中执行以下名 `-rg houyi 123456` 即可实现注册，目前用户保存在 bc_user 表中.
+
+注册成功后，显示如下：
+
+![register](articles/resources/bitchat-overview/register.jpg)
 
 ##### 登录
 
-通过在客户端中执行以下命令 `-lo houyi 123456` 即可实现登录，目前用户中心还未实现，通过 Mock 的方式实现一个假的用户服务，所以输入任何的用户名密码都会登录成功，并且会为用户创建一个用户id。
+通过在客户端中执行以下命令 `-lo houyi 123456` 即可实现登录。
 
 登录成功后，显示如下：
 
@@ -100,7 +110,7 @@ public class DirectConnectServerClientApplication {
 
 ##### 发送单聊信息
 
-用 gris 这个用户向 houyi 这个用户发送单聊信息，只要执行 `-pc 1 hello,houyi` 命令即可
+用 tx 这个用户向 houyi 这个用户发送单聊信息，只要执行 `-pc 5 hello,houyi` 命令即可
 
 其中第二个参数数要发送消息给那个用户的用户id，第三个参数是消息内容
 
@@ -167,7 +177,7 @@ public class DirectConnectServerClientApplication {
 * +----------+----------+----------------------------+
 * | 1 bytes  | 0xBC     |  magic number              |
 * | 1 bytes  |          |  serialize algorithm       |
-* | 4 bytes  |          |  packet symbol             |
+* | 1 bytes  |          |  the type 1:req 2:res 3:cmd|
 * | 4 bytes  |          |  content length            |
 * | ? bytes  |          |  the content               |
 * +----------+----------+----------------------------+
@@ -181,7 +191,7 @@ public class DirectConnectServerClientApplication {
 | -------- | ----------------- |
 | 1        | 魔数，默认为 0xBC |
 | 1        | 序列化的算法      |
-| 4        | Packet 的类型     |
+| 1        | Packet 的类型     |
 | 4        | Packet 的内容长度 |
 | ?        | Packet 的内容     |
 
@@ -191,7 +201,7 @@ Packet 的类型将会决定到达服务端的字节流将被反序列化为何�
 
 内容长度将会解决 Packet 的拆包与粘包问题，服务端在解析字节流时，将会等到字节的长度达到内容的长度时，才进行字节的读取。
 
-除此之外，Packet 中还会存储一个 sync 字段，该字段将指定服务端在处理该 Packet 的数据时是否需要使用异步的业务线程池来处理。
+除此之外，Packet 中还会存储一个 handleAsync 字段，该字段将指定服务端在处理该 Packet 的数据时是否需要使用异步的业务线程池来处理。
 
 
 
@@ -250,8 +260,9 @@ public class HealthyChecker extends ChannelInboundHandlerAdapter {
         ctx.executor().schedule(() -> {
             Channel channel = ctx.channel();
             if (channel.isActive()) {
-                log.debug("[{}] Send a PingPacket", HealthyChecker.class.getSimpleName());
-                channel.writeAndFlush(new PingPacket());
+                Packet pingPacket = PacketFactory.newPingPacket();
+                log.debug("[{}] Send a Ping={}", HealthyChecker.class.getSimpleName(), pingPacket);
+                channel.writeAndFlush(pingPacket);
                 schedulePing(ctx);
             }
         }, pingInterval, TimeUnit.SECONDS);
@@ -277,20 +288,20 @@ public class HealthyChecker extends ChannelInboundHandlerAdapter {
 
 为了解决这个问题，我们需要在业务线程池中来处理我们的业务逻辑，但是这并不是绝对的，如果我们要执行的逻辑很简单，不会造成太大的阻塞，则可以直接在 IO 线程中处理，比如客户端发送一个 Ping 服务端回复一个 Pong，这种情况是没有必要在业务线程池中进行处理的，因为处理完了最终还是要交给 IO 线程去写数据。但是如果一个业务逻辑需要查询数据库或者读取文件，这种操作往往比较耗时间，所以就需要将这些操作封装起来交给业务线程池去处理。
 
-服务端允许客户端在传输的 Packet 中指定采用何种方式进行业务的处理，服务端在将字节流解码成 Packet 之后，会根据 Packet 中的 sync 字段的值，确定怎样对该 Packet 进行处理，如下所示：
+服务端允许客户端在传输的 Packet 中指定采用何种方式进行业务的处理，服务端在将字节流解码成 Packet 之后，会根据 Packet 中的 handleAsync 字段的值，确定怎样对该 Packet 进行处理，如下所示：
 
 ```java
-public class ServerPacketDispatcher extends 
+public class ServerHandler extends 
     SimpleChannelInboundHandler<Packet> {
     @Override
     public void channelRead0(ChannelHandlerContext ctx, Packet request) {
         // if the packet should be handled async
-        if (request.getAsync() == AsyncHandle.ASYNC) {
+        if (packet.isHandleAsync()) {
             EventExecutor channelExecutor = ctx.executor();
             // create a promise
             Promise<Packet> promise = new DefaultPromise<>(channelExecutor);
             // async execute and get a future
-            Future<Packet> future = executor.asyncExecute(promise, ctx, request);
+            Future<Packet> future = executor.asyncExecute(promise, ctx, packet);
             future.addListener(new GenericFutureListener<Future<Packet>>() {
                 @Override
                 public void operationComplete(Future<Packet> f) throws Exception {
@@ -302,7 +313,7 @@ public class ServerPacketDispatcher extends
             });
         } else {
             // sync execute and get the response packet
-            Packet response = executor.execute(ctx, request);
+            Packet response = executor.execute(ctx, packet);
             writeResponse(ctx, response);
         }
     }
@@ -312,9 +323,3 @@ public class ServerPacketDispatcher extends
 
 
 
-
-## 不止是IM框架
-
-**bitchat** 除了可以作为 IM 框架之外，还可以作为一个通用的通讯框架。
-
-Packet 作为通讯的载体，通过继承 AbstractPacket 即可快速实现自己的业务，搭配 PacketHandler 作为数据处理器即可实现客户端与服务端的通讯。
