@@ -23,19 +23,6 @@ import java.io.Serializable;
  * +----------+----------+----------------------------+
  * </p>
  *
- * <p>
- * The usage of packet symbol:
- * +----------+----------+----------------------------+
- * |  symbol  |  into                                 |
- * +----------+----------+----------------------------+
- * | 0xxx     |  a system defined packet              |
- * | 1xxx     |  a request packet                     |
- * | 2xxx     |  a response packet                    |
- * | 3xxx     |  a one way packet                     |
- * | 4xxx     |  a reserved packet                    |
- * | 5xxx     |  an error packet                      |
- * +----------+----------+----------------------------+
- * </p>
  *
  * @author houyi
  */
