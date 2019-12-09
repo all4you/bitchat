@@ -21,9 +21,9 @@ public class ClientInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
-        pipeline.addLast(new IdleStateChecker(15));
+        pipeline.addLast(new IdleStateChecker(30));
         pipeline.addLast(new PacketCodec(null));
-        pipeline.addLast(new HealthyChecker(client, 5));
+        pipeline.addLast(new HealthyChecker(client, 15));
         pipeline.addLast(new ClientHandler());
     }
 
