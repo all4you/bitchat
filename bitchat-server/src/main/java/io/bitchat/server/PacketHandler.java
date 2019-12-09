@@ -23,24 +23,24 @@ import java.util.concurrent.CompletableFuture;
  */
 @Slf4j
 @ChannelHandler.Sharable
-public class ServerHandler extends SimpleChannelInboundHandler<Packet> {
+public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
     private Executor<Packet> executor;
 
     private ChannelListener channelListener;
 
-    private ServerHandler() {
+    private PacketHandler() {
 
     }
 
-    private ServerHandler(ChannelListener channelListener) {
+    private PacketHandler(ChannelListener channelListener) {
         Assert.notNull(channelListener, "channelListener can not be null");
         this.executor = PacketExecutor.getInstance();
         this.channelListener = channelListener;
     }
 
-    public static ServerHandler getInstance(ChannelListener channelListener) {
-        return Singleton.get(ServerHandler.class, channelListener);
+    public static PacketHandler getInstance(ChannelListener channelListener) {
+        return Singleton.get(PacketHandler.class, channelListener);
     }
 
     @Override
