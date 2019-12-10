@@ -1,4 +1,6 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.factory;
+
+import io.bitchat.packet.Command;
 
 import java.util.Map;
 

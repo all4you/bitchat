@@ -1,6 +1,7 @@
-package io.bitchat.protocol;
+package io.bitchat.packet;
 
 
+import io.bitchat.packet.factory.PacketFactory;
 import io.bitchat.serialize.SerializeAlgorithm;
 import lombok.NoArgsConstructor;
 

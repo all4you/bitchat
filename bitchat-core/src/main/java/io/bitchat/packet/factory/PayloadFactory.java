@@ -1,6 +1,7 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.factory;
 
 import io.bitchat.lang.constants.ResultCode;
+import io.bitchat.packet.Payload;
 
 /**
  * @author houyi

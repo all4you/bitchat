@@ -5,7 +5,9 @@ import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.SnowflakeIdFactory;
 import io.bitchat.im.BaseResult;
 import io.bitchat.im.ImServiceName;
-import io.bitchat.protocol.*;
+import io.bitchat.packet.*;
+import io.bitchat.packet.factory.PacketFactory;
+import io.bitchat.packet.factory.RequestFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;

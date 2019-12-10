@@ -1,5 +1,7 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.codec;
 
+import io.bitchat.packet.DefaultPacket;
+import io.bitchat.packet.Packet;
 import io.bitchat.serialize.DefaultSerializerChooser;
 import io.bitchat.serialize.Serializer;
 import io.bitchat.serialize.SerializerChooser;

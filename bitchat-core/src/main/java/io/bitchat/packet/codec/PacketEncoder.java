@@ -1,6 +1,10 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.codec;
 
 import cn.hutool.core.util.StrUtil;
+import io.bitchat.packet.Command;
+import io.bitchat.packet.Packet;
+import io.bitchat.packet.PacketType;
+import io.bitchat.packet.Request;
 import io.bitchat.serialize.DefaultSerializerChooser;
 import io.bitchat.serialize.SerializeAlgorithm;
 import io.bitchat.serialize.Serializer;

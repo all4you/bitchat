@@ -1,7 +1,10 @@
 package io.bitchat.client;
 
 import io.bitchat.core.PendingRequests;
-import io.bitchat.protocol.*;
+import io.bitchat.packet.*;
+import io.bitchat.packet.factory.PacketFactory;
+import io.bitchat.packet.handler.CommandHandler;
+import io.bitchat.packet.handler.RequestHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;

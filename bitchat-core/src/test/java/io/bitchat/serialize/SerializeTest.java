@@ -1,8 +1,8 @@
 package io.bitchat.serialize;
 
-import io.bitchat.protocol.Packet;
-import io.bitchat.protocol.PacketFactory;
-import io.bitchat.protocol.Request;
+import io.bitchat.packet.Packet;
+import io.bitchat.packet.factory.PacketFactory;
+import io.bitchat.packet.Request;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Before;
 import org.junit.Test;

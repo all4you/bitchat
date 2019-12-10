@@ -1,8 +1,8 @@
 package io.bitchat.im.client.cmd.msg;
 
 import io.bitchat.im.ImServiceName;
-import io.bitchat.protocol.AbstractCommandProcessor;
-import io.bitchat.protocol.Processor;
+import io.bitchat.packet.processor.AbstractCommandProcessor;
+import io.bitchat.packet.processor.Processor;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

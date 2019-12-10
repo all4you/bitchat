@@ -1,4 +1,4 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.handler;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScaner;
@@ -8,6 +8,9 @@ import io.bitchat.core.init.InitAble;
 import io.bitchat.core.init.InitOrder;
 import io.bitchat.lang.config.BaseConfig;
 import io.bitchat.lang.config.ConfigFactory;
+import io.bitchat.packet.Command;
+import io.bitchat.packet.processor.CommandProcessor;
+import io.bitchat.packet.processor.Processor;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

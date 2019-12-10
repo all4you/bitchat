@@ -4,10 +4,10 @@ import io.bitchat.im.BaseResult;
 import io.bitchat.im.ImServiceName;
 import io.bitchat.im.server.BeanUtil;
 import io.bitchat.im.server.service.user.UserService;
-import io.bitchat.protocol.AbstractRequestProcessor;
-import io.bitchat.protocol.Payload;
-import io.bitchat.protocol.PayloadFactory;
-import io.bitchat.protocol.Processor;
+import io.bitchat.packet.processor.AbstractRequestProcessor;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.factory.PayloadFactory;
+import io.bitchat.packet.processor.Processor;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

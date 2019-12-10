@@ -1,7 +1,10 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.processor;
 
 import cn.hutool.core.bean.BeanUtil;
 import io.bitchat.lang.constants.ResultCode;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.Request;
+import io.bitchat.packet.handler.RequestHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

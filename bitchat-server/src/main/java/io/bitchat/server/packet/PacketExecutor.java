@@ -2,10 +2,10 @@ package io.bitchat.server.packet;
 
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.executor.AbstractExecutor;
-import io.bitchat.protocol.Packet;
-import io.bitchat.protocol.PacketFactory;
-import io.bitchat.protocol.Payload;
-import io.bitchat.protocol.RequestHandler;
+import io.bitchat.packet.Packet;
+import io.bitchat.packet.factory.PacketFactory;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.handler.RequestHandler;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

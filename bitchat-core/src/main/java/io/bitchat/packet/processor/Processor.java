@@ -1,4 +1,4 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.processor;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

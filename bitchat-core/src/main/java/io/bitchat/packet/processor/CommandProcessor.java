@@ -1,5 +1,6 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.processor;
 
+import io.bitchat.packet.Command;
 import io.netty.channel.ChannelHandlerContext;
 
 /**

@@ -1,4 +1,4 @@
-package io.bitchat.protocol;
+package io.bitchat.packet;
 
 /**
  * <p>

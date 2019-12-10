@@ -1,6 +1,5 @@
-package io.bitchat.protocol;
+package io.bitchat.packet;
 
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

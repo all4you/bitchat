@@ -6,7 +6,9 @@ import io.bitchat.core.id.SnowflakeIdFactory;
 import io.bitchat.im.ImServiceName;
 import io.bitchat.im.ListResult;
 import io.bitchat.im.user.User;
-import io.bitchat.protocol.*;
+import io.bitchat.packet.*;
+import io.bitchat.packet.factory.PacketFactory;
+import io.bitchat.packet.factory.RequestFactory;
 
 import java.util.HashMap;
 import java.util.List;

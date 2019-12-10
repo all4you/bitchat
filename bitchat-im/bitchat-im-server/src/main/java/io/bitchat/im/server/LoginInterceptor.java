@@ -5,9 +5,9 @@ import io.bitchat.im.connection.ConnectionUtil;
 import io.bitchat.interceptor.Interceptor;
 import io.bitchat.lang.constants.ResultCode;
 import io.bitchat.lang.constants.ServiceName;
-import io.bitchat.protocol.Packet;
-import io.bitchat.protocol.Payload;
-import io.bitchat.protocol.PayloadFactory;
+import io.bitchat.packet.Packet;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.factory.PayloadFactory;
 import io.netty.channel.Channel;
 
 /**

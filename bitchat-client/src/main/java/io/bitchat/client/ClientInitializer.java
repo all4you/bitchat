@@ -3,7 +3,7 @@ package io.bitchat.client;
 import io.bitchat.core.IdleStateChecker;
 import io.bitchat.lang.config.BaseConfig;
 import io.bitchat.lang.config.ConfigFactory;
-import io.bitchat.protocol.PacketCodec;
+import io.bitchat.packet.codec.PacketCodec;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;

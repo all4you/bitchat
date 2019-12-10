@@ -1,8 +1,8 @@
 package io.bitchat.interceptor;
 
-import io.bitchat.protocol.Packet;
-import io.bitchat.protocol.Payload;
-import io.bitchat.protocol.PayloadFactory;
+import io.bitchat.packet.Packet;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.factory.PayloadFactory;
 import io.netty.channel.Channel;
 
 /**

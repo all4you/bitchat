@@ -1,8 +1,9 @@
-package io.bitchat.protocol;
+package io.bitchat.packet.factory;
 
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.SnowflakeIdFactory;
 import io.bitchat.lang.constants.ServiceName;
+import io.bitchat.packet.*;
 
 /**
  * @author houyi

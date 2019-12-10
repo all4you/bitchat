@@ -1,6 +1,10 @@
-package io.bitchat.protocol;
+package io.bitchat.server.packet;
 
 import io.bitchat.lang.constants.ServiceName;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.factory.PayloadFactory;
+import io.bitchat.packet.processor.AbstractRequestProcessor;
+import io.bitchat.packet.processor.Processor;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 

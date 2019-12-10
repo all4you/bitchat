@@ -4,9 +4,9 @@ import cn.hutool.core.lang.Assert;
 import io.bitchat.client.Client;
 import io.bitchat.im.BaseResult;
 import io.bitchat.lang.constants.ResultCode;
-import io.bitchat.protocol.Packet;
-import io.bitchat.protocol.Payload;
-import io.bitchat.protocol.PayloadFactory;
+import io.bitchat.packet.Packet;
+import io.bitchat.packet.Payload;
+import io.bitchat.packet.factory.PayloadFactory;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.concurrent.CompletableFuture;
