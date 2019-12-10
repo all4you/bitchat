@@ -1,4 +1,4 @@
-package io.bitchat.interceptor;
+package io.bitchat.packet.interceptor;
 
 import io.bitchat.packet.Packet;
 import io.bitchat.packet.Payload;

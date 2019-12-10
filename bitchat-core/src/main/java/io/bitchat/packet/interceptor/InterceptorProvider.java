@@ -1,4 +1,4 @@
-package io.bitchat.interceptor;
+package io.bitchat.packet.interceptor;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScaner;

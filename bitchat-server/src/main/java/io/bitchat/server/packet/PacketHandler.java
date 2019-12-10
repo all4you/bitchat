@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.PendingRequests;
 import io.bitchat.core.executor.Executor;
-import io.bitchat.interceptor.InterceptorHandler;
+import io.bitchat.packet.interceptor.InterceptorHandler;
 import io.bitchat.packet.*;
 import io.bitchat.packet.factory.PacketFactory;
 import io.bitchat.server.ChannelListener;

@@ -1,4 +1,4 @@
-package io.bitchat.interceptor;
+package io.bitchat.packet.interceptor;
 
 import java.util.List;
 

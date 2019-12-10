@@ -2,7 +2,7 @@ package io.bitchat.im.server;
 
 import io.bitchat.im.ImServiceName;
 import io.bitchat.im.connection.ConnectionUtil;
-import io.bitchat.interceptor.Interceptor;
+import io.bitchat.packet.interceptor.Interceptor;
 import io.bitchat.lang.constants.ResultCode;
 import io.bitchat.lang.constants.ServiceName;
 import io.bitchat.packet.Packet;
