@@ -46,8 +46,8 @@ public class HealthyChecker extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        super.channelActive(ctx);
         schedulePing(ctx);
+        ctx.fireChannelActive();
     }
 
     private void schedulePing(ChannelHandlerContext ctx) {
