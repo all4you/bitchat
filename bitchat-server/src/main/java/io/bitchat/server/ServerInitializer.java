@@ -1,6 +1,5 @@
 package io.bitchat.server;
 
-import io.bitchat.core.IdleStateChecker;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
@@ -22,8 +21,7 @@ public class ServerInitializer extends ChannelInitializer<SocketChannel> {
     @Override
     protected void initChannel(SocketChannel channel) throws Exception {
         ChannelPipeline pipeline = channel.pipeline();
-        pipeline.addLast(new IdleStateChecker(30));
-        pipeline.addLast(new ProtocolDispatcher(pipeline, channelListener));
+        pipeline.addLast(new ProtocolDispatcher(channelListener));
     }
 
 }

@@ -15,6 +15,7 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * handle the command
@@ -24,6 +25,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @InitOrder(2)
 public class CommandHandler implements InitAble {
+
+    private static AtomicBoolean init = new AtomicBoolean();
 
     private static Map<String, CommandProcessor> processorHolder = new ConcurrentHashMap<>();
 
@@ -51,6 +54,9 @@ public class CommandHandler implements InitAble {
     }
 
     private void initCommandProcessor() {
+        if (!init.compareAndSet(false, true)) {
+            return;
+        }
         BaseConfig baseConfig = ConfigFactory.getConfig(BaseConfig.class);
         Set<Class<?>> classSet = ClassScaner.scanPackageBySuper(baseConfig.basePackage(), CommandProcessor.class);
         if (CollectionUtil.isEmpty(classSet)) {

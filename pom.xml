@@ -35,6 +35,8 @@
         <mockito.version>2.23.4</mockito.version>
         <owner.version>1.0.10</owner.version>
         <jcommander.version>1.72</jcommander.version>
+        <common-beans.version>1.9.2</common-beans.version>
+        <cglib.version>3.2.4</cglib.version>
     </properties>
 
     <dependencyManagement>
@@ -110,6 +112,16 @@
                 <groupId>com.beust</groupId>
                 <artifactId>jcommander</artifactId>
                 <version>${jcommander.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-beanutils</groupId>
+                <artifactId>commons-beanutils</artifactId>
+                <version>${common-beans.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cglib</groupId>
+                <artifactId>cglib</artifactId>
+                <version>${cglib.version}</version>
             </dependency>
 
             <dependency>

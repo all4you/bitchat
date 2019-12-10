@@ -1,4 +1,4 @@
-package io.bitchat.server;
+package io.bitchat.server.packet;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
@@ -6,6 +6,7 @@ import io.bitchat.core.PendingRequests;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.interceptor.InterceptorHandler;
 import io.bitchat.protocol.*;
+import io.bitchat.server.ChannelListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

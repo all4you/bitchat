@@ -17,6 +17,7 @@ import java.lang.reflect.Modifier;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * handle the request
@@ -26,6 +27,8 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @InitOrder(1)
 public class RequestHandler implements InitAble {
+
+    private static AtomicBoolean init = new AtomicBoolean();
 
     private static Map<String, RequestProcessor> processorHolder = new ConcurrentHashMap<>();
 
@@ -52,6 +55,9 @@ public class RequestHandler implements InitAble {
     }
 
     private void initRequestProcessor() {
+        if (!init.compareAndSet(false, true)) {
+            return;
+        }
         BaseConfig baseConfig = ConfigFactory.getConfig(BaseConfig.class);
         Set<Class<?>> classSet = ClassScaner.scanPackageBySuper(baseConfig.basePackage(), RequestProcessor.class);
         if (CollectionUtil.isEmpty(classSet)) {

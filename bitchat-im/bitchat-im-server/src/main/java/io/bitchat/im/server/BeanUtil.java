@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
  * Bean的工具类
  * </p>
  *
- * @author <a href="mailto:houyi.wh@alibaba-inc.com">houyi</a>
+ * @author houyi
  * @since 2018-05-25 15:51:35
  */
 @Component
