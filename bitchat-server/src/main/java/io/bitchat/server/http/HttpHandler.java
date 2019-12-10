@@ -2,7 +2,7 @@ package io.bitchat.server.http;
 
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.executor.Executor;
-import io.bitchat.server.http.util.HttpRequestUtil;
+import io.bitchat.http.util.HttpRequestUtil;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
