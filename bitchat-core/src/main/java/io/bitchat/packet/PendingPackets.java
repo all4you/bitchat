@@ -1,6 +1,5 @@
-package io.bitchat.core;
+package io.bitchat.packet;
 
-import io.bitchat.packet.Packet;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -11,7 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author houyi
  */
 @Slf4j
-public class PendingRequests {
+public class PendingPackets {
 
     private static Map<Long, CompletableFuture<Packet>> pendingRequests = new ConcurrentHashMap<>();
 

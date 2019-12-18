@@ -2,7 +2,7 @@ package io.bitchat.client;
 
 import cn.hutool.core.lang.Assert;
 import io.bitchat.core.LoadBalancer;
-import io.bitchat.core.PendingRequests;
+import io.bitchat.packet.PendingPackets;
 import io.bitchat.core.ServerAttr;
 import io.bitchat.core.init.Initializer;
 import io.bitchat.lang.constants.ResultCode;
@@ -92,13 +92,13 @@ public class GenericClient implements Client {
             return promise;
         }
         Long id = request.getId();
-        PendingRequests.add(id, promise);
+        PendingPackets.add(id, promise);
         ChannelFuture future = channel.writeAndFlush(request);
         future.addListener(new GenericFutureListener<Future<? super Void>>() {
             @Override
             public void operationComplete(Future<? super Void> f) throws Exception {
                 if (!f.isSuccess()) {
-                    CompletableFuture<Packet> pending = PendingRequests.remove(id);
+                    CompletableFuture<Packet> pending = PendingPackets.remove(id);
                     if (pending != null) {
                         pending.completeExceptionally(f.cause());
                     }
