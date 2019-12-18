@@ -2,7 +2,7 @@ package io.bitchat.server.packet;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
-import io.bitchat.core.PendingRequests;
+import io.bitchat.packet.PendingPackets;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.packet.interceptor.InterceptorHandler;
 import io.bitchat.packet.*;
@@ -112,7 +112,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
     }
 
     private void onResponse(Packet packet) {
-        CompletableFuture<Packet> pending = PendingRequests.remove(packet.getId());
+        CompletableFuture<Packet> pending = PendingPackets.remove(packet.getId());
         if (pending != null) {
             // the response will be handled by client
             // after the client future has been notified
