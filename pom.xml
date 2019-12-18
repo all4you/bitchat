@@ -37,6 +37,7 @@
         <jcommander.version>1.72</jcommander.version>
         <common-beans.version>1.9.2</common-beans.version>
         <cglib.version>3.2.4</cglib.version>
+        <orika-core.version>1.5.1</orika-core.version>
     </properties>
 
     <dependencyManagement>
@@ -122,6 +123,11 @@
                 <groupId>cglib</groupId>
                 <artifactId>cglib</artifactId>
                 <version>${cglib.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>ma.glasnost.orika</groupId>
+                <artifactId>orika-core</artifactId>
+                <version>${orika-core.version}</version>
             </dependency>
 
             <dependency>
