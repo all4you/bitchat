@@ -1,4 +1,4 @@
-package io.bitchat.packet.handler;
+package io.bitchat.packet.ctx;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScaner;
@@ -10,6 +10,7 @@ import io.bitchat.core.init.InitOrder;
 import io.bitchat.lang.config.BaseConfig;
 import io.bitchat.lang.config.ConfigFactory;
 import io.bitchat.lang.constants.ResultCode;
+import io.bitchat.lang.util.GenericsUtil;
 import io.bitchat.packet.Payload;
 import io.bitchat.packet.factory.PayloadFactory;
 import io.bitchat.packet.Request;
@@ -31,18 +32,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Slf4j
 @InitOrder(1)
-public class RequestHandler implements InitAble {
+public class RequestProcessorContext implements InitAble {
 
     private static AtomicBoolean init = new AtomicBoolean();
 
     private static Map<String, RequestProcessor> processorHolder = new ConcurrentHashMap<>();
 
-    private RequestHandler() {
+    private RequestProcessorContext() {
 
     }
 
-    public static RequestHandler getInstance() {
-        return Singleton.get(RequestHandler.class);
+    public static RequestProcessorContext getInstance() {
+        return Singleton.get(RequestProcessorContext.class);
     }
 
     @Override
@@ -50,9 +51,9 @@ public class RequestHandler implements InitAble {
         initRequestProcessor();
     }
 
-    public Payload handle(ChannelHandlerContext ctx, Request request) {
-        String serviceName = request.getServiceName();
-        RequestProcessor processor = processorHolder.get(serviceName);
+    public Payload process(ChannelHandlerContext ctx, Request request) {
+        String serviceName = GenericsUtil.unifiedProcessorName(request.getServiceName());
+        RequestProcessor processor = serviceName == null ? null : processorHolder.get(serviceName);
         if (processor == null) {
             return PayloadFactory.newErrorPayload(ResultCode.RESOURCE_NOT_FOUND.getCode(), StrFormatter.format("RequestProcessor not found with serviceName={}", serviceName));
         }
@@ -66,7 +67,7 @@ public class RequestHandler implements InitAble {
         BaseConfig baseConfig = ConfigFactory.getConfig(BaseConfig.class);
         Set<Class<?>> classSet = ClassScaner.scanPackageBySuper(baseConfig.basePackage(), RequestProcessor.class);
         if (CollectionUtil.isEmpty(classSet)) {
-            log.warn("[RequestHandler] No RequestProcessor found");
+            log.warn("[RequestProcessorContext] No RequestProcessor found");
             return;
         }
         for (Class<?> clazz : classSet) {
@@ -77,10 +78,10 @@ public class RequestHandler implements InitAble {
                 // check whether the class has @Processor annotation
                 // use name specified by @Processor first
                 Processor processor = clazz.getAnnotation(Processor.class);
-                String serviceName = (processor != null && StrUtil.isNotBlank(processor.name())) ? processor.name() : clazz.getName();
+                String serviceName = (processor != null && StrUtil.isNotBlank(processor.name())) ? GenericsUtil.unifiedProcessorName(processor.name()) : clazz.getName();
                 cacheRequestProcessor(serviceName, clazz);
             } catch (Exception e) {
-                log.warn("[RequestHandler] cacheRequestProcessor failed", e);
+                log.warn("[RequestProcessorContext] cacheRequestProcessor failed", e);
             }
         }
     }
@@ -88,10 +89,10 @@ public class RequestHandler implements InitAble {
     @SuppressWarnings("unchecked")
     private void cacheRequestProcessor(String serviceName, Class clazz) {
         if (processorHolder.containsKey(serviceName)) {
-            log.warn("[RequestHandler] [Warning] serviceName=[{}], RequestProcessor=[{}] already exists, please check the RequestProcessor", serviceName, clazz.getCanonicalName());
+            log.warn("[RequestProcessorContext] [Warning] serviceName=[{}], RequestProcessor=[{}] already exists, please check the RequestProcessor", serviceName, clazz.getCanonicalName());
             return;
         }
-        log.info("[RequestHandler] Found serviceName=[{}], RequestProcessor=[{}]", serviceName, clazz.getCanonicalName());
+        log.info("[RequestProcessorContext] Found serviceName=[{}], RequestProcessor=[{}]", serviceName, clazz.getCanonicalName());
         // Each implements Class of RequestProcess should have a NoArgument Constructor
         RequestProcessor requestProcessor = Singleton.get((Class<? extends RequestProcessor>) clazz);
         processorHolder.putIfAbsent(serviceName, requestProcessor);

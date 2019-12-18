@@ -1,4 +1,4 @@
-package io.bitchat.packet.handler;
+package io.bitchat.packet.ctx;
 
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.ClassScaner;
@@ -8,6 +8,7 @@ import io.bitchat.core.init.InitAble;
 import io.bitchat.core.init.InitOrder;
 import io.bitchat.lang.config.BaseConfig;
 import io.bitchat.lang.config.ConfigFactory;
+import io.bitchat.lang.util.GenericsUtil;
 import io.bitchat.packet.Command;
 import io.bitchat.packet.processor.CommandProcessor;
 import io.bitchat.packet.processor.Processor;
@@ -27,18 +28,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 @Slf4j
 @InitOrder(2)
-public class CommandHandler implements InitAble {
+public class CommandProcessorContext implements InitAble {
 
     private static AtomicBoolean init = new AtomicBoolean();
 
     private static Map<String, CommandProcessor> processorHolder = new ConcurrentHashMap<>();
 
-    private CommandHandler() {
+    private CommandProcessorContext() {
 
     }
 
-    public static CommandHandler getInstance() {
-        return Singleton.get(CommandHandler.class);
+    public static CommandProcessorContext getInstance() {
+        return Singleton.get(CommandProcessorContext.class);
     }
 
     @Override
@@ -46,9 +47,9 @@ public class CommandHandler implements InitAble {
         initCommandProcessor();
     }
 
-    public void handle(ChannelHandlerContext ctx, Command request) {
-        String commandName = request.getCommandName();
-        CommandProcessor processor = processorHolder.get(commandName);
+    public void process(ChannelHandlerContext ctx, Command request) {
+        String commandName = GenericsUtil.unifiedProcessorName(request.getCommandName());
+        CommandProcessor processor = commandName == null ? null : processorHolder.get(commandName);
         if (processor == null) {
             log.warn("CommandProcessor not found with commandName={}", commandName);
             return;
@@ -63,7 +64,7 @@ public class CommandHandler implements InitAble {
         BaseConfig baseConfig = ConfigFactory.getConfig(BaseConfig.class);
         Set<Class<?>> classSet = ClassScaner.scanPackageBySuper(baseConfig.basePackage(), CommandProcessor.class);
         if (CollectionUtil.isEmpty(classSet)) {
-            log.warn("[CommandHandler] No CommandProcessor found");
+            log.warn("[CommandProcessorContext] No CommandProcessor found");
             return;
         }
         for (Class<?> clazz : classSet) {
@@ -74,10 +75,10 @@ public class CommandHandler implements InitAble {
                 // check whether the class has @Processor annotation
                 // use name specified by @Processor first
                 Processor processor = clazz.getAnnotation(Processor.class);
-                String commandName = (processor != null && StrUtil.isNotBlank(processor.name())) ? processor.name() : clazz.getName();
+                String commandName = (processor != null && StrUtil.isNotBlank(processor.name())) ? GenericsUtil.unifiedProcessorName(processor.name()) : clazz.getName();
                 cacheCommandProcessor(commandName, clazz);
             } catch (Exception e) {
-                log.warn("[CommandHandler] cacheCommandProcessor failed", e);
+                log.warn("[CommandProcessorContext] cacheCommandProcessor failed", e);
             }
         }
     }
@@ -85,10 +86,10 @@ public class CommandHandler implements InitAble {
     @SuppressWarnings("unchecked")
     private void cacheCommandProcessor(String commandName, Class clazz) {
         if (processorHolder.containsKey(commandName)) {
-            log.warn("[CommandHandler] [Warning] commandName=[{}], CommandProcessor=[{}] already exists, please check the CommandProcessor", commandName, clazz.getCanonicalName());
+            log.warn("[CommandProcessorContext] [Warning] commandName=[{}], CommandProcessor=[{}] already exists, please check the CommandProcessor", commandName, clazz.getCanonicalName());
             return;
         }
-        log.info("[CommandHandler] Found commandName=[{}], CommandProcessor=[{}]", commandName, clazz.getCanonicalName());
+        log.info("[CommandProcessorContext] Found commandName=[{}], CommandProcessor=[{}]", commandName, clazz.getCanonicalName());
         // Each implements Class of CommandProcessor should have a NoArgument Constructor
         CommandProcessor requestProcessor = Singleton.get((Class<? extends CommandProcessor>) clazz);
         processorHolder.putIfAbsent(commandName, requestProcessor);

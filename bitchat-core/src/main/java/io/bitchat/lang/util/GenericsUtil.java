@@ -19,4 +19,8 @@ public class GenericsUtil {
         return ipV4Set.isEmpty() ? "" : ipV4Set.toArray()[0].toString();
     }
 
+    public static String unifiedProcessorName(String name) {
+        return name == null ? null : name.toLowerCase();
+    }
+
 }

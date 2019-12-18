@@ -1,10 +1,9 @@
 package io.bitchat.packet.processor;
 
-import cn.hutool.core.bean.BeanUtil;
 import io.bitchat.lang.constants.ResultCode;
 import io.bitchat.packet.Payload;
 import io.bitchat.packet.Request;
-import io.bitchat.packet.handler.RequestHandler;
+import io.bitchat.packet.ctx.RequestProcessorContext;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
@@ -14,7 +13,7 @@ import java.util.Map;
  * <p>
  * An abstract RequestProcessor
  * Every Class extends AbstractRequestProcessor should have a NoArgument Constructor
- * see {@link RequestHandler#initRequestProcessor()}
+ * see {@link RequestProcessorContext#initRequestProcessor()}
  * </p>
  * @author houyi
  */
@@ -40,17 +39,5 @@ public abstract class AbstractRequestProcessor implements RequestProcessor {
      * @return the response
      */
     public abstract Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params);
-
-    /**
-     * transfer the map to bean
-     */
-    protected <T> T  mapToBean(Map<String, Object> params, Class<T> beanType) {
-        T bean = null;
-        if (params != null) {
-            // transfer the map to bean
-            bean = BeanUtil.mapToBean(params, beanType, false);
-        }
-        return bean;
-    }
 
 }

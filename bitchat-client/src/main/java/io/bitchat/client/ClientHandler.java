@@ -1,10 +1,10 @@
 package io.bitchat.client;
 
-import io.bitchat.core.PendingRequests;
+import io.bitchat.packet.PendingPackets;
 import io.bitchat.packet.*;
 import io.bitchat.packet.factory.PacketFactory;
-import io.bitchat.packet.handler.CommandHandler;
-import io.bitchat.packet.handler.RequestHandler;
+import io.bitchat.packet.ctx.CommandProcessorContext;
+import io.bitchat.packet.ctx.RequestProcessorContext;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -17,19 +17,19 @@ import java.util.concurrent.CompletableFuture;
 @Slf4j
 public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
 
-    private RequestHandler requestHandler;
-    private CommandHandler commandHandler;
+    private RequestProcessorContext requestHandler;
+    private CommandProcessorContext commandHandler;
 
     public ClientHandler() {
-        this.requestHandler = RequestHandler.getInstance();
-        this.commandHandler = CommandHandler.getInstance();
+        this.requestHandler = RequestProcessorContext.getInstance();
+        this.commandHandler = CommandProcessorContext.getInstance();
     }
 
     /**
      * there are three kind of packet the client will receive
      * 1: a request packet
      * this kind of packet will be handled by client itself
-     * see {@link RequestHandler}
+     * see {@link RequestProcessorContext}
      * <p>
      * 2: a response packet
      * this kind of packet will be handled or not due to biz
@@ -61,7 +61,7 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
     }
 
     private void onRequest(ChannelHandlerContext ctx, Packet packet) {
-        Payload payload = requestHandler.handle(ctx, packet.getRequest());
+        Payload payload = requestHandler.process(ctx, packet.getRequest());
         Packet response = PacketFactory.newResponsePacket(payload, packet.getId());
         writeResponse(ctx, response);
     }
@@ -73,14 +73,14 @@ public class ClientHandler extends SimpleChannelInboundHandler<Packet> {
     }
 
     private void onResponse(Packet packet) {
-        CompletableFuture<Packet> pending = PendingRequests.remove(packet.getId());
+        CompletableFuture<Packet> pending = PendingPackets.remove(packet.getId());
         if (pending != null) {
             pending.complete(packet);
         }
     }
 
     public void onCommand(ChannelHandlerContext ctx, Packet packet) {
-        commandHandler.handle(ctx, packet.getCommand());
+        commandHandler.process(ctx, packet.getCommand());
     }
 
 }
