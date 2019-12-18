@@ -37,7 +37,7 @@ public class LoginProcessor extends AbstractRequestProcessor {
     @Override
     public Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params) {
         // transfer map to bean
-        LoginRequest loginRequest = mapToBean(params, LoginRequest.class);
+        LoginRequest loginRequest = cn.hutool.core.bean.BeanUtil.mapToBean(params, LoginRequest.class, false);
         PojoResult<User> pojoResult = userService.login(loginRequest);
         Payload payload = pojoResult.isSuccess() ?
                 PayloadFactory.newSuccessPayload() :

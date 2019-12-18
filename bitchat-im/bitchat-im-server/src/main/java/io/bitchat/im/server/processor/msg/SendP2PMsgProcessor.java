@@ -1,5 +1,6 @@
 package io.bitchat.im.server.processor.msg;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import io.bitchat.core.id.IdFactory;
@@ -50,7 +51,7 @@ public class SendP2PMsgProcessor extends AbstractRequestProcessor {
     @Override
     public Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params) {
         // transfer map to bean
-        SendP2PMsgRequest request = mapToBean(params, SendP2PMsgRequest.class);
+        SendP2PMsgRequest request = BeanUtil.mapToBean(params, SendP2PMsgRequest.class, false);
 
         Channel fromChannel = ctx.channel();
         Connection connection = connectionManager.get(fromChannel);

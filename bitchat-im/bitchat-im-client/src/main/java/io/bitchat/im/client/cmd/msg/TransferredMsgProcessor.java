@@ -1,5 +1,6 @@
 package io.bitchat.im.client.cmd.msg;
 
+import cn.hutool.core.bean.BeanUtil;
 import io.bitchat.im.ImServiceName;
 import io.bitchat.packet.processor.AbstractCommandProcessor;
 import io.bitchat.packet.processor.Processor;
@@ -18,7 +19,7 @@ public class TransferredMsgProcessor extends AbstractCommandProcessor {
     @Override
     public void doProcess(ChannelHandlerContext ctx, Map<String, Object> content) {
         // transfer map to bean
-        TransferMsgCmd pushMsgCmd = mapToBean(content, TransferMsgCmd.class);
+        TransferMsgCmd pushMsgCmd = BeanUtil.mapToBean(content, TransferMsgCmd.class, false);
         Long partnerId = pushMsgCmd.getPartnerId();
         String partnerName = pushMsgCmd.getPartnerName();
         String msg = pushMsgCmd.getMsg();

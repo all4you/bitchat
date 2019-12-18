@@ -1,5 +1,6 @@
 package io.bitchat.im.server.processor.user;
 
+import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.collection.CollectionUtil;
 import io.bitchat.im.ImServiceName;
 import io.bitchat.im.server.connection.ConnectionManager;
@@ -31,7 +32,7 @@ public class GetOnlineFriendsProcessor extends AbstractRequestProcessor {
     @Override
     public Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params) {
         // transfer map to bean
-        GetOnlineFriendsRequest getOnlineFriendsRequest = mapToBean(params, GetOnlineFriendsRequest.class);
+        GetOnlineFriendsRequest getOnlineFriendsRequest = BeanUtil.mapToBean(params, GetOnlineFriendsRequest.class, false);
         List<User> userList = connectionManager.onlineUser();
         Payload payload = PayloadFactory.newSuccessPayload();
         if (CollectionUtil.isNotEmpty(userList)) {

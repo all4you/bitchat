@@ -29,7 +29,7 @@ public class RegisterProcessor extends AbstractRequestProcessor {
     @Override
     public Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params) {
         // transfer map to bean
-        RegisterRequest loginRequest = mapToBean(params, RegisterRequest.class);
+        RegisterRequest loginRequest = cn.hutool.core.bean.BeanUtil.mapToBean(params, RegisterRequest.class, false);
         BaseResult baseResult = userService.register(loginRequest);
         return baseResult.isSuccess() ?
                 PayloadFactory.newSuccessPayload() :
