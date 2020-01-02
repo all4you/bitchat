@@ -14,7 +14,6 @@ import io.netty.channel.ChannelPipeline;
 import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
-import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
 import java.util.List;
@@ -41,9 +40,9 @@ public class ProtocolDispatcher extends ByteToMessageDecoder {
         if (in.readableBytes() < 5) {
             return;
         }
-
-        final int magic1 = in.getByte(in.readerIndex());
-        final int magic2 = in.getByte(in.readerIndex() + 1);
+        int readerIndex = in.readerIndex();
+        final int magic1 = in.getByte(readerIndex);
+        final int magic2 = in.getByte(readerIndex + 1);
         if (isPacket(magic1)) {
             dispatchToPacket(ctx);
         } else if (isHttp(magic1, magic2)) {
@@ -89,9 +88,7 @@ public class ProtocolDispatcher extends ByteToMessageDecoder {
         pipeline.addLast(new ChunkedWriteHandler());
         // aggregate HttpRequest/HttpContent/LastHttpContent to FullHttpRequest
         pipeline.addLast(new HttpObjectAggregator(8096));
-        pipeline.addLast(HttpHandler.getInstance());
-        // handle WebSocketFrame if http/s upgrade to websocket
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
+        pipeline.addLast(HttpHandler.getInstance(channelListener));
         pipeline.remove(this);
     }
 

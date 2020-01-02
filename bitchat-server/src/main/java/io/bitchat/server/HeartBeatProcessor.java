@@ -1,4 +1,4 @@
-package io.bitchat.server.packet;
+package io.bitchat.server;
 
 import io.bitchat.lang.constants.ServiceName;
 import io.bitchat.packet.Payload;
