@@ -68,7 +68,7 @@ public abstract class AbstractServer implements Server {
 
     @Override
     public void stop() {
-        if (started.get()) {
+        if (!started.get()) {
             log.warn("Server hasn't started yet!");
             return;
         }
