@@ -5,6 +5,8 @@ import io.bitchat.core.ServerAttr;
 import io.bitchat.core.init.Initializer;
 import io.bitchat.lang.config.BaseConfig;
 import io.bitchat.lang.config.ConfigFactory;
+import io.bitchat.server.channel.ChannelListener;
+import io.bitchat.server.channel.DefaultChannelListener;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;

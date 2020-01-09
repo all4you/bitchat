@@ -6,6 +6,7 @@ import io.bitchat.lang.config.BaseConfig;
 import io.bitchat.lang.config.ConfigFactory;
 import io.bitchat.packet.Packet;
 import io.bitchat.packet.codec.PacketCodec;
+import io.bitchat.server.channel.ChannelListener;
 import io.bitchat.server.http.HttpHandler;
 import io.bitchat.server.packet.PacketHandler;
 import io.netty.buffer.ByteBuf;

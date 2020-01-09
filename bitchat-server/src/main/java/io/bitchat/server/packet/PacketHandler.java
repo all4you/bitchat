@@ -7,7 +7,7 @@ import io.bitchat.core.executor.Executor;
 import io.bitchat.packet.interceptor.InterceptorHandler;
 import io.bitchat.packet.*;
 import io.bitchat.packet.factory.PacketFactory;
-import io.bitchat.server.ChannelListener;
+import io.bitchat.server.channel.ChannelListener;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;

@@ -2,6 +2,7 @@ package io.bitchat.server;
 
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.router.RouterServerAttr;
+import io.bitchat.server.channel.ChannelListener;
 
 /**
  * @author houyi

@@ -3,7 +3,7 @@ package io.bitchat.im.server;
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.im.server.connection.ConnectionManager;
 import io.bitchat.im.server.connection.DefaultConnectionManager;
-import io.bitchat.server.ChannelListener;
+import io.bitchat.server.channel.ChannelListener;
 import io.netty.channel.Channel;
 import lombok.extern.slf4j.Slf4j;
 

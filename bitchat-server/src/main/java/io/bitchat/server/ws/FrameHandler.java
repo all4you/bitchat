@@ -5,7 +5,7 @@ import cn.hutool.core.lang.Singleton;
 import io.bitchat.ws.PendingFrames;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.packet.PacketType;
-import io.bitchat.server.ChannelListener;
+import io.bitchat.server.channel.ChannelListener;
 import io.bitchat.ws.Frame;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

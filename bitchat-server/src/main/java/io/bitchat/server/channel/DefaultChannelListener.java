@@ -1,4 +1,4 @@
-package io.bitchat.server;
+package io.bitchat.server.channel;
 
 import cn.hutool.core.lang.Singleton;
 import io.netty.channel.Channel;
@@ -10,18 +10,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DefaultChannelListener implements ChannelListener {
 
+    private ChannelManager channelManager;
+
+    private DefaultChannelListener() {
+        channelManager = DefaultChannelManager.getInstance();
+    }
+
     public static ChannelListener getInstance() {
         return Singleton.get(DefaultChannelListener.class);
     }
 
     @Override
     public void channelActive(Channel channel) {
-        log.info("You should implements io.bitchat.server.ChannelListener and override the channelActive method of channel:{}", channel);
+        channelManager.addChannel(channel);
+        log.info("Add a new Channel:{}", channel);
     }
 
     @Override
     public void channelInactive(Channel channel) {
-        log.info("You should implements io.bitchat.server.ChannelListener and override the channelInactive method of channel:{}", channel);
+        channelManager.removeChannel(channel.id());
+        log.info("Remove an inactive Channel:{}", channel);
     }
 
 }

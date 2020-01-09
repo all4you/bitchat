@@ -2,6 +2,7 @@ package io.bitchat.server;
 
 import cn.hutool.core.lang.Assert;
 import io.bitchat.router.RouterServerAttr;
+import io.bitchat.server.channel.ChannelListener;
 import lombok.extern.slf4j.Slf4j;
 
 /**

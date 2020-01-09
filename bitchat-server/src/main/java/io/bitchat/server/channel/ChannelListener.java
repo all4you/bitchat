@@ -1,4 +1,4 @@
-package io.bitchat.server;
+package io.bitchat.server.channel;
 
 import io.netty.channel.Channel;
 

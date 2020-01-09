@@ -1,6 +1,7 @@
 package io.bitchat.server;
 
 import io.bitchat.router.RouterServerAttr;
+import io.bitchat.server.channel.ChannelListener;
 
 /**
  * <p>

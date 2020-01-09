@@ -4,7 +4,7 @@ import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.http.util.HttpRequestUtil;
-import io.bitchat.server.ChannelListener;
+import io.bitchat.server.channel.ChannelListener;
 import io.bitchat.server.ws.FrameHandler;
 import io.bitchat.ws.codec.FrameCodec;
 import io.netty.channel.ChannelHandler;

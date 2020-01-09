@@ -1,5 +1,6 @@
 package io.bitchat.server;
 
+import io.bitchat.server.channel.ChannelListener;
 import lombok.extern.slf4j.Slf4j;
 
 /**
