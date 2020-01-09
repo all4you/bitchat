@@ -15,6 +15,7 @@ import io.netty.handler.codec.ByteToMessageDecoder;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
 
@@ -25,6 +26,7 @@ import java.util.List;
  *
  * @author houyi
  */
+@Slf4j
 public class ProtocolDispatcher extends ByteToMessageDecoder {
 
     private ChannelListener channelListener;
@@ -80,6 +82,8 @@ public class ProtocolDispatcher extends ByteToMessageDecoder {
         // 将所有所需的ChannelHandler添加到pipeline之后，一定要将自身移除掉
         // 否则该Channel之后的请求仍会重新执行协议的分发，而这是要避免的
         pipeline.remove(this);
+        // 将channelActive事件传递到PacketHandler
+        ctx.fireChannelActive();
     }
 
     private void dispatchToHttp(ChannelHandlerContext ctx) {
@@ -90,6 +94,8 @@ public class ProtocolDispatcher extends ByteToMessageDecoder {
         pipeline.addLast(new HttpObjectAggregator(8096));
         pipeline.addLast(HttpHandler.getInstance(channelListener));
         pipeline.remove(this);
+        // 将channelActive事件传递到HttpHandler
+        ctx.fireChannelActive();
     }
 
 }

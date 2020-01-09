@@ -47,7 +47,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("Received an active channel:{}", ctx.channel());
+        log.info("PacketHandler received an active channel:{}", ctx.channel());
         channelListener.channelActive(ctx.channel());
     }
 
@@ -63,7 +63,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("The channel has been inactive will remove it:{}", ctx.channel());
+        log.info("PacketHandler received an inactive channel will remove it:{}", ctx.channel());
         channelListener.channelInactive(ctx.channel());
     }
 

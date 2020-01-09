@@ -78,6 +78,8 @@ public class HttpHandler extends SimpleChannelInboundHandler<Object> {
             pipeline.addLast(FrameCodec.getInstance());
             pipeline.addLast(FrameHandler.getInstance(channelListener));
             pipeline.remove(this);
+            // 将channelActive事件传递到FrameHandler
+            ctx.fireChannelActive();
             return true;
         }
         return false;
