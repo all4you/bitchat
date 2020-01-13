@@ -17,9 +17,7 @@ public class ServerApplication {
         SpringApplication.run(ServerApplication.class, args);
         // 再启动Server
         ServerBootstrap bootstrap = new ServerBootstrap();
-        bootstrap
-//                .channelListener(SimpleChannelListener.class)
-                .start(8864);
+        bootstrap.start(8864);
     }
 
 }
