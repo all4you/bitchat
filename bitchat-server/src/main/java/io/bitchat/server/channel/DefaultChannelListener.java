@@ -21,15 +21,15 @@ public class DefaultChannelListener implements ChannelListener {
     }
 
     @Override
-    public void channelActive(Channel channel) {
-        channelManager.addChannel(channel);
-        log.info("Add a new Channel:{}", channel);
+    public void channelActive(Channel channel, ChannelType channelType) {
+        channelManager.addChannel(channel, channelType);
+        log.info("Add a new Channel={}, channelType={}", channel, channelType);
     }
 
     @Override
     public void channelInactive(Channel channel) {
         channelManager.removeChannel(channel.id());
-        log.info("Remove an inactive Channel:{}", channel);
+        log.info("Remove an inactive Channel={}", channel);
     }
 
 }

@@ -8,6 +8,7 @@ import io.bitchat.packet.interceptor.InterceptorHandler;
 import io.bitchat.packet.*;
 import io.bitchat.packet.factory.PacketFactory;
 import io.bitchat.server.channel.ChannelListener;
+import io.bitchat.server.channel.ChannelType;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -48,7 +49,7 @@ public class PacketHandler extends SimpleChannelInboundHandler<Packet> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("PacketHandler received an active channel:{}", ctx.channel());
-        channelListener.channelActive(ctx.channel());
+        channelListener.channelActive(ctx.channel(), ChannelType.Packet);
     }
 
     @Override

@@ -3,6 +3,8 @@ package io.bitchat.server.channel;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 
+import java.util.List;
+
 /**
  * @author houyi
  */
@@ -13,7 +15,7 @@ public interface ChannelManager {
      * {@link io.bitchat.server.ws.FrameHandler#channelActive(io.netty.channel.ChannelHandlerContext)}
      * is triggered
      */
-    void addChannel(Channel channel);
+    void addChannel(Channel channel, ChannelType channelType);
 
     /**
      * remove the Channel when
@@ -22,6 +24,8 @@ public interface ChannelManager {
      */
     void removeChannel(ChannelId id);
 
-    Channel getChannel(ChannelId id);
+    ChannelWrapper getChannelWrapper(ChannelId id);
+
+    List<ChannelWrapper> getAllChannelWrappers();
 
 }

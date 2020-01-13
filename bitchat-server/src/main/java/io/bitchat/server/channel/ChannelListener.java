@@ -7,7 +7,7 @@ import io.netty.channel.Channel;
  */
 public interface ChannelListener {
 
-    void channelActive(Channel channel);
+    void channelActive(Channel channel, ChannelType channelType);
 
     void channelInactive(Channel channel);
 }

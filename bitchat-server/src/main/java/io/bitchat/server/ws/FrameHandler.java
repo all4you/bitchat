@@ -2,6 +2,7 @@ package io.bitchat.server.ws;
 
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.lang.Singleton;
+import io.bitchat.server.channel.ChannelType;
 import io.bitchat.ws.PendingFrames;
 import io.bitchat.core.executor.Executor;
 import io.bitchat.packet.PacketType;
@@ -46,7 +47,7 @@ public class FrameHandler extends SimpleChannelInboundHandler<Frame> {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         log.info("FrameHandler received an active channel:{}", ctx.channel());
-        channelListener.channelActive(ctx.channel());
+        channelListener.channelActive(ctx.channel(), ChannelType.WebSocket);
     }
 
     @Override
