@@ -21,7 +21,8 @@ public class ChannelWrapper {
     @Override
     public String toString() {
         JSONObject channelInfo = new JSONObject();
-        channelInfo.put("id", channel.id().asLongText());
+        channelInfo.put("shortId", channel.id().asShortText());
+        channelInfo.put("longId", channel.id().asLongText());
         channelInfo.put("localAddress", channel.localAddress());
         channelInfo.put("remoteAddress", channel.remoteAddress());
         channelInfo.put("active", channel.isActive());

@@ -22,9 +22,11 @@ public interface ChannelManager {
      * {@link io.bitchat.server.ws.FrameHandler#channelInactive(io.netty.channel.ChannelHandlerContext)}
      * is triggered
      */
-    void removeChannel(ChannelId id);
+    void removeChannel(ChannelId channelId);
 
-    ChannelWrapper getChannelWrapper(ChannelId id);
+    ChannelWrapper getChannelWrapper(ChannelId channelId);
+
+    ChannelWrapper getChannelWrapper(String longId);
 
     List<ChannelWrapper> getAllChannelWrappers();
 

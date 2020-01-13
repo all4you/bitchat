@@ -43,19 +43,36 @@ public class DefaultChannelManager implements ChannelManager {
     }
 
     @Override
-    public void removeChannel(ChannelId id) {
-        Assert.notNull(id, "channelId can not be null");
-        channels.remove(id);
-        channelTypeMap.remove(id);
+    public void removeChannel(ChannelId channelId) {
+        Assert.notNull(channelId, "channelId can not be null");
+        channels.remove(channelId);
+        channelTypeMap.remove(channelId);
     }
 
     @Override
-    public ChannelWrapper getChannelWrapper(ChannelId id) {
-        Assert.notNull(id, "channelId can not be null");
+    public ChannelWrapper getChannelWrapper(ChannelId channelId) {
+        Assert.notNull(channelId, "channelId can not be null");
+        if (channels.isEmpty()) {
+            return null;
+        }
         return ChannelWrapper.builder()
-                .channel(channels.find(id))
-                .channelType(channelTypeMap.get(id))
+                .channel(channels.find(channelId))
+                .channelType(channelTypeMap.get(channelId))
                 .build();
+    }
+
+    @Override
+    public ChannelWrapper getChannelWrapper(String longId) {
+        Assert.notNull(longId, "longId can not be null");
+        if (channels.isEmpty()) {
+            return null;
+        }
+        ChannelId channelId = channels.stream()
+                .filter(channel -> channel.id().asLongText().equals(longId))
+                .map(Channel::id)
+                .findFirst()
+                .orElse(null);
+        return channelId == null ? null : getChannelWrapper(channelId);
     }
 
     @Override
