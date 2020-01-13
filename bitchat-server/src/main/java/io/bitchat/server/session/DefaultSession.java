@@ -1,5 +1,6 @@
 package io.bitchat.server.session;
 
+import com.alibaba.fastjson.JSONObject;
 import io.bitchat.server.channel.ChannelType;
 import io.netty.channel.ChannelId;
 
@@ -50,4 +51,13 @@ public class DefaultSession implements Session {
         return channelType;
     }
 
+    @Override
+    public String toString() {
+        JSONObject object = new JSONObject();
+        object.put("sessionId", sessionId);
+        object.put("shortId", channelId.asShortText());
+        object.put("longId", channelId.asLongText());
+        object.put("channelType", channelType);
+        return object.toJSONString();
+    }
 }
