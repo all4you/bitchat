@@ -43,5 +43,9 @@ public class SessionHelper {
         return channel.hasAttr(SESSION_ID) && channel.attr(SESSION_ID).get() != null;
     }
 
+    public static String getSessionId(Channel channel) {
+        return channel.hasAttr(SESSION_ID) ? channel.attr(SESSION_ID).get() : null;
+    }
+
 
 }
