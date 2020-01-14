@@ -1,4 +1,4 @@
-package io.bitchat.server;
+package io.bitchat.server.rest;
 
 import io.bitchat.http.RenderType;
 import io.bitchat.http.RequestMethod;
