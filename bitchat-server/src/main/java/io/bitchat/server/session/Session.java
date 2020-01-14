@@ -23,4 +23,6 @@ public interface Session {
 
     ChannelType channelType();
 
+    void writeAndFlush(Object msg);
+
 }

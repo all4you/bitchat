@@ -6,6 +6,7 @@ import io.bitchat.server.channel.ChannelManager;
 import io.bitchat.server.channel.ChannelType;
 import io.bitchat.server.channel.ChannelWrapper;
 import io.bitchat.server.channel.DefaultChannelManager;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -18,6 +19,7 @@ public class DefaultSession implements Session {
     private String sessionId;
     private long userId;
     private ChannelId channelId;
+    private Channel channel;
     private ChannelType channelType;
 
     private ChannelManager channelManager;
@@ -41,6 +43,7 @@ public class DefaultSession implements Session {
             Assert.notNull(channelWrapper, "channelId does not exists");
             this.channelId = channelId;
             this.userId = userId;
+            this.channel = channelWrapper.getChannel();
             this.channelType = channelWrapper.getChannelType();
         }
     }
@@ -67,6 +70,14 @@ public class DefaultSession implements Session {
             throw new IllegalStateException("Not bounded yet, Please call bound first");
         }
         return channelType;
+    }
+
+    @Override
+    public void writeAndFlush(Object msg) {
+        if (!bounded.get()) {
+            throw new IllegalStateException("Not bounded yet, Please call bound first");
+        }
+        channel.writeAndFlush(msg);
     }
 
     @Override
