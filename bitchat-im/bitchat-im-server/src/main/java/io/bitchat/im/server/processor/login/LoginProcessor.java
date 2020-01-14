@@ -66,12 +66,11 @@ public class LoginProcessor extends AbstractRequestProcessor {
         if (user != null && !SessionHelper.hasLogin(channel)) {
             ServerAttr serverAttr = ServerAttrHolder.get();
             ImSession imSession = (ImSession) sessionManager.newSession();
-            imSession.setUserId(user.getUserId());
             imSession.setUserName(user.getUserName());
             imSession.setServerAddress(serverAttr.getAddress());
             imSession.setServerPort(serverAttr.getPort());
             // bound the session with channelId
-            sessionManager.bound(imSession, channel.id());
+            sessionManager.bound(imSession, channel.id(), user.getUserId());
             SessionHelper.markOnline(channel, imSession.sessionId());
         }
     }

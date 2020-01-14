@@ -7,9 +7,11 @@ import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.stream.Collectors;
 
 /**
  * @author houyi
@@ -32,10 +34,10 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     @Override
-    public void bound(Session session, ChannelId channelId) {
+    public void bound(Session session, ChannelId channelId, long userId) {
         Assert.notNull(session, "session can not be null");
         Assert.notNull(channelId, "channelId can not be null");
-        session.bound(channelId);
+        session.bound(channelId, userId);
         sessionMap.putIfAbsent(session.sessionId(), session);
         log.info("bound a new session, session={}, channelId={}", session, channelId);
     }
@@ -62,6 +64,17 @@ public abstract class AbstractSessionManager implements SessionManager {
     public Session getSession(String sessionId) {
         Assert.notNull(sessionId, "sessionId can not be null");
         return sessionMap.get(sessionId);
+    }
+
+    @Override
+    public Collection<Session> getSessionsByUserId(long userId) {
+        Collection<Session> sessions = getAllSessions();
+        if (CollectionUtil.isEmpty(sessions)) {
+            return Collections.emptyList();
+        }
+        return sessions.stream()
+                .filter(session -> session.userId() == userId)
+                .collect(Collectors.toList());
     }
 
     @Override

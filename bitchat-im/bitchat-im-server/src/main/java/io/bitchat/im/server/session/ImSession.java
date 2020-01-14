@@ -15,11 +15,6 @@ import lombok.Setter;
 public class ImSession extends DefaultSession {
 
     /**
-     * user id
-     */
-    private Long userId;
-
-    /**
      * user name
      */
     private String userName;
@@ -42,10 +37,10 @@ public class ImSession extends DefaultSession {
     public String toString() {
         JSONObject object = new JSONObject();
         object.put("sessionId", sessionId());
+        object.put("userId", userId());
         object.put("shortId", channelId().asShortText());
         object.put("longId", channelId().asLongText());
         object.put("channelType", channelType());
-        object.put("userId", userId);
         object.put("userName", userName);
         object.put("serverAddress", serverAddress);
         object.put("serverPort", serverPort);

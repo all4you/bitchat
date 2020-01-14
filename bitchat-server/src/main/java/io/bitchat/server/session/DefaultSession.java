@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class DefaultSession implements Session {
 
     private String sessionId;
+    private long userId;
     private ChannelId channelId;
     private ChannelType channelType;
 
@@ -29,24 +30,33 @@ public class DefaultSession implements Session {
     }
 
     @Override
-    public void bound(ChannelId channelId) {
-        if (bounded.compareAndSet(false, true)) {
-            ChannelWrapper channelWrapper = channelManager.getChannelWrapper(channelId);
-            Assert.notNull(channelWrapper, "channelId does not exists");
-            this.channelId = channelId;
-            this.channelType = channelWrapper.getChannelType();
-        }
-    }
-
-    @Override
     public String sessionId() {
         return sessionId;
     }
 
     @Override
+    public void bound(ChannelId channelId, long userId) {
+        if (bounded.compareAndSet(false, true)) {
+            ChannelWrapper channelWrapper = channelManager.getChannelWrapper(channelId);
+            Assert.notNull(channelWrapper, "channelId does not exists");
+            this.channelId = channelId;
+            this.userId = userId;
+            this.channelType = channelWrapper.getChannelType();
+        }
+    }
+
+    @Override
+    public long userId() {
+        if (!bounded.get()) {
+            throw new IllegalStateException("Not bounded yet, Please call bound first");
+        }
+        return userId;
+    }
+
+    @Override
     public ChannelId channelId() {
         if (!bounded.get()) {
-            throw new IllegalStateException("Not bounded yet, Please bound the ChannelId with the Session first");
+            throw new IllegalStateException("Not bounded yet, Please call bound first");
         }
         return channelId;
     }
@@ -54,7 +64,7 @@ public class DefaultSession implements Session {
     @Override
     public ChannelType channelType() {
         if (!bounded.get()) {
-            throw new IllegalStateException("Not bounded yet, Please bound the ChannelType with the Session first");
+            throw new IllegalStateException("Not bounded yet, Please call bound first");
         }
         return channelType;
     }
@@ -63,6 +73,7 @@ public class DefaultSession implements Session {
     public String toString() {
         JSONObject object = new JSONObject();
         object.put("sessionId", sessionId);
+        object.put("userId", userId);
         object.put("shortId", channelId.asShortText());
         object.put("longId", channelId.asLongText());
         object.put("channelType", channelType);

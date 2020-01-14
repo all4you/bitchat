@@ -10,12 +10,14 @@ import io.netty.channel.ChannelId;
  */
 public interface Session {
 
+    String sessionId();
+
     /**
      * bound the session with an unique channel
      */
-    void bound(ChannelId channelId);
+    void bound(ChannelId channelId, long userId);
 
-    String sessionId();
+    long userId();
 
     ChannelId channelId();
 
