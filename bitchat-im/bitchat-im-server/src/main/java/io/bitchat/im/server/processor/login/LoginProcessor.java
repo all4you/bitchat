@@ -7,12 +7,16 @@ import io.bitchat.im.server.BeanUtil;
 import io.bitchat.im.server.connection.ConnectionManager;
 import io.bitchat.im.server.connection.DefaultConnectionManager;
 import io.bitchat.im.server.service.user.UserService;
+import io.bitchat.im.server.session.ImSession;
+import io.bitchat.im.server.session.ImSessionManager;
 import io.bitchat.im.user.User;
-import io.bitchat.packet.processor.AbstractRequestProcessor;
 import io.bitchat.packet.Payload;
 import io.bitchat.packet.factory.PayloadFactory;
+import io.bitchat.packet.processor.AbstractRequestProcessor;
 import io.bitchat.packet.processor.Processor;
 import io.bitchat.server.ServerAttrHolder;
+import io.bitchat.server.session.SessionHelper;
+import io.bitchat.server.session.SessionManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +32,12 @@ public class LoginProcessor extends AbstractRequestProcessor {
 
     private UserService userService;
     private ConnectionManager connectionManager;
+    private SessionManager sessionManager;
 
     public LoginProcessor() {
         this.userService = BeanUtil.getBean(UserService.class);
         this.connectionManager = DefaultConnectionManager.getInstance();
+        this.sessionManager = ImSessionManager.getInstance();
     }
 
     @Override
@@ -43,6 +49,7 @@ public class LoginProcessor extends AbstractRequestProcessor {
                 PayloadFactory.newSuccessPayload() :
                 PayloadFactory.newErrorPayload(pojoResult.getErrorCode(), pojoResult.getErrorMsg());
         storeConnection(ctx, pojoResult.getContent());
+        boundSession(ctx, pojoResult.getContent());
         return payload;
     }
 
@@ -51,6 +58,21 @@ public class LoginProcessor extends AbstractRequestProcessor {
         if (user != null && !connectionManager.contains(channel)) {
             ServerAttr serverAttr = ServerAttrHolder.get();
             connectionManager.add(channel, user, serverAttr.getAddress(), serverAttr.getPort());
+        }
+    }
+
+    private synchronized void boundSession(ChannelHandlerContext ctx, User user) {
+        Channel channel = ctx.channel();
+        if (user != null && !SessionHelper.hasLogin(channel)) {
+            ServerAttr serverAttr = ServerAttrHolder.get();
+            ImSession imSession = (ImSession) sessionManager.newSession();
+            imSession.setUserId(user.getUserId());
+            imSession.setUserName(user.getUserName());
+            imSession.setServerAddress(serverAttr.getAddress());
+            imSession.setServerPort(serverAttr.getPort());
+            // bound the session with channelId
+            sessionManager.bound(imSession, channel.id());
+            SessionHelper.markOnline(channel, imSession.sessionId());
         }
     }
 

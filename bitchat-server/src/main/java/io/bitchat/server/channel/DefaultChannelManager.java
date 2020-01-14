@@ -6,13 +6,12 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
 /**
@@ -21,13 +20,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DefaultChannelManager implements ChannelManager {
 
-    private ChannelGroup channels;
+    private static final AttributeKey<ChannelType> CHANNEL_TYPE = AttributeKey.newInstance("channelType");
 
-    private Map<ChannelId, ChannelType> channelTypeMap;
+    private ChannelGroup channels;
 
     private DefaultChannelManager() {
         channels = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-        channelTypeMap = new ConcurrentHashMap<>();
     }
 
     public static ChannelManager getInstance() {
@@ -38,15 +36,14 @@ public class DefaultChannelManager implements ChannelManager {
     public void addChannel(Channel channel, ChannelType channelType) {
         Assert.notNull(channel, "channel can not be null");
         Assert.notNull(channelType, "channelType can not be null");
+        channel.attr(CHANNEL_TYPE).set(channelType);
         channels.add(channel);
-        channelTypeMap.putIfAbsent(channel.id(), channelType);
     }
 
     @Override
     public void removeChannel(ChannelId channelId) {
         Assert.notNull(channelId, "channelId can not be null");
         channels.remove(channelId);
-        channelTypeMap.remove(channelId);
     }
 
     @Override
@@ -55,10 +52,8 @@ public class DefaultChannelManager implements ChannelManager {
         if (channels.isEmpty()) {
             return null;
         }
-        return ChannelWrapper.builder()
-                .channel(channels.find(channelId))
-                .channelType(channelTypeMap.get(channelId))
-                .build();
+        Channel channel = channels.find(channelId);
+        return wrapChannel(channel);
     }
 
     @Override
@@ -67,12 +62,11 @@ public class DefaultChannelManager implements ChannelManager {
         if (channels.isEmpty()) {
             return null;
         }
-        ChannelId channelId = channels.stream()
-                .filter(channel -> channel.id().asLongText().equals(longId))
-                .map(Channel::id)
+        Channel channel = channels.stream()
+                .filter(item -> item.id().asLongText().equals(longId))
                 .findFirst()
                 .orElse(null);
-        return channelId == null ? null : getChannelWrapper(channelId);
+        return wrapChannel(channel);
     }
 
     @Override
@@ -81,10 +75,15 @@ public class DefaultChannelManager implements ChannelManager {
             return Collections.emptyList();
         }
         return channels.stream()
-                .map(channel -> ChannelWrapper.builder()
-                        .channel(channel)
-                        .channelType(channelTypeMap.get(channel.id()))
-                        .build())
+                .map(this::wrapChannel)
                 .collect(Collectors.toList());
     }
+
+    private ChannelWrapper wrapChannel(Channel channel) {
+        return channel == null ? null : ChannelWrapper.builder()
+                .channel(channel)
+                .channelType(channel.attr(CHANNEL_TYPE).get())
+                .build();
+    }
+
 }

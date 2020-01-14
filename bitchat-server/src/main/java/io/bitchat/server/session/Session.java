@@ -13,7 +13,7 @@ public interface Session {
     /**
      * bound the session with an unique channel
      */
-    void bound(ChannelId channelId, ChannelType channelType);
+    void bound(ChannelId channelId);
 
     String sessionId();
 
