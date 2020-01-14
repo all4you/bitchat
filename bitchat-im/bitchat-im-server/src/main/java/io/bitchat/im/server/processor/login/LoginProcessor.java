@@ -4,8 +4,6 @@ import io.bitchat.core.ServerAttr;
 import io.bitchat.im.ImServiceName;
 import io.bitchat.im.PojoResult;
 import io.bitchat.im.server.BeanUtil;
-import io.bitchat.im.server.connection.ConnectionManager;
-import io.bitchat.im.server.connection.DefaultConnectionManager;
 import io.bitchat.im.server.service.user.UserService;
 import io.bitchat.im.server.session.ImSession;
 import io.bitchat.im.server.session.ImSessionManager;
@@ -31,12 +29,10 @@ import java.util.Map;
 public class LoginProcessor extends AbstractRequestProcessor {
 
     private UserService userService;
-    private ConnectionManager connectionManager;
     private SessionManager sessionManager;
 
     public LoginProcessor() {
         this.userService = BeanUtil.getBean(UserService.class);
-        this.connectionManager = DefaultConnectionManager.getInstance();
         this.sessionManager = ImSessionManager.getInstance();
     }
 
@@ -48,17 +44,8 @@ public class LoginProcessor extends AbstractRequestProcessor {
         Payload payload = pojoResult.isSuccess() ?
                 PayloadFactory.newSuccessPayload() :
                 PayloadFactory.newErrorPayload(pojoResult.getErrorCode(), pojoResult.getErrorMsg());
-        storeConnection(ctx, pojoResult.getContent());
         boundSession(ctx, pojoResult.getContent());
         return payload;
-    }
-
-    private synchronized void storeConnection(ChannelHandlerContext ctx, User user) {
-        Channel channel = ctx.channel();
-        if (user != null && !connectionManager.contains(channel)) {
-            ServerAttr serverAttr = ServerAttrHolder.get();
-            connectionManager.add(channel, user, serverAttr.getAddress(), serverAttr.getPort());
-        }
     }
 
     private synchronized void boundSession(ChannelHandlerContext ctx, User user) {
