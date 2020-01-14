@@ -46,7 +46,7 @@ public class FrameHandler extends SimpleChannelInboundHandler<Frame> {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        log.info("FrameHandler received an active channel:{}", ctx.channel());
+        log.debug("FrameHandler received an active channel:{}", ctx.channel());
         channelListener.channelActive(ctx.channel(), ChannelType.WebSocket);
     }
 
@@ -62,7 +62,7 @@ public class FrameHandler extends SimpleChannelInboundHandler<Frame> {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        log.info("FrameHandler received an inactive channel will remove it:{}", ctx.channel());
+        log.debug("FrameHandler received an inactive channel will remove it:{}", ctx.channel());
         channelListener.channelInactive(ctx.channel());
     }
 
