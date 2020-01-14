@@ -34,8 +34,8 @@ import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -69,7 +69,7 @@ public class SendP2PMsgProcessor extends AbstractRequestProcessor {
         String userName = session.getUserName();
         Long partnerId = request.getPartnerId();
         Long msgId = idFactory.nextId();
-        Collection<Session> partnerSessions = sessionManager.getSessionsByUserId(partnerId);
+        List<Session> partnerSessions = sessionManager.getSessionsByUserId(partnerId);
         boolean success = true;
         // partner is not online
         if (CollectionUtil.isEmpty(partnerSessions)) {

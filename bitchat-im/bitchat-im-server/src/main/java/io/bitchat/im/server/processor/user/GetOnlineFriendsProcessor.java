@@ -15,7 +15,6 @@ import io.bitchat.server.session.SessionManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -37,7 +36,7 @@ public class GetOnlineFriendsProcessor extends AbstractRequestProcessor {
     public Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params) {
         // transfer map to bean
         GetOnlineFriendsRequest getOnlineFriendsRequest = BeanUtil.mapToBean(params, GetOnlineFriendsRequest.class, false);
-        Collection<Session> sessions = sessionManager.getAllSessions();
+        List<Session> sessions = sessionManager.getAllSessions();
         List<User> userList = sessions.stream()
                 .map(session -> {
                     ImSession imSession = (ImSession) session;

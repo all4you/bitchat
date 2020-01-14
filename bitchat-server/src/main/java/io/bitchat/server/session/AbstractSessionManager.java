@@ -6,10 +6,7 @@ import cn.hutool.core.util.IdUtil;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -45,7 +42,7 @@ public abstract class AbstractSessionManager implements SessionManager {
     @Override
     public void removeSession(ChannelId channelId) {
         Assert.notNull(channelId, "channelId can not be null");
-        Collection<Session> sessions = getAllSessions();
+        List<Session> sessions = getAllSessions();
         if (CollectionUtil.isEmpty(sessions)) {
             return;
         }
@@ -67,8 +64,8 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     @Override
-    public Collection<Session> getSessionsByUserId(long userId) {
-        Collection<Session> sessions = getAllSessions();
+    public List<Session> getSessionsByUserId(long userId) {
+        List<Session> sessions = getAllSessions();
         if (CollectionUtil.isEmpty(sessions)) {
             return Collections.emptyList();
         }
@@ -78,8 +75,8 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     @Override
-    public Collection<Session> getAllSessions() {
-        return sessionMap.values();
+    public List<Session> getAllSessions() {
+        return CollectionUtil.newArrayList(sessionMap.values());
     }
 
 }

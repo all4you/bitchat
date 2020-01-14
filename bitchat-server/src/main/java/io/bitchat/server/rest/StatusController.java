@@ -11,7 +11,6 @@ import io.bitchat.server.session.DefaultSessionManager;
 import io.bitchat.server.session.Session;
 import io.bitchat.server.session.SessionManager;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -31,7 +30,7 @@ public class StatusController {
     }
 
     @Mapping(path = "/sessions", requestMethod = RequestMethod.GET, renderType = RenderType.JSON)
-    public Collection<Session> sessions() {
+    public List<Session> sessions() {
         return sessionManager.getAllSessions();
     }
 
