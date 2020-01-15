@@ -65,8 +65,12 @@ public class Frame implements Serializable {
 
     /**
      * the request params
+     * fix me
+     * 如果通过protobuf js的库无法直接解析成Map
+     * 所以通过在js中将参数转成JSON字符串
+     * 然后再通过FastJson将字符串转成Map
      */
-    private Map<String, Object> params;
+    private String paramJson;
 
 
     // Payload
@@ -88,7 +92,7 @@ public class Frame implements Serializable {
     /**
      * the result of request
      */
-    private Object result;
+    private String resultJson;
 
 
     // Command
@@ -100,7 +104,7 @@ public class Frame implements Serializable {
     /**
      * the command content
      */
-    private Object content;
+    private String contentJson;
 
 
 }

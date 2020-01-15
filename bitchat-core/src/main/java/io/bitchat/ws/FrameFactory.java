@@ -1,5 +1,6 @@
 package io.bitchat.ws;
 
+import com.alibaba.fastjson.JSON;
 import io.bitchat.core.id.IdFactory;
 import io.bitchat.core.id.SnowflakeIdFactory;
 import io.bitchat.packet.PacketType;
@@ -19,7 +20,7 @@ public class FrameFactory {
         frame.setSuccess(payload.isSuccess());
         frame.setCode(payload.getCode());
         frame.setMsg(payload.getMsg());
-        frame.setResult(payload.getResult());
+        frame.setResultJson(JSON.toJSONString(payload.getResult()));
         return frame;
     }
 
@@ -29,7 +30,7 @@ public class FrameFactory {
         frame.setId(String.valueOf(idFactory.nextId()));
         frame.setType(PacketType.PACKET_TYPE_COMMAND);
         frame.setCommandName(commandName);
-        frame.setContent(content);
+        frame.setContentJson(JSON.toJSONString(content));
         return frame;
     }
 
