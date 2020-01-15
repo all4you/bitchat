@@ -12,7 +12,7 @@ public class FrameFactory {
 
     private static IdFactory idFactory = SnowflakeIdFactory.getInstance();
 
-    public static Frame newResponseFrame(Payload payload, long id) {
+    public static Frame newResponseFrame(Payload payload, String id) {
         Frame frame = new Frame();
         frame.setId(id);
         frame.setType(PacketType.PACKET_TYPE_RESPONSE);
@@ -24,8 +24,9 @@ public class FrameFactory {
     }
 
     public static Frame newCmdFrame(String commandName, Object content) {
-        // command packet can not provide id
+        // command frame
         Frame frame = new Frame();
+        frame.setId(String.valueOf(idFactory.nextId()));
         frame.setType(PacketType.PACKET_TYPE_COMMAND);
         frame.setCommandName(commandName);
         frame.setContent(content);
