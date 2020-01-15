@@ -37,8 +37,10 @@ public class Frame implements Serializable {
 
     /**
      * the unique id
+     * JS中要创建一个long的数值比较麻烦
+     * 所以改成String类型
      */
-    private long id;
+    private String id;
 
     /**
      * <p>

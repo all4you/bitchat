@@ -12,13 +12,13 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class PendingFrames {
 
-    private static Map<Long, CompletableFuture<Frame>> pendingFrames = new ConcurrentHashMap<>();
+    private static Map<String, CompletableFuture<Frame>> pendingFrames = new ConcurrentHashMap<>();
 
-    public static void add(Long id, CompletableFuture<Frame> promise) {
+    public static void add(String id, CompletableFuture<Frame> promise) {
         pendingFrames.putIfAbsent(id, promise);
     }
 
-    public static CompletableFuture<Frame> remove(Long id) {
+    public static CompletableFuture<Frame> remove(String id) {
         return pendingFrames.remove(id);
     }
 
