@@ -42,6 +42,7 @@ public class GetOnlineFriendsProcessor extends AbstractRequestProcessor {
                     ImSession imSession = (ImSession) session;
                     return User.builder()
                             .channelType(imSession.channelType().getType())
+                            .sessionId(imSession.sessionId())
                             .userId(imSession.userId())
                             .userName(imSession.getUserName())
                             .build();

@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class User {
     private int channelType;
+    private String sessionId;
     private Long userId;
     private String userName;
     private String password;
