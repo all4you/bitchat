@@ -14,9 +14,8 @@ import io.bitchat.packet.factory.PayloadFactory;
 import io.bitchat.packet.processor.AbstractRequestProcessor;
 import io.bitchat.packet.processor.Processor;
 import io.bitchat.server.ServerAttrHolder;
-import io.bitchat.server.channel.ChannelManager;
-import io.bitchat.server.channel.ChannelWrapper;
-import io.bitchat.server.channel.DefaultChannelManager;
+import io.bitchat.server.channel.ChannelHelper;
+import io.bitchat.server.channel.ChannelType;
 import io.bitchat.server.session.SessionHelper;
 import io.bitchat.server.session.SessionManager;
 import io.netty.channel.Channel;
@@ -33,12 +32,10 @@ import java.util.Map;
 public class LoginProcessor extends AbstractRequestProcessor {
 
     private UserService userService;
-    private ChannelManager channelManager;
     private SessionManager sessionManager;
 
     public LoginProcessor() {
         this.userService = BeanUtil.getBean(UserService.class);
-        this.channelManager = DefaultChannelManager.getInstance();
         this.sessionManager = ImSessionManager.getInstance();
     }
 
@@ -51,10 +48,10 @@ public class LoginProcessor extends AbstractRequestProcessor {
         Payload payload;
         if (pojoResult.isSuccess()) {
             User user = pojoResult.getContent();
-            ChannelWrapper channelWrapper = channelManager.getChannelWrapper(channel.id());
-            boolean alreadyLogin = sessionManager.exists(channelWrapper.getChannelType(), user.getUserId());
+            ChannelType channelType = ChannelHelper.getChannelType(channel);
+            boolean alreadyLogin = sessionManager.exists(channelType, user.getUserId());
             if (alreadyLogin) {
-                payload = PayloadFactory.newErrorPayload(ResultCode.RECORD_ALREADY_EXISTS.getCode(), "user already login in other session");
+                payload = PayloadFactory.newErrorPayload(ResultCode.RECORD_ALREADY_EXISTS.getCode(), "该用户已经在其他设备登录");
             } else {
                 payload = PayloadFactory.newSuccessPayload();
                 boundSession(channel, user);

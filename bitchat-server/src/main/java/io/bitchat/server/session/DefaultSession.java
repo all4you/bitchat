@@ -2,10 +2,9 @@ package io.bitchat.server.session;
 
 import cn.hutool.core.lang.Assert;
 import com.alibaba.fastjson.JSONObject;
-import io.bitchat.server.channel.ChannelManager;
+import io.bitchat.server.channel.ChannelHelper;
 import io.bitchat.server.channel.ChannelType;
 import io.bitchat.server.channel.ChannelWrapper;
-import io.bitchat.server.channel.DefaultChannelManager;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelId;
 
@@ -22,12 +21,10 @@ public class DefaultSession implements Session {
     private Channel channel;
     private ChannelType channelType;
 
-    private ChannelManager channelManager;
     private AtomicBoolean bounded;
 
     public DefaultSession(String sessionId) {
         this.sessionId = sessionId;
-        this.channelManager = DefaultChannelManager.getInstance();
         this.bounded = new AtomicBoolean(false);
     }
 
@@ -39,7 +36,7 @@ public class DefaultSession implements Session {
     @Override
     public void bound(ChannelId channelId, long userId) {
         if (bounded.compareAndSet(false, true)) {
-            ChannelWrapper channelWrapper = channelManager.getChannelWrapper(channelId);
+            ChannelWrapper channelWrapper = ChannelHelper.getChannelWrapper(channelId);
             Assert.notNull(channelWrapper, "channelId does not exists");
             this.channelId = channelId;
             this.userId = userId;
