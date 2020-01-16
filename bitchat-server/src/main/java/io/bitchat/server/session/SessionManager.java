@@ -1,5 +1,6 @@
 package io.bitchat.server.session;
 
+import io.bitchat.server.channel.ChannelType;
 import io.netty.channel.ChannelId;
 
 import java.util.List;
@@ -8,6 +9,8 @@ import java.util.List;
  * @author houyi
  */
 public interface SessionManager {
+
+    boolean exists(ChannelType channelType, long userId);
 
     Session newSession();
 

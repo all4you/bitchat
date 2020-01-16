@@ -3,10 +3,14 @@ package io.bitchat.server.session;
 import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.lang.Assert;
 import cn.hutool.core.util.IdUtil;
+import io.bitchat.server.channel.ChannelType;
 import io.netty.channel.ChannelId;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 
@@ -23,6 +27,19 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     public abstract Session newSession(String sessionId);
+
+    @Override
+    public boolean exists(ChannelType channelType, long userId) {
+        List<Session> sessions = getAllSessions();
+        if (CollectionUtil.isEmpty(sessions)) {
+            return false;
+        }
+        Session existsSession = sessions.stream()
+                .filter(session -> session.channelType() == channelType && session.userId() == userId)
+                .findFirst()
+                .orElse(null);
+        return existsSession != null;
+    }
 
     @Override
     public Session newSession() {
