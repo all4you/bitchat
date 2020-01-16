@@ -68,8 +68,9 @@ public class SendP2PMsgProcessor extends AbstractRequestProcessor {
         Long userId = session.userId();
         String userName = session.getUserName();
         Long partnerId = request.getPartnerId();
+        ChannelType channelType = ChannelType.getChannelType(request.getChannelType() != null ? request.getChannelType() : 0);
         Long msgId = idFactory.nextId();
-        List<Session> partnerSessions = sessionManager.getSessionsByUserId(partnerId);
+        List<Session> partnerSessions = sessionManager.getSessionsByUserIdAndChannelType(partnerId, channelType);
         boolean success = true;
         // partner is not online
         if (CollectionUtil.isEmpty(partnerSessions)) {

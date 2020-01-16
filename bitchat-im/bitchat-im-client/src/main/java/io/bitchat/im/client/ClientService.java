@@ -133,14 +133,17 @@ public class ClientService {
     public void p2pChat(String msg) {
         String[] cmd = msg.split(" ");
         int cmdLen = 3;
-        if (cmd.length == cmdLen) {
+        if (cmd.length >= cmdLen) {
             String partnerId = cmd[1];
             String message = cmd[2];
             if (!NumberUtil.isLong(partnerId)) {
                 showUsage();
                 return;
             }
-            BaseResult baseResult = msgFunc.sendP2pMsg(Long.parseLong(partnerId), MessageType.TEXT, message);
+            Integer channelType = cmd.length == 4 && NumberUtil.isInteger(cmd[3])
+                    ? Integer.valueOf(cmd[3])
+                    : null;
+            BaseResult baseResult = msgFunc.sendP2pMsg(Long.parseLong(partnerId), channelType, MessageType.TEXT, message);
             if (baseResult.isSuccess()) {
                 System.out.println("Send p2p message success");
             } else {

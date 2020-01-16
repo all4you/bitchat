@@ -31,8 +31,8 @@ public class MsgFunc {
         this.idFactory = SnowflakeIdFactory.getInstance(3L);
     }
 
-    public BaseResult sendP2pMsg(Long partnerId, MessageType type, String msg) {
-        Map<String, Object> params = buildParams(partnerId, type, msg);
+    public BaseResult sendP2pMsg(Long partnerId, Integer channelType, MessageType messageType, String msg) {
+        Map<String, Object> params = buildParams(partnerId, channelType, messageType, msg);
         Request request = RequestFactory.newRequest(ImServiceName.SEND_P2P_MSG, null, params);
         Packet packet = PacketFactory.newRequestPacket(request, idFactory.nextId());
         Payload payload = baseFunc.request(packet);
@@ -56,9 +56,10 @@ public class MsgFunc {
     }
 
 
-    private Map<String, Object> buildParams(Long partnerId, MessageType messageType, String msg) {
+    private Map<String, Object> buildParams(Long partnerId, Integer channelType, MessageType messageType, String msg) {
         Map<String, Object> params = new HashMap<>();
         params.put("partnerId", partnerId);
+        params.put("channelType", channelType);
         params.put("messageType", messageType);
         params.put("msg", msg);
         return params;

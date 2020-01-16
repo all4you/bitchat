@@ -12,6 +12,8 @@ public class SendP2PMsgRequest {
 
     private Long partnerId;
 
+    private Integer channelType;
+
     private Byte messageType;
 
     private String msg;
