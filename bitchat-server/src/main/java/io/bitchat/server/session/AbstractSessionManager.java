@@ -92,6 +92,18 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     @Override
+    public List<Session> getSessionsByUserIdAndChannelType(long userId, ChannelType channelType) {
+        List<Session> sessions = getAllSessions();
+        if (CollectionUtil.isEmpty(sessions)) {
+            return Collections.emptyList();
+        }
+        return sessions.stream()
+                .filter(session -> session.userId() == userId)
+                .filter(session -> channelType == null || session.channelType() == channelType)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<Session> getAllSessions() {
         return CollectionUtil.newArrayList(sessionMap.values());
     }

@@ -22,6 +22,8 @@ public interface SessionManager {
 
     List<Session> getSessionsByUserId(long userId);
 
+    List<Session> getSessionsByUserIdAndChannelType(long userId, ChannelType channelType);
+
     List<Session> getAllSessions();
 
 }
