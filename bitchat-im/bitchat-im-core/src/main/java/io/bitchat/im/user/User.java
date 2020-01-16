@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
+    private int channelType;
     private Long userId;
     private String userName;
     private String password;
