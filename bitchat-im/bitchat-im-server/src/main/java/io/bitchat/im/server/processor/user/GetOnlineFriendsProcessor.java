@@ -11,6 +11,7 @@ import io.bitchat.packet.factory.PayloadFactory;
 import io.bitchat.packet.processor.AbstractRequestProcessor;
 import io.bitchat.packet.processor.Processor;
 import io.bitchat.server.session.Session;
+import io.bitchat.server.session.SessionHelper;
 import io.bitchat.server.session.SessionManager;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
@@ -36,8 +37,11 @@ public class GetOnlineFriendsProcessor extends AbstractRequestProcessor {
     public Payload doProcess(ChannelHandlerContext ctx, Map<String, Object> params) {
         // transfer map to bean
         GetOnlineFriendsRequest getOnlineFriendsRequest = BeanUtil.mapToBean(params, GetOnlineFriendsRequest.class, false);
+        String currentSessionId = SessionHelper.getSessionId(ctx.channel());
         List<Session> sessions = sessionManager.getAllSessions();
         List<User> userList = sessions.stream()
+                // 排除掉自身
+                .filter(session -> !session.sessionId().equals(currentSessionId))
                 .map(session -> {
                     ImSession imSession = (ImSession) session;
                     return User.builder()
