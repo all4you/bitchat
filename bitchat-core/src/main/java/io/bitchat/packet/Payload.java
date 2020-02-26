@@ -1,14 +1,17 @@
 package io.bitchat.packet;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.alibaba.fastjson.JSON;
+import lombok.*;
 
 import java.io.Serializable;
 
 /**
  * @author houyi
  */
-@Data
+@Getter
+@Setter
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Payload implements Serializable {
 
@@ -30,6 +33,11 @@ public class Payload implements Serializable {
         this.success = true;
         this.code = code;
         this.msg = msg;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 
 }
