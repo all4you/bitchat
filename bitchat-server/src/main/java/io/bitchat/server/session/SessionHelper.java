@@ -1,7 +1,10 @@
 package io.bitchat.server.session;
 
+import io.bitchat.server.channel.ChannelType;
 import io.netty.channel.Channel;
 import io.netty.util.AttributeKey;
+
+import java.util.List;
 
 /**
  * @author houyi
@@ -9,6 +12,8 @@ import io.netty.util.AttributeKey;
 public class SessionHelper {
 
     private static final AttributeKey<String> SESSION_ID = AttributeKey.newInstance("sessionId");
+
+    private static SessionManager sessionManager = DefaultSessionManager.getInstance();
 
     private SessionHelper() {
 
@@ -47,5 +52,19 @@ public class SessionHelper {
         return channel.hasAttr(SESSION_ID) ? channel.attr(SESSION_ID).get() : null;
     }
 
+    public static Session getSession(Channel channel) {
+        return sessionManager.getSession(getSessionId(channel));
+    }
 
+    public static List<Session> getSessionsByUserId(long userId) {
+        return sessionManager.getSessionsByUserId(userId);
+    }
+
+    public static List<Session> getSessionsByUserIdAndChannelType(long userId, ChannelType channelType) {
+        return sessionManager.getSessionsByUserIdAndChannelType(userId, channelType);
+    }
+
+    public static List<Session> getAllSessions() {
+        return sessionManager.getAllSessions();
+    }
 }
