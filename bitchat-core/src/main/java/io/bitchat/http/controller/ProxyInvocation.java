@@ -130,7 +130,7 @@ public class ProxyInvocation {
                         parameters[i] = parameter;
                     } catch (Exception e) {
                         log.error("param [" + param.key() + "] is invalid，cause:" + e.getMessage());
-                        throw new IllegalArgumentException("参数 " + param.key() + " 不合法：" + e.getMessage());
+                        throw new IllegalArgumentException("参数不合法：" + e.getMessage());
                     }
                 }
             }
@@ -192,6 +192,9 @@ public class ProxyInvocation {
                                 }
                             }
                             value = list;
+                            // Object
+                        } else if (Object.class.getName().equalsIgnoreCase(type.getName())) {
+                            value = params.get(0);
                         }
                     } else {
                         if (PrimitiveTypeUtil.isPriType(type)) {
@@ -250,11 +253,11 @@ public class ProxyInvocation {
          */
         private void checkNull(String dataName, Object... values) {
             if (values == null) {
-                throw new ValidationException("[" + dataName + "] cannot be null");
+                throw new ValidationException("[" + dataName + "]不能为null");
             }
             for (Object value : values) {
                 if (value == null) {
-                    throw new ValidationException("[" + dataName + "] cannot be null");
+                    throw new ValidationException("[" + dataName + "]不能为null");
                 }
             }
         }
@@ -267,11 +270,11 @@ public class ProxyInvocation {
          */
         private void checkBlank(String dataName, Object... values) {
             if (values == null) {
-                throw new ValidationException("[" + dataName + "] cannot be null");
+                throw new ValidationException("[" + dataName + "]不能为null");
             }
             for (Object value : values) {
                 if (value == null || StrUtil.isBlank(value.toString())) {
-                    throw new ValidationException("[" + dataName + "] cannot be blank");
+                    throw new ValidationException("[" + dataName + "]不能为blank");
                 }
             }
         }
