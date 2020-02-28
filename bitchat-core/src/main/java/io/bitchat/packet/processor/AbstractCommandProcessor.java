@@ -5,8 +5,6 @@ import io.bitchat.packet.ctx.RequestProcessorContext;
 import io.netty.channel.ChannelHandlerContext;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.Map;
-
 /**
  * <p>
  * An abstract CommandProcessor
@@ -22,7 +20,7 @@ public abstract class AbstractCommandProcessor implements CommandProcessor {
     @Override
     public void process(ChannelHandlerContext ctx, Command command) {
         try {
-            doProcess(ctx, command.getContent());
+            doProcess(ctx, command.getContentJson());
         } catch (Exception e) {
             log.error("process occurred error, cause={}", e.getMessage(), e);
         }
@@ -31,8 +29,8 @@ public abstract class AbstractCommandProcessor implements CommandProcessor {
     /**
      * do process
      *
-     * @param content the command content
+     * @param contentJson the command content
      */
-    public abstract void doProcess(ChannelHandlerContext ctx, Map<String, Object> content);
+    public abstract void doProcess(ChannelHandlerContext ctx, String contentJson);
 
 }

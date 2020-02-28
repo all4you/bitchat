@@ -4,7 +4,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
-import java.util.Map;
 
 /**
  * <p>
@@ -24,7 +23,8 @@ public class Command implements Serializable {
 
     /**
      * the command content
+     * json string format
      */
-    private Map<String, Object> content;
+    private String contentJson;
 
 }

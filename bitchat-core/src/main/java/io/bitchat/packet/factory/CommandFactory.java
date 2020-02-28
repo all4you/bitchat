@@ -1,8 +1,7 @@
 package io.bitchat.packet.factory;
 
+import com.alibaba.fastjson.JSON;
 import io.bitchat.packet.Command;
-
-import java.util.Map;
 
 /**
  * @author houyi
@@ -13,10 +12,10 @@ public class CommandFactory {
         return CommandFactory.newCommand(commandName, null);
     }
 
-    public static Command newCommand(String commandName, Map<String, Object> content) {
+    public static Command newCommand(String commandName, Object content) {
         Command command = new Command();
         command.setCommandName(commandName);
-        command.setContent(content);
+        command.setContentJson(JSON.toJSONString(content));
         return command;
     }
 
