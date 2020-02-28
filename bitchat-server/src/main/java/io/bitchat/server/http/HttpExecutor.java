@@ -83,7 +83,6 @@ public class HttpExecutor extends AbstractExecutor<HttpResponse> {
             return;
         }
         FullHttpResponse fullHttpResponse = (FullHttpResponse) response;
-        fullHttpResponse.headers().add(HttpHeaderNames.CONTENT_LENGTH, String.valueOf(fullHttpResponse.content().readableBytes()));
         // 写cookie
         Set<Cookie> cookies = httpContext.getCookies();
         if (CollectionUtil.isNotEmpty(cookies)) {
