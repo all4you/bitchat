@@ -116,6 +116,9 @@ public class HttpRequestUtil {
      * @return 内容类型
      */
     private static String getContentType(HttpHeaders headers) {
+        if (headers == null) {
+            return null;
+        }
         String contentType = headers.get(HttpHeaderNames.CONTENT_TYPE);
         String[] list = contentType.split(";");
         return list[0];
