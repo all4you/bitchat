@@ -39,6 +39,11 @@ public abstract class AbstractSessionManager implements SessionManager {
     }
 
     @Override
+    public boolean exists(Session session) {
+        return sessionMap.containsValue(session);
+    }
+
+    @Override
     public Session newSession() {
         String sessionId = IdUtil.objectId();
         return newSession(sessionId);

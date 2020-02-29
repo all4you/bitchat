@@ -12,6 +12,8 @@ public interface SessionManager {
 
     boolean exists(ChannelType channelType, long userId);
 
+    boolean exists(Session session);
+
     Session newSession();
 
     void bound(Session session, ChannelId channelId, long userId);
