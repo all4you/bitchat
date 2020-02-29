@@ -6,7 +6,7 @@ import io.bitchat.http.controller.Controller;
 import io.bitchat.http.controller.Mapping;
 import io.bitchat.http.controller.Param;
 import io.bitchat.packet.Payload;
-import io.bitchat.server.session.SessionHelper;
+import io.bitchat.server.session.SessionFacade;
 
 /**
  * @author houyi
@@ -19,7 +19,7 @@ public class PushController {
     public Payload pushToSession(@Param(key="sessionId", notBlank = true) String sessionId,
                                  @Param(key="commandName", notBlank = true) String commandName,
                                  @Param(key="content", notBlank = true) String content) {
-        return SessionHelper.push(sessionId, commandName, content);
+        return SessionFacade.DEFAULT_FACADE.push(sessionId, commandName, content);
     }
 
 }
