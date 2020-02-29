@@ -28,6 +28,10 @@ public class PacketFactory {
         return packet;
     }
 
+    public static Packet newCmdPacket(String commandName, Object content) {
+        return PacketFactory.newCmdPacket(CommandFactory.newCommand(commandName, content));
+    }
+
     public static Packet newCmdPacket(Command command) {
         // command packet can not provide id
         Packet packet = new DefaultPacket();
