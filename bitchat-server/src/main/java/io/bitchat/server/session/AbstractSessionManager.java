@@ -40,7 +40,7 @@ public abstract class AbstractSessionManager implements SessionManager {
 
     @Override
     public boolean exists(Session session) {
-        return sessionMap.containsValue(session);
+        return session != null && sessionMap.containsValue(session);
     }
 
     @Override
